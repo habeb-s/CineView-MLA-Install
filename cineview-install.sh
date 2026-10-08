@@ -157,7 +157,7 @@ if [ "${ROLLBACK:-0}" = "1" ]; then  # the previous released package of this ima
 	info "Rollback requested: CineView MLA $VERSION (previous release for $IMG)"
 fi
 if [ -n "${PKG_DIR:-}" ]; then PKG_URL="${PKG_DIR%/}/$PKG_FILE"
-elif [ -n "${CVMLA_DIST_BASE:-$DIST_BASE}" ]; then PKG_URL="${CVMLA_DIST_BASE:-$DIST_BASE}/$PKG_FILE"  # CVMLA_DIST_BASE: test hook only
+elif [ -n "${CVMLA_DIST_BASE:-$DIST_BASE}" ]; then PKG_URL="${CVMLA_DIST_BASE:-$DIST_BASE}/$(printf '%s' "$PKG_FILE" | tr '~' '.')"  # GitHub stores ~ as . in asset names  # CVMLA_DIST_BASE: test hook only
 else PKG_URL=""; fi
 # the package for this image (CVMLA_PKG_URL / CVMLA_PKG_SHA / CVMLA_VERSION: test overrides)
 PKG_URL="${CVMLA_PKG_URL:-$PKG_URL}"; PKG_SHA="${CVMLA_PKG_SHA:-$PKG_SHA}"; VERSION="${CVMLA_VERSION:-$VERSION}"
