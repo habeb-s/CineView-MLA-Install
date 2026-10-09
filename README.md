@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.3 · Smart Installer 1.3.3**
+**CineView MLA 1.0.4 · Smart Installer 1.3.4**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -20,16 +20,20 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
-| OpenATV | 8.0 | 3.14 | 1.0.3 | device-tested (install, reinstall, rollback) |
-| OpenATV | 7.6 | 3.13 | 1.0.3~openatv.py313 | device-tested (Octagon SF8008: install, reinstall, posters, temperature) |
-| OpenATV | 8.1 and newer | 3.14 | 1.0.3~openatv.py314 | verified statically¹ |
-| OpenBH | 5.6 | 3.13 | 1.0.3~openbh1 | device-tested |
-| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.3~openbh.py313 | verified statically¹ |
-| OpenBH | 6.0 and newer | 3.14 | 1.0.3~openbh.py314 | verified statically¹ |
-| OpenViX | 6.9 | 3.14 | 1.0.3~openvix1 | device-tested |
-| OpenViX | 6.7 | 3.12 | 1.0.3~openvix.py312 | verified statically¹ |
-| OpenViX | 6.8 | 3.13 | 1.0.3~openvix.py313 | verified statically¹ |
-| OpenViX | 7.0 and newer | 3.14 | 1.0.3~openvix.py314 | verified statically¹ |
+| OpenATV | 8.0 | 3.14 | 1.0.4 | device-tested (install, reinstall, rollback; with and without OAWeather) |
+| OpenATV | 7.6 | 3.13 | 1.0.4~openatv.py313 | device-tested (Octagon SF8008: install, reinstall, posters, temperature) |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.4~openatv.py314 | verified statically¹ |
+| OpenBH | 5.6 | 3.13 | 1.0.4~openbh1 | device-tested |
+| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.4~openbh.py313 | verified statically¹ |
+| OpenBH | 6.0 and newer | 3.14 | 1.0.4~openbh.py314 | verified statically¹ |
+| OpenViX | 6.9 | 3.14 | 1.0.4~openvix1 | device-tested |
+| OpenViX | 6.7 | 3.12 | 1.0.4~openvix.py312 | verified statically¹ |
+| OpenViX | 6.8 | 3.13 | 1.0.4~openvix.py313 | verified statically¹ |
+| OpenViX | 7.0 and newer | 3.14 | 1.0.4~openvix.py314 | verified statically¹ |
+
+1.0.4 itself was device-tested on OpenATV 8.0.1 (Vu+ Duo 4K SE), with and without OAWeather. It changes only the
+design composer — one plain Python file, identical in every package — so the other "device-tested" lines above
+refer to their tests with 1.0.3.
 
 Every package carries the same CineView MLA skin, designs, themes and options. The packages for the versions
 that were not device-tested are the approved package of that image with only its Python byte-code rebuilt for the
@@ -48,10 +52,17 @@ The installer refuses it with this reason and changes nothing.
 The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
 identify reliably, a Python version without a package (for example a future Python 3.15), missing required
 components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
-and rollback (`ROLLBACK=1` returns to the previous release, 1.0.2, on every supported line).
+and rollback (`ROLLBACK=1` returns to the previous release, 1.0.3, on every supported line).
 
 ## Changes
 
+- **1.0.4** — weather is optional: the Classic, Details and Cinema designs show the weather of the OAWeather plugin,
+  which is not installed on every image. Without it a design could not be applied ("converter OAWeather not
+  installed"). Now the weather fields are simply left out while OAWeather is missing — everything else in the design
+  stays the same — and they come back by themselves after the next GUI restart once OAWeather is installed. The
+  Smart Installer installs OAWeather from the image's own package feed when the feed offers it (optional; if it is
+  not available the skin works without the weather). Every other component is still checked strictly before a
+  design is applied. The installer no longer restarts the GUI while a recording is running.
 - **1.0.3** — posters with translated EPG titles: many EPG providers (for example Polish satellite EPG) give the
   programme a local title and name the work in the description ("Tytuł oryginalny: …", "US, 2023"). The poster
   engine now searches and compares that original title, recognises more series / year formats, and accepts a

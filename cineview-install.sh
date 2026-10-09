@@ -7,13 +7,13 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.3"
+INSTALLER_VERSION="1.3.4"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
 # differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
 # lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
-# Packages (1.0.2 = 1.0.1 + receiver-temperature fix; 1.0.1 kept for ROLLBACK=1), all built from the same CineView MLA data (Common Core + image adapter); only these exact files are
+# Packages (1.0.4 = 1.0.3 + optional weather: designs apply without the OAWeather plugin; 1.0.3 kept for ROLLBACK=1), all built from the same CineView MLA data (Common Core + image adapter); only these exact files are
 # ever installed: each is pinned by its SHA256 here, in the installer itself (a download is never trusted by its
 # address).
 #  * device-tested lines (installed, reinstalled, rolled back on a receiver): OpenATV 8.0, OpenBH 5.6, OpenViX 6.9 ->
@@ -25,37 +25,37 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # tree).  Empty = not published: then only PKG_DIR (local copies) can be used;
 # no address is ever guessed.
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
-OPENATV_VERSION="1.0.3"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3_all.ipk"
-OPENATV_SHA="91c2e2eead9828e07a2791f6335a6851ee0700ed687ca16fba96b6207dbccbf0"
-OPENATV_PREV_VERSION="1.0.2"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2_all.ipk"
-OPENATV_PREV_SHA="a9788639d24d80a89d0ef2c89335f29cef64ada39a767ad3fe6ee802b5ebb7cd"
+OPENATV_VERSION="1.0.4"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4_all.ipk"
+OPENATV_SHA="0a7ff02028c068bf6cdc573a497fe34e52d10cb31381e9c0062d59e527bf3eaf"
+OPENATV_PREV_VERSION="1.0.3"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3_all.ipk"
+OPENATV_PREV_SHA="91c2e2eead9828e07a2791f6335a6851ee0700ed687ca16fba96b6207dbccbf0"
 OPENATV_PY="3.14"
-OPENBH_VERSION="1.0.3~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh1_all.ipk"
-OPENBH_SHA="b3d1df030e6f7d19ef581fd22833aad3f515b3f26f834c42e9b29c2e22b72773"
-OPENBH_PREV_VERSION="1.0.2~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openbh1_all.ipk"
-OPENBH_PREV_SHA="aaf6ced13dfde0c81cf0ff0a6ec2f5aa7256f339afa637aacf8dbc3a46e5787b"
+OPENBH_VERSION="1.0.4~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh1_all.ipk"
+OPENBH_SHA="f89262d5a2ea13026da255d031a483fcafea5e148575c5d610d1909e78cdc724"
+OPENBH_PREV_VERSION="1.0.3~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh1_all.ipk"
+OPENBH_PREV_SHA="b3d1df030e6f7d19ef581fd22833aad3f515b3f26f834c42e9b29c2e22b72773"
 OPENBH_PY="3.13"
-OPENVIX_VERSION="1.0.3~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix1_all.ipk"
-OPENVIX_SHA="6ce89aefd856406e45878fbec83b9c0af46fd8c09b090e57806c21e0639f9c52"
-OPENVIX_PREV_VERSION="1.0.2~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openvix1_all.ipk"
-OPENVIX_PREV_SHA="b7081ea2b07b0d3604239832443dde2a8c3132f6aff4c11bbb6c4040b003bcb6"
+OPENVIX_VERSION="1.0.4~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix1_all.ipk"
+OPENVIX_SHA="9b8d88a6c50cd463eb6448e3477500d878c4c2979a309447d1a02d4ec088ce9d"
+OPENVIX_PREV_VERSION="1.0.3~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix1_all.ipk"
+OPENVIX_PREV_SHA="6ce89aefd856406e45878fbec83b9c0af46fd8c09b090e57806c21e0639f9c52"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py313_all.ipk"; OPENATV_R313_SHA="dc7738c27f1efd375e6db0ad4d729bb273bd1e86b33d4377890ce9f381a693a5"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="0945aef6b5192033986639db41c9c165a94c4c22e8c9269b4bb264b8ea001c17"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py314_all.ipk"; OPENATV_R314_SHA="c79b7257b0a7de44800346f83613d275fcefa3eef25919124017115870970fa9"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="f04066b98a0dac9fb42c44962be4c595a5c384d7712230bd908822307608bbde"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py313_all.ipk"; OPENBH_R313_SHA="ddce7d8330ee8b6cb2c3c2ab17e41cdc78f7883460277a18c13444ebdd84ef9d"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="d70180fabe1ede93d12cedcd5e9987d606616f9cf921238098672929898b4fd6"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py314_all.ipk"; OPENBH_R314_SHA="d4e50bfaf32a992165a9b14637f5c8c39385b26246c5c5384b97b8b5bb28a36e"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="9f23a5f07b60ca1424bf86ccb1ff1fc08cd24254759ffa1afb9b4f8b554cd9ac"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py312_all.ipk"; OPENVIX_R312_SHA="5d82e0710fa69cb2acaddf404f0f4572d5af5fd04e8e123504bd9cf10e63e50c"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="baecf82d54f4c2b448fa63da720208c2b547bb02371867d28c89f173da0b8152"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py313_all.ipk"; OPENVIX_R313_SHA="5fe327623bab7dc980a350306f8ebbc4c15a4a6545b35c6c01f02d2bc9e22c0e"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="7089724ae62eb84a090be0fc1794f159532c6048fd935677b01404af985a2527"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py314_all.ipk"; OPENVIX_R314_SHA="8c2eb84edd55d1b8bcaaa9b1573dd52d553ce7a6301f7f6e7292d8354f98ab39"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.2~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="aca9414be57fbeaad3ee79b22f7a025d1b998ec975b0d2ec9844b5a2a9ec4ebf"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py313_all.ipk"; OPENATV_R313_SHA="b2c2f5d0f64427f60d76678564d8f963da59078d9dd85cdf12ff75560d7334da"
+OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="dc7738c27f1efd375e6db0ad4d729bb273bd1e86b33d4377890ce9f381a693a5"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py314_all.ipk"; OPENATV_R314_SHA="ab3eba9cf8a459852fd1cb338469eb7c5b5d07992cb5b778111fcd55d3e43e92"
+OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="c79b7257b0a7de44800346f83613d275fcefa3eef25919124017115870970fa9"
+OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py313_all.ipk"; OPENBH_R313_SHA="facd160e82657313f684279b631b6b7581f21d13f266302439f47bd5f5fbae42"
+OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="ddce7d8330ee8b6cb2c3c2ab17e41cdc78f7883460277a18c13444ebdd84ef9d"
+OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py314_all.ipk"; OPENBH_R314_SHA="fb69cafe33a513d9c715c9cecbfa1ccff6c1829e43e9359dce2c198da8b0010e"
+OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="d4e50bfaf32a992165a9b14637f5c8c39385b26246c5c5384b97b8b5bb28a36e"
+OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py312_all.ipk"; OPENVIX_R312_SHA="ac86a8c3383abc04022eb57f6401f41200c7f87a31b830b31c5b7d630cbdc9bd"
+OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="5d82e0710fa69cb2acaddf404f0f4572d5af5fd04e8e123504bd9cf10e63e50c"
+OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py313_all.ipk"; OPENVIX_R313_SHA="6282756320ba227660d2ca4614183ffe8a46de52c5e7908a5968acac3ccef3fc"
+OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5fe327623bab7dc980a350306f8ebbc4c15a4a6545b35c6c01f02d2bc9e22c0e"
+OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py314_all.ipk"; OPENVIX_R314_SHA="695d54a129bcdb126fe613f9a3262521d84fc7b1f55a2710ad152783d6fca2a3"
+OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="8c2eb84edd55d1b8bcaaa9b1573dd52d553ce7a6301f7f6e7292d8354f98ab39"
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -250,6 +250,24 @@ if [ -n "$MISSING" ]; then
 else
 	ok "Required components present (python3-pillow, python3-requests)"
 fi
+# Weather (optional): the Classic, Details and Cinema designs show the weather of the OAWeather plugin.  CineView MLA
+# never depends on it (1.0.4+: the weather widgets are left out while the plugin is missing and come back once it is
+# installed).  If it is missing and the image's OWN feed offers it, it is installed from there by opkg with the
+# dependencies the image declares (built for this image and Python) - nothing is fetched from anywhere else.
+E2C="$RT/usr/lib/enigma2/python/Components"
+WEATHER=""
+if ls "$E2C/Sources/OAWeather.py" "$E2C/Sources/OAWeather.pyc" 2>/dev/null | grep -q . \
+	&& ls "$E2C/Converter/OAWeather.py" "$E2C/Converter/OAWeather.pyc" 2>/dev/null | grep -q . \
+	&& ls "$E2C/Renderer/OAWeatherPixmap.py" "$E2C/Renderer/OAWeatherPixmap.pyc" 2>/dev/null | grep -q .; then
+	ok "Weather: OAWeather installed"
+else
+	opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather " || opkg update >/dev/null 2>&1
+	if opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather "; then
+		WEATHER=1; info "Weather: OAWeather will be installed from the image feed (optional)"
+	else
+		info "Weather: OAWeather is not offered by this image's feed - the designs are shown without the weather"
+	fi
+fi
 ok "Package matches this receiver ($IMG $IVER, Python $PYV, $ARCH)"
 
 section "Storage"
@@ -341,6 +359,17 @@ fi
 if [ "${DRYRUN:-0}" = "1" ]; then
 	printf '\n%s%sAll checks passed.%s Check-only run: nothing was downloaded or installed.\n\n' "$B" "$G" "$N"
 	exit 0
+fi
+
+if [ "$WEATHER" = "1" ]; then  # optional, before the skin package (so it is composed with the weather); never fatal
+	section "Weather"
+	for i in $(seq 1 30); do pidof opkg >/dev/null 2>&1 || break; sleep 2; done
+	if opkg install enigma2-plugin-extensions-oaweather >"$LOG.weather" 2>&1 && opkg status enigma2-plugin-extensions-oaweather 2>/dev/null | grep -q "^Status: .* installed$"; then
+		ok "OAWeather installed from the image feed"
+		[ "$MODE" = "same" ] && info "The weather appears after the next GUI restart"
+	else
+		warn "OAWeather could not be installed - the designs are shown without the weather"
+	fi
 fi
 
 if [ "$MODE" != "same" ]; then
@@ -486,6 +515,9 @@ case "$SKIN" in
 		printf '  %s+-----------------------------------------------------+%s\n' "$C" "$N"
 		DO="${RESTART:-}"
 		if [ -z "$DO" ] && [ -t 0 ]; then printf '  Restart the GUI now? [y/N] '; read -r A; case "$A" in y|Y|yes|YES) DO=1 ;; esac; fi
+		if [ "$DO" = "1" ] && wget -qO - "http://127.0.0.1/api/statusinfo" 2>/dev/null | grep -q '"isRecording": "true"'; then
+			warn "A recording is running - the GUI is not restarted now (restart it after the recording)"; DO=""
+		fi
 		if [ "$DO" = "1" ]; then
 			info "Restarting the GUI ..."
 			wget -qO /dev/null "http://127.0.0.1/api/powerstate?newstate=3" 2>/dev/null || { init 4; sleep 4; init 3; }
