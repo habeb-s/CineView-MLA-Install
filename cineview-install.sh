@@ -7,13 +7,15 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.4"
+INSTALLER_VERSION="1.3.5"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
 # differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
 # lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
-# Packages (1.0.4 = 1.0.3 + optional weather: designs apply without the OAWeather plugin; 1.0.3 kept for ROLLBACK=1), all built from the same CineView MLA data (Common Core + image adapter); only these exact files are
+# Packages (1.0.5 = 1.0.4 + boot guardian started by Python's start-up hook, /usr/bin/enigma2_pre_start.sh left to other
+# add-ons, + CineView's own weather components: OAWeather's data while it runs, Open-Meteo otherwise; 1.0.4 = 1.0.3 +
+# optional weather, kept for ROLLBACK=1), all built from the same CineView MLA data (Common Core + image adapter); only these exact files are
 # ever installed: each is pinned by its SHA256 here, in the installer itself (a download is never trusted by its
 # address).
 #  * device-tested lines (installed, reinstalled, rolled back on a receiver): OpenATV 8.0, OpenBH 5.6, OpenViX 6.9 ->
@@ -25,37 +27,37 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # tree).  Empty = not published: then only PKG_DIR (local copies) can be used;
 # no address is ever guessed.
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
-OPENATV_VERSION="1.0.4"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4_all.ipk"
-OPENATV_SHA="0a7ff02028c068bf6cdc573a497fe34e52d10cb31381e9c0062d59e527bf3eaf"
-OPENATV_PREV_VERSION="1.0.3"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3_all.ipk"
-OPENATV_PREV_SHA="91c2e2eead9828e07a2791f6335a6851ee0700ed687ca16fba96b6207dbccbf0"
+OPENATV_VERSION="1.0.5"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5_all.ipk"
+OPENATV_SHA="9c10fb92161e5b15d6767219ba5560af374a84845fbfae731fa766cd773c8b46"
+OPENATV_PREV_VERSION="1.0.4"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4_all.ipk"
+OPENATV_PREV_SHA="0a7ff02028c068bf6cdc573a497fe34e52d10cb31381e9c0062d59e527bf3eaf"
 OPENATV_PY="3.14"
-OPENBH_VERSION="1.0.4~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh1_all.ipk"
-OPENBH_SHA="f89262d5a2ea13026da255d031a483fcafea5e148575c5d610d1909e78cdc724"
-OPENBH_PREV_VERSION="1.0.3~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh1_all.ipk"
-OPENBH_PREV_SHA="b3d1df030e6f7d19ef581fd22833aad3f515b3f26f834c42e9b29c2e22b72773"
+OPENBH_VERSION="1.0.5~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh1_all.ipk"
+OPENBH_SHA="b2a964c071a91fc4c10b794f85a7d332716d4134c766c670ed4968cdf4603b02"
+OPENBH_PREV_VERSION="1.0.4~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh1_all.ipk"
+OPENBH_PREV_SHA="f89262d5a2ea13026da255d031a483fcafea5e148575c5d610d1909e78cdc724"
 OPENBH_PY="3.13"
-OPENVIX_VERSION="1.0.4~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix1_all.ipk"
-OPENVIX_SHA="9b8d88a6c50cd463eb6448e3477500d878c4c2979a309447d1a02d4ec088ce9d"
-OPENVIX_PREV_VERSION="1.0.3~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix1_all.ipk"
-OPENVIX_PREV_SHA="6ce89aefd856406e45878fbec83b9c0af46fd8c09b090e57806c21e0639f9c52"
+OPENVIX_VERSION="1.0.5~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix1_all.ipk"
+OPENVIX_SHA="505259254c19bda3285ad7dae48a612d751325d86a0b605436a37afe552436dc"
+OPENVIX_PREV_VERSION="1.0.4~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix1_all.ipk"
+OPENVIX_PREV_SHA="9b8d88a6c50cd463eb6448e3477500d878c4c2979a309447d1a02d4ec088ce9d"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py313_all.ipk"; OPENATV_R313_SHA="b2c2f5d0f64427f60d76678564d8f963da59078d9dd85cdf12ff75560d7334da"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="dc7738c27f1efd375e6db0ad4d729bb273bd1e86b33d4377890ce9f381a693a5"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py314_all.ipk"; OPENATV_R314_SHA="ab3eba9cf8a459852fd1cb338469eb7c5b5d07992cb5b778111fcd55d3e43e92"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="c79b7257b0a7de44800346f83613d275fcefa3eef25919124017115870970fa9"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py313_all.ipk"; OPENBH_R313_SHA="facd160e82657313f684279b631b6b7581f21d13f266302439f47bd5f5fbae42"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="ddce7d8330ee8b6cb2c3c2ab17e41cdc78f7883460277a18c13444ebdd84ef9d"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py314_all.ipk"; OPENBH_R314_SHA="fb69cafe33a513d9c715c9cecbfa1ccff6c1829e43e9359dce2c198da8b0010e"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="d4e50bfaf32a992165a9b14637f5c8c39385b26246c5c5384b97b8b5bb28a36e"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py312_all.ipk"; OPENVIX_R312_SHA="ac86a8c3383abc04022eb57f6401f41200c7f87a31b830b31c5b7d630cbdc9bd"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="5d82e0710fa69cb2acaddf404f0f4572d5af5fd04e8e123504bd9cf10e63e50c"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py313_all.ipk"; OPENVIX_R313_SHA="6282756320ba227660d2ca4614183ffe8a46de52c5e7908a5968acac3ccef3fc"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5fe327623bab7dc980a350306f8ebbc4c15a4a6545b35c6c01f02d2bc9e22c0e"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py314_all.ipk"; OPENVIX_R314_SHA="695d54a129bcdb126fe613f9a3262521d84fc7b1f55a2710ad152783d6fca2a3"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.3~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="8c2eb84edd55d1b8bcaaa9b1573dd52d553ce7a6301f7f6e7292d8354f98ab39"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"
+OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="b2c2f5d0f64427f60d76678564d8f963da59078d9dd85cdf12ff75560d7334da"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"
+OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ab3eba9cf8a459852fd1cb338469eb7c5b5d07992cb5b778111fcd55d3e43e92"
+OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"
+OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="facd160e82657313f684279b631b6b7581f21d13f266302439f47bd5f5fbae42"
+OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"
+OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="fb69cafe33a513d9c715c9cecbfa1ccff6c1829e43e9359dce2c198da8b0010e"
+OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"
+OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="ac86a8c3383abc04022eb57f6401f41200c7f87a31b830b31c5b7d630cbdc9bd"
+OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"
+OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="6282756320ba227660d2ca4614183ffe8a46de52c5e7908a5968acac3ccef3fc"
+OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"
+OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="695d54a129bcdb126fe613f9a3262521d84fc7b1f55a2710ad152783d6fca2a3"
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -225,9 +227,16 @@ opkg print-architecture 2>/dev/null | grep -q "^arch all " || fail "This receive
 ok "Architecture: $ARCH (CineView MLA is architecture-independent)"
 
 section "Compatibility"
+# /usr/bin/enigma2_pre_start.sh is the images' ONE pre-start hook (a single file that enigma2.sh runs before every start).
+# Since 1.0.5 CineView MLA does not use it: its boot guardian starts from Python's start-up hook, so an add-on that owns
+# this file stays installed and working, untouched.  Only the previous release (ROLLBACK=1 -> 1.0.4) still needs it.
 H="$RT/usr/bin/enigma2_pre_start.sh"
 if [ -e "$H" ] && ! grep -q "CineView MLA guardian" "$H" 2>/dev/null; then
-	fail "$H belongs to another add-on; CineView MLA does not replace it."
+	HOWNER=$(opkg search /usr/bin/enigma2_pre_start.sh 2>/dev/null | sed -n '1s/ - .*//p')
+	if [ "${ROLLBACK:-0}" = "1" ]; then
+		fail "The previous release ($VERSION) uses /usr/bin/enigma2_pre_start.sh, which belongs to ${HOWNER:-another add-on} on this receiver - it cannot be installed here. Nothing was changed."
+	fi
+	ok "Pre-start hook of ${HOWNER:-another add-on} found - kept as it is (CineView MLA does not use that file)"
 fi
 if [ "$DISTRO" = "openatv" ]; then
 	# Safety check kept: the two Enigma2 components the design needs (missing on OpenATV 7.5; present on 7.6 / 8.0 / current):
@@ -250,23 +259,69 @@ if [ -n "$MISSING" ]; then
 else
 	ok "Required components present (python3-pillow, python3-requests)"
 fi
-# Weather (optional): the Classic, Details and Cinema designs show the weather of the OAWeather plugin.  CineView MLA
-# never depends on it (1.0.4+: the weather widgets are left out while the plugin is missing and come back once it is
-# installed).  If it is missing and the image's OWN feed offers it, it is installed from there by opkg with the
-# dependencies the image declares (built for this image and Python) - nothing is fetched from anywhere else.
-E2C="$RT/usr/lib/enigma2/python/Components"
+# Weather: the Classic, Details and Cinema designs show the weather (city, temperature, icon).  Since 1.0.5 these widgets
+# use CineView MLA's own weather components: OAWeather's own data while OAWeather runs with its saved location,
+# CineView's own lookup (Open-Meteo) otherwise - a design never needs OAWeather to load or to show the weather.  OAWeather (oe-alliance
+# plugin, package enigma2-plugin-extensions-oaweather) is checked here and is never removed, replaced or changed:
+#   installed and healthy (package installed, every module present, byte code for THIS Python) -> used as it is
+#   not installed -> installed from the image's OWN feed when the feed offers it (opkg, with the dependencies the image
+#                    declares, built for this image and Python) - nothing is fetched from anywhere else
+#   installed but incomplete, half-installed or built for another Python -> left as it is; CineView's own weather is used
+oaw_state() {  # ok | missing | broken:<reason>
+	OST=$(opkg status enigma2-plugin-extensions-oaweather 2>/dev/null | sed -n 's/^Status: //p' | head -1)
+	python3 - "$RT/usr/lib/enigma2/python" "$OST" <<'PYEOF' 2>/dev/null || echo "broken:its check could not run"
+import importlib.util, os, sys
+E, status = sys.argv[1], sys.argv[2].strip()
+need = ("Components/Sources/OAWeather", "Components/Converter/OAWeather", "Components/Renderer/OAWeatherPixmap",
+	"Plugins/Extensions/OAWeather/__init__", "Plugins/Extensions/OAWeather/plugin", "Tools/Weatherinfo")
+have = {}
+for n in need:
+	for ext in (".py", ".pyc"):  # Python imports the source when both exist
+		if os.path.isfile(os.path.join(E, n + ext)):
+			have[n] = os.path.join(E, n + ext)
+			break
+if not status and not have:
+	print("missing")
+elif status and not status.endswith(" installed"):
+	print("broken:its package is not completely installed (%s)" % status)
+elif len(have) < len(need):
+	print("broken:files are missing (%s)" % ", ".join(n.split("/")[-1] for n in need if n not in have))
+else:
+	bad = ""
+	for n, p in sorted(have.items()):
+		try:
+			if p.endswith(".pyc"):
+				with open(p, "rb") as f:
+					if f.read(4) != importlib.util.MAGIC_NUMBER:
+						bad = "%s is built for another Python version" % os.path.basename(p)
+			else:
+				with open(p, encoding="utf-8") as f:
+					compile(f.read(), p, "exec")
+		except Exception as e:
+			bad = "%s cannot be read by this Python (%s)" % (os.path.basename(p), e.__class__.__name__)
+		if bad:
+			break
+	print("broken:" + bad if bad else "ok")
+PYEOF
+}
 WEATHER=""
-if ls "$E2C/Sources/OAWeather.py" "$E2C/Sources/OAWeather.pyc" 2>/dev/null | grep -q . \
-	&& ls "$E2C/Converter/OAWeather.py" "$E2C/Converter/OAWeather.pyc" 2>/dev/null | grep -q . \
-	&& ls "$E2C/Renderer/OAWeatherPixmap.py" "$E2C/Renderer/OAWeatherPixmap.pyc" 2>/dev/null | grep -q .; then
-	ok "Weather: OAWeather installed"
-else
-	opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather " || opkg update >/dev/null 2>&1
-	if opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather "; then
-		WEATHER=1; info "Weather: OAWeather will be installed from the image feed (optional)"
-	else
-		info "Weather: OAWeather is not offered by this image's feed - the designs are shown without the weather"
-	fi
+OAW=$(oaw_state)
+case "$OAW" in
+	ok) ok "Weather: OAWeather installed and built for this image's Python - its weather data is used as it is" ;;
+	missing)
+		opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather " || opkg update >/dev/null 2>&1
+		if opkg list 2>/dev/null | grep -q "^enigma2-plugin-extensions-oaweather "; then
+			WEATHER=1; info "Weather: OAWeather will be installed from the image's own feed"
+		else
+			info "Weather: this image's feed does not offer OAWeather - CineView's own weather (Open-Meteo) is used"
+		fi ;;
+	*) warn "Weather: OAWeather is installed but ${OAW#broken:} - it is left as it is; CineView's own weather (Open-Meteo) is used" ;;
+esac
+# The weather location is only one the user has set - the location saved in OAWeather, or the city chosen in CineView
+# Designs > Weather city - never a guess (a time zone does not say where the receiver is).
+if ! grep -q '^config.plugins.OAWeather.weatherlocation=' "$RT/etc/enigma2/settings" 2>/dev/null \
+	&& ! grep -q '"weather_city"' "$RT$STATE/runtime.json" 2>/dev/null; then
+	info "Weather: no location set yet - choose your city once in CineView Designs > Weather city (or save a location in OAWeather)"
 fi
 ok "Package matches this receiver ($IMG $IVER, Python $PYV, $ARCH)"
 
@@ -361,14 +416,15 @@ if [ "${DRYRUN:-0}" = "1" ]; then
 	exit 0
 fi
 
-if [ "$WEATHER" = "1" ]; then  # optional, before the skin package (so it is composed with the weather); never fatal
+if [ "$WEATHER" = "1" ]; then  # before the skin package; never fatal (CineView's own weather works without it)
 	section "Weather"
 	for i in $(seq 1 30); do pidof opkg >/dev/null 2>&1 || break; sleep 2; done
-	if opkg install enigma2-plugin-extensions-oaweather >"$LOG.weather" 2>&1 && opkg status enigma2-plugin-extensions-oaweather 2>/dev/null | grep -q "^Status: .* installed$"; then
-		ok "OAWeather installed from the image feed"
-		[ "$MODE" = "same" ] && info "The weather appears after the next GUI restart"
+	opkg install enigma2-plugin-extensions-oaweather >"$LOG.weather" 2>&1
+	OAW=$(oaw_state)
+	if [ "$OAW" = "ok" ]; then
+		ok "OAWeather installed from the image's own feed (its weather data is used after the next GUI restart)"
 	else
-		warn "OAWeather could not be installed - the designs are shown without the weather"
+		warn "OAWeather could not be installed completely (${OAW#broken:}) - CineView's own weather (Open-Meteo) is used"
 	fi
 fi
 

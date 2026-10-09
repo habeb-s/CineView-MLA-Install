@@ -59,6 +59,9 @@ fi
 opkg status $PKG 2>/dev/null | grep -q "^Status: install" || { echo "CineView MLA is not installed."; exit 0; }
 mkdir -p /etc/enigma2/cineview_mla/backup 2>/dev/null; cp -p /etc/enigma2/settings /etc/enigma2/cineview_mla/backup/settings.before-uninstall 2>/dev/null
 if grep -q "^config.skin.primary_skin=CineView_FHD_MLA/" /etc/enigma2/settings 2>/dev/null; then
+  if wget -qO - "http://127.0.0.1/api/statusinfo" 2>/dev/null | grep -q '"isRecording": "true"'; then
+    echo "A recording is running - Enigma2 is not stopped now. Run the uninstaller again after the recording. Nothing was changed."; exit 1
+  fi
   echo "CineView MLA is the selected skin: stopping Enigma2 to switch back to the image default skin."
   init 4; for i in $(seq 1 25); do pidof enigma2 >/dev/null || break; sleep 1; done
   sed -i '/^config.skin.primary_skin=CineView_FHD_MLA\//d' /etc/enigma2/settings
