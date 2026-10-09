@@ -21,7 +21,7 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
 | OpenATV | 8.0 | 3.14 | 1.0.3 | device-tested (install, reinstall, rollback) |
-| OpenATV | 7.6 | 3.13 | 1.0.3~openatv.py313 | verified statically¹ |
+| OpenATV | 7.6 | 3.13 | 1.0.3~openatv.py313 | device-tested (Octagon SF8008: install, reinstall, posters, temperature) |
 | OpenATV | 8.1 and newer | 3.14 | 1.0.3~openatv.py314 | verified statically¹ |
 | OpenBH | 5.6 | 3.13 | 1.0.3~openbh1 | device-tested |
 | OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.3~openbh.py313 | verified statically¹ |
