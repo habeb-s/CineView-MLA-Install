@@ -2,18 +2,11 @@
 
 Design & Development by habeb-s © 2026
 
-**Status: final release — CineView MLA 1.0.1, Smart Installer 1.2.2.**
-Installed, reinstalled and rolled back on a real receiver (Vu+ Duo 4K SE) on all three supported images.
+**CineView MLA 1.0.1 · Smart Installer 1.3.0**
 
-| Image | Package installed by the command below | Previous release (`ROLLBACK=1`) |
-|---|---|---|
-| OpenATV 8.0 (Python 3.14) | 1.0.1 | 1.0.0 |
-| OpenBH 5.6 (Python 3.13) | 1.0.1~openbh1 | 1.0.0~openbh17 |
-| OpenViX 6.9 (Python 3.14) | 1.0.1~openvix1 | 1.0.0~openvix1 |
-
-The installer identifies the image and its version by itself (from the image's own information and files, wherever
-it is installed), checks Python and compatibility, downloads the matching package, verifies its SHA256 and installs
-it. Untested image versions are refused. Your design, theme, profiles and settings are kept on update and rollback.
+One installer for **OpenATV 7.5+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
+receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
+by itself (wherever it is installed), chooses the matching package, verifies its SHA256 and installs it.
 
 ## Install / update (telnet or SSH on the receiver)
 
@@ -23,10 +16,46 @@ wget -qO /tmp/cineview-install.sh https://raw.githubusercontent.com/habeb-s/Cine
 
 Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release · `RESTART=1` restart the GUI without asking
 
+## Compatibility
+
+| Image | Versions | Python | Package | Status |
+|---|---|---|---|---|
+| OpenATV | 8.0 | 3.14 | 1.0.1 | device-tested (install, reinstall, rollback) |
+| OpenATV | 7.6 | 3.13 | 1.0.1~openatv.py313 | verified statically¹ |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.1~openatv.py314 | verified statically¹ |
+| OpenATV | 7.5 | 3.12 | 1.0.1~openatv.py312 | see exception below |
+| OpenBH | 5.6 | 3.13 | 1.0.1~openbh1 | device-tested |
+| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.1~openbh.py313 | verified statically¹ |
+| OpenBH | 6.0 and newer | 3.14 | 1.0.1~openbh.py314 | verified statically¹ |
+| OpenViX | 6.9 | 3.14 | 1.0.1~openvix1 | device-tested |
+| OpenViX | 6.7 | 3.12 | 1.0.1~openvix.py312 | verified statically¹ |
+| OpenViX | 6.8 | 3.13 | 1.0.1~openvix.py313 | verified statically¹ |
+| OpenViX | 7.0 and newer | 3.14 | 1.0.1~openvix.py314 | verified statically¹ |
+
+Every package carries the same CineView MLA 1.0.1 skin, designs, themes and options. The packages for the versions
+that were not device-tested are the approved package of that image with only its Python byte-code rebuilt for the
+image's Python (3.12 / 3.13 / 3.14) and a version-range check.
+
+¹ The Enigma2 interfaces CineView MLA uses (renderers, converters and their arguments, skin attributes, screens,
+enigma API, imported modules) were compared with the image's own Enigma2 source for the first and last release of
+each version line: OpenATV 7.5 / 7.6 / current, OpenBH 6.0.004 / current, OpenViX 6.7.000 / 6.7.020 / 6.8.001 /
+6.8.009 / 6.9.003. The Python version of each line comes from the image's official package feed. This is a static
+check, not a test on a receiver.
+
+**Exception — OpenATV 7.5:** its Enigma2 has no `Components/Addons` (the colour-button bars and pagers used by every
+CineView MLA design) and no `FullDescription` in the MovieInfo converter (event descriptions). The installer checks
+for both on the receiver itself: an OpenATV 7.5 image without them is refused with this reason and nothing is
+changed; a 7.5 build that has them is installed.
+
+The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
+identify reliably, a Python version without a package (for example a future Python 3.15), missing required
+components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
+and rollback (`ROLLBACK=1` is available where an earlier release exists: OpenATV 8.0, OpenBH 5.6, OpenViX 6.9).
+
 ## Uninstall
 
 ```
 wget -qO /tmp/cineview-uninstall.sh https://raw.githubusercontent.com/habeb-s/CineView-MLA-Install/main/cineview-uninstall.sh && sh /tmp/cineview-uninstall.sh
 ```
 
-`SHA256SUMS` lists the checksums of the installer and the uninstaller.
+`SHA256SUMS` lists the checksums of the installer, the uninstaller and every package.
