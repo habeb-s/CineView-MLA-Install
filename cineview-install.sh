@@ -7,12 +7,12 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.0"
+INSTALLER_VERSION="1.3.1"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
-# Supported (user decision 2026-10-09): OpenATV 7.5+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
+# Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
-# differs between image versions is the Python minor version (sourceless .pyc) and, for OpenATV 7.5, two Enigma2
-# components the design needs (checked on the receiver itself, below).
+# differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
+# lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
 # Packages, all built from the same CineView MLA 1.0.1 data (Common Core + image adapter); only these exact files are
 # ever installed: each is pinned by its SHA256 here, in the installer itself (a download is never trusted by its
 # address).
@@ -41,10 +41,9 @@ OPENVIX_PREV_VERSION="1.0.0~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-c
 OPENVIX_PREV_SHA="955d102826bf30854003a7f5cd8e5d75b4f9e808b783bfe1fb53571acfa76d87"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
-OPENATV_MIN="7.5"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py312_all.ipk"; OPENATV_R312_SHA="8b006d996c3ac252f644cb93ba53547c931ea928978ee1306a3c86fd996a46a9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py313_all.ipk"; OPENATV_R313_SHA="92faf8b72a860c6f629fdbe004de2c41e25191f2ce6db21c93579750a368f023"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py314_all.ipk"; OPENATV_R314_SHA="63ab6d3865e6f5bdcd665277d597fa86415defbbf9dcc563e040ba65730c0cba"
+OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py313_all.ipk"; OPENATV_R313_SHA="b5670e21891b3183872e6aa259efc2eafb76c7172235f50c3c696b4cb54c76f2"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py314_all.ipk"; OPENATV_R314_SHA="2dff772f7bce703d3503ee1cdfedab3456f7e4f87636ddaadc3bbc5802ff9546"
 OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openbh.py313_all.ipk"; OPENBH_R313_SHA="d6ab767859de4d19ed7d7cbf0dc3ce9a5633059e02c6efd861051c863c47d260"
 OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openbh.py314_all.ipk"; OPENBH_R314_SHA="ee1f309afc319d52f86ac307a93b1c9dea6cec5f9100a189ddad7d928a9c860d"
 OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openvix.py312_all.ipk"; OPENVIX_R312_SHA="db589b7ab2e98bcbebd5fe8a0558080ce0876ffc3dae4a647b38bbba81b036dd"
@@ -171,7 +170,7 @@ VMAJ=${IVER%%.*}; VREST=${IVER#*.}; VMNR=${VREST%%.*}
 case "$VMAJ:$VMNR" in *[!0-9:]*|:*|*:) fail "The version of this image ('$IVER') cannot be read: it cannot be checked." ;; esac
 MMAJ=${VMIN%%.*}; MMNR=${VMIN#*.}
 if [ "$VMAJ" -lt "$MMAJ" ] || { [ "$VMAJ" -eq "$MMAJ" ] && [ "$VMNR" -lt "$MMNR" ]; }; then
-	fail "$IMG $IVER is older than $IMG $VMIN, the first version CineView MLA supports (OpenATV 7.5+, OpenBH 5.6+, OpenViX 6.7+)."
+	fail "$IMG $IVER is older than $IMG $VMIN, the first version CineView MLA supports (OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+)."
 fi
 TESTED=0; [ "$VMAJ.$VMNR" = "$VTESTED" ] && TESTED=1
 if [ "$TESTED" = "1" ]; then ok "$IMG $IVER is supported (this version line is device-tested)"
@@ -223,13 +222,13 @@ if [ -e "$H" ] && ! grep -q "CineView MLA guardian" "$H" 2>/dev/null; then
 	fail "$H belongs to another add-on; CineView MLA does not replace it."
 fi
 if [ "$DISTRO" = "openatv" ]; then
-	# The two Enigma2 components the design needs that OpenATV added after 7.5 (static check of 7.5 / 7.6 / 8.0 / current):
+	# Safety check kept: the two Enigma2 components the design needs (missing on OpenATV 7.5; present on 7.6 / 8.0 / current):
 	# the 'addon' widgets (colour-button bars, pagers) and the MovieInfo 'FullDescription' token.  Checked on this
 	# receiver, not inferred from the version number.
 	ls "$E/Components/Addons/ColorButtonsSequence.py" "$E/Components/Addons/ColorButtonsSequence.pyc" 2>/dev/null | grep -q . \
-		|| fail "This OpenATV ($IVER) has no Components/Addons (colour-button bars and pagers used by every CineView MLA design). OpenATV 7.5 images without it cannot show CineView MLA correctly."
+		|| fail "This OpenATV ($IVER) has no Components/Addons (colour-button bars and pagers used by every CineView MLA design)."
 	grep -aq "FullDescription" "$E/Components/Converter/MovieInfo.py" "$E/Components/Converter/MovieInfo.pyc" 2>/dev/null \
-		|| fail "This OpenATV ($IVER) MovieInfo converter has no 'FullDescription' (event descriptions in CineView MLA). OpenATV 7.5 images without it cannot show CineView MLA correctly."
+		|| fail "This OpenATV ($IVER) MovieInfo converter has no 'FullDescription' (event descriptions in CineView MLA)."
 	ok "Enigma2 components used by the design present (Addons, MovieInfo FullDescription)"
 fi
 MISSING=""
