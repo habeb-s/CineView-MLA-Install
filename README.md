@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.1 · Smart Installer 1.3.1**
+**CineView MLA 1.0.2 · Smart Installer 1.3.2**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -20,18 +20,18 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
-| OpenATV | 8.0 | 3.14 | 1.0.1 | device-tested (install, reinstall, rollback) |
-| OpenATV | 7.6 | 3.13 | 1.0.1~openatv.py313 | verified statically¹ |
-| OpenATV | 8.1 and newer | 3.14 | 1.0.1~openatv.py314 | verified statically¹ |
-| OpenBH | 5.6 | 3.13 | 1.0.1~openbh1 | device-tested |
-| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.1~openbh.py313 | verified statically¹ |
-| OpenBH | 6.0 and newer | 3.14 | 1.0.1~openbh.py314 | verified statically¹ |
-| OpenViX | 6.9 | 3.14 | 1.0.1~openvix1 | device-tested |
-| OpenViX | 6.7 | 3.12 | 1.0.1~openvix.py312 | verified statically¹ |
-| OpenViX | 6.8 | 3.13 | 1.0.1~openvix.py313 | verified statically¹ |
-| OpenViX | 7.0 and newer | 3.14 | 1.0.1~openvix.py314 | verified statically¹ |
+| OpenATV | 8.0 | 3.14 | 1.0.2 | device-tested (install, reinstall, rollback) |
+| OpenATV | 7.6 | 3.13 | 1.0.2~openatv.py313 | verified statically¹ |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.2~openatv.py314 | verified statically¹ |
+| OpenBH | 5.6 | 3.13 | 1.0.2~openbh1 | device-tested |
+| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.2~openbh.py313 | verified statically¹ |
+| OpenBH | 6.0 and newer | 3.14 | 1.0.2~openbh.py314 | verified statically¹ |
+| OpenViX | 6.9 | 3.14 | 1.0.2~openvix1 | device-tested |
+| OpenViX | 6.7 | 3.12 | 1.0.2~openvix.py312 | verified statically¹ |
+| OpenViX | 6.8 | 3.13 | 1.0.2~openvix.py313 | verified statically¹ |
+| OpenViX | 7.0 and newer | 3.14 | 1.0.2~openvix.py314 | verified statically¹ |
 
-Every package carries the same CineView MLA 1.0.1 skin, designs, themes and options. The packages for the versions
+Every package carries the same CineView MLA skin, designs, themes and options. The packages for the versions
 that were not device-tested are the approved package of that image with only its Python byte-code rebuilt for the
 image's Python (3.12 / 3.13 / 3.14) and a version-range check.
 
@@ -48,7 +48,14 @@ The installer refuses it with this reason and changes nothing.
 The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
 identify reliably, a Python version without a package (for example a future Python 3.15), missing required
 components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
-and rollback (`ROLLBACK=1` is available where an earlier release exists: OpenATV 8.0, OpenBH 5.6, OpenViX 6.9).
+and rollback (`ROLLBACK=1` returns to the previous release, 1.0.1, on every supported line).
+
+## Changes
+
+- **1.0.2** — receiver temperature: the `CPU: xx°C` label read only three fixed sensor paths and showed `CPU: --°C`
+  on receivers whose driver reports the temperature elsewhere (for example Octagon SF8008 / HiSilicon). It now also
+  reads other kernel thermal zones, other Enigma2 driver files and the HiSilicon driver, each only if present, and
+  shows `CPU: N/A` when there is no valid reading. Nothing else changed.
 
 ## Uninstall
 
