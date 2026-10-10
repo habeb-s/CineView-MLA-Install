@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.6 · Smart Installer 1.3.7**
+**CineView MLA 1.0.6 · Smart Installer 1.3.8**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -14,7 +14,7 @@ by itself (wherever it is installed), chooses the matching package, verifies its
 wget -qO /tmp/cineview-install.sh https://raw.githubusercontent.com/habeb-s/CineView-MLA-Install/main/cineview-install.sh && sh /tmp/cineview-install.sh
 ```
 
-Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release · `RESTART=1` restart the GUI without asking
+Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release · `RESTART=0` no automatic GUI restart
 
 ## Compatibility
 
@@ -76,6 +76,13 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.3.8** — fully automatic: after a successful installation or update, and only after every
+  final check has passed (package SHA256, installed files identical to the official package), the installer
+  restarts the Enigma2 GUI by itself (never the whole receiver) - no question to answer. It uses the image's own
+  clean GUI restart and, if that is not available, the init system's GUI stop / start (OpenATV, OpenBH, OpenViX).
+  No restart when nothing was installed (official version already installed), when the installation or a check
+  failed, with `DRYRUN=1`, or while a recording is running (then it says so). `RESTART=0` disables the restart.
 
 - **Smart Installer 1.3.7** — the same version number is no longer taken as "installed": the installer compares
   the files CineView MLA installed (the package's own file list) with a content fingerprint of the official package,

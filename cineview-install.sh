@@ -3,11 +3,11 @@
 # One installer for OpenATV, OpenBH and OpenViX.  Usage on the receiver (telnet / ssh):
 #   wget -qO /tmp/cineview-install.sh "<distribution point>/cineview-install.sh" && sh /tmp/cineview-install.sh
 # options:  DRYRUN=1  checks only      HDD_CACHE=0  keep the poster cache off the hard disk
-#           RESTART=1 restart the GUI at the end without asking
+#           RESTART=0 do not restart the GUI at the end (default: automatic restart after a verified installation)
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.7"
+INSTALLER_VERSION="1.3.8"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
@@ -676,30 +676,49 @@ grep -aq "CineView Designs" "$PLG_DIR"/plugin.py* 2>/dev/null && ok "CineView De
 section "Result"
 SKIN=$(sed -n 's/^config.skin.primary_skin=//p' /etc/enigma2/settings 2>/dev/null)
 if [ "$MODE" = "same" ]; then
-	printf '  %s%sCineView MLA %s is already installed and verified.%s\n' "$B" "$G" "$VERSION" "$N"
-else
-	printf '  %s%sCineView MLA %s installed successfully.%s\n' "$B" "$G" "$VERSION" "$N"
+	# nothing was installed: no restart
+	printf '  %s%sCineView MLA %s is already installed and verified.%s\n\n' "$B" "$G" "$VERSION" "$N"
+	exit 0
 fi
+printf '  %s%sCineView MLA %s installed successfully.%s\n' "$B" "$G" "$VERSION" "$N"
 case "$SKIN" in
-	$SKIN_NAME/*)
-		[ "$MODE" = "same" ] && { printf '\n'; exit 0; }
-		printf '\n  %s+-----------------------------------------------------+%s\n' "$C" "$N"
-		printf '  %s|%s  Restart the GUI to load CineView MLA %-13s %s|%s\n' "$C" "$N" "$VERSION." "$C" "$N"
-		printf '  %s+-----------------------------------------------------+%s\n' "$C" "$N"
-		DO="${RESTART:-}"
-		if [ -z "$DO" ] && [ -t 0 ]; then printf '  Restart the GUI now? [y/N] '; read -r A; case "$A" in y|Y|yes|YES) DO=1 ;; esac; fi
-		if [ "$DO" = "1" ] && wget -qO - "http://127.0.0.1/api/statusinfo" 2>/dev/null | grep -q '"isRecording": "true"'; then
-			warn "A recording is running - the GUI is not restarted now (restart it after the recording)"; DO=""
-		fi
-		if [ "$DO" = "1" ]; then
-			info "Restarting the GUI ..."
-			wget -qO /dev/null "http://127.0.0.1/api/powerstate?newstate=3" 2>/dev/null || { init 4; sleep 4; init 3; }
-		else
-			info "Later: Menu > Standby / Restart > Restart GUI"
-		fi ;;
-	*)
-		printf '\n  %sNext step:%s Menu > Setup > User Interface > Skin > %s%s%s, then restart the GUI.\n' "$C" "$N" "$B" "$SKIN_NAME" "$N"
+	$SKIN_NAME/*) ACTIVE=1 ;;
+	*) ACTIVE=0
+		printf '\n  %sNext step:%s Menu > Setup > User Interface > Skin > %s%s%s\n' "$C" "$N" "$B" "$SKIN_NAME" "$N"
 		info "Then open CineView Designs from the Plugin Browser to choose designs and themes." ;;
 esac
+# Automatic GUI restart (Enigma2 only, never a reboot of the receiver): reached only after the package was installed
+# AND every check of the "Verification" section passed (each failure exits before this point).  Not while recording.
+gui_pid() { pidof enigma2 2>/dev/null | awk '{print $1}'; }
+recording() { wget -qO - "http://127.0.0.1/api/statusinfo" 2>/dev/null | grep -q '"isRecording": "true"'; }
+if [ "${RESTART:-1}" = "0" ]; then
+	info "RESTART=0: the GUI is not restarted (Menu > Standby / Restart > Restart GUI)"
+elif [ -z "$(gui_pid)" ]; then
+	info "The GUI is not running - CineView MLA is loaded when it starts"
+elif recording; then
+	warn "A recording is running - the GUI is not restarted now. Restart it after the recording (Menu > Standby / Restart > Restart GUI)."
+else
+	printf '\n  %s%sThe GUI restarts automatically now to load CineView MLA %s ...%s\n' "$B" "$C" "$VERSION" "$N"
+	OLD=$(gui_pid); NEW=""
+	sleep 2
+	# 1) the image's own clean restart through its web interface (OpenWebif / its API: settings are saved first)
+	if [ "${CVMLA_RESTART_METHOD:-auto}" != "init" ]; then  # CVMLA_RESTART_METHOD: test hook only
+		wget -qO /dev/null "http://127.0.0.1/api/powerstate?newstate=3" 2>/dev/null
+		for i in $(seq 1 45); do sleep 1; NEW=$(gui_pid); [ -n "$NEW" ] && [ "$NEW" != "$OLD" ] && break; done
+	fi
+	# 2) not restarted (web interface missing, protected or busy): the init system's own GUI stop / start - the
+	#    method every OE-Alliance image (OpenATV, OpenBH, OpenViX) supports; Enigma2 saves its settings on stop
+	if [ -z "$NEW" ] || [ "$NEW" = "$OLD" ]; then
+		init 4 2>/dev/null
+		for i in $(seq 1 30); do pidof enigma2 >/dev/null 2>&1 || break; sleep 1; done
+		init 3 2>/dev/null
+		for i in $(seq 1 40); do sleep 1; NEW=$(gui_pid); [ -n "$NEW" ] && [ "$NEW" != "$OLD" ] && break; done
+	fi
+	if [ -n "$NEW" ] && [ "$NEW" != "$OLD" ]; then
+		ok "GUI restarted - CineView MLA $VERSION is loading"
+	else
+		warn "The GUI could not be restarted automatically. Please restart it: Menu > Standby / Restart > Restart GUI"
+	fi
+fi
 printf '\n'
 exit 0
