@@ -7,15 +7,17 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.5"
+INSTALLER_VERSION="1.3.6"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
 # differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
 # lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
-# Packages (1.0.5 = 1.0.4 + boot guardian started by Python's start-up hook, /usr/bin/enigma2_pre_start.sh left to other
-# add-ons, + CineView's own weather components: OAWeather's data while it runs, Open-Meteo otherwise; 1.0.4 = 1.0.3 +
-# optional weather, kept for ROLLBACK=1), all built from the same CineView MLA data (Common Core + image adapter); only these exact files are
+# Packages (1.0.6 = 1.0.5 + the CineView FHD definitions of the image screens that had none: OpenBH Green / Blue panels
+# and their pages, About, OBH / ViX managers, OE-A network / OScam / CI screens, OpenATV Language, Device Manager, Flash
+# Manager, Software Update, File Commander, network and other system screens; 1.0.5 = 1.0.4 + boot guardian started by Python's
+# start-up hook and CineView's own weather components, kept for ROLLBACK=1), all built from the same CineView MLA data
+# (Common Core + image adapter); only these exact files are
 # ever installed: each is pinned by its SHA256 here, in the installer itself (a download is never trusted by its
 # address).
 #  * device-tested lines (installed, reinstalled, rolled back on a receiver): OpenATV 8.0, OpenBH 5.6, OpenViX 6.9 ->
@@ -27,37 +29,37 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # tree).  Empty = not published: then only PKG_DIR (local copies) can be used;
 # no address is ever guessed.
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
-OPENATV_VERSION="1.0.5"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5_all.ipk"
-OPENATV_SHA="9c10fb92161e5b15d6767219ba5560af374a84845fbfae731fa766cd773c8b46"
-OPENATV_PREV_VERSION="1.0.4"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4_all.ipk"
-OPENATV_PREV_SHA="0a7ff02028c068bf6cdc573a497fe34e52d10cb31381e9c0062d59e527bf3eaf"
+OPENATV_VERSION="1.0.6"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"
+OPENATV_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"
+OPENATV_PREV_VERSION="1.0.5"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5_all.ipk"
+OPENATV_PREV_SHA="9c10fb92161e5b15d6767219ba5560af374a84845fbfae731fa766cd773c8b46"
 OPENATV_PY="3.14"
-OPENBH_VERSION="1.0.5~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh1_all.ipk"
-OPENBH_SHA="b2a964c071a91fc4c10b794f85a7d332716d4134c766c670ed4968cdf4603b02"
-OPENBH_PREV_VERSION="1.0.4~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh1_all.ipk"
-OPENBH_PREV_SHA="f89262d5a2ea13026da255d031a483fcafea5e148575c5d610d1909e78cdc724"
+OPENBH_VERSION="1.0.6~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"
+OPENBH_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"
+OPENBH_PREV_VERSION="1.0.5~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh1_all.ipk"
+OPENBH_PREV_SHA="b2a964c071a91fc4c10b794f85a7d332716d4134c766c670ed4968cdf4603b02"
 OPENBH_PY="3.13"
-OPENVIX_VERSION="1.0.5~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix1_all.ipk"
-OPENVIX_SHA="505259254c19bda3285ad7dae48a612d751325d86a0b605436a37afe552436dc"
-OPENVIX_PREV_VERSION="1.0.4~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix1_all.ipk"
-OPENVIX_PREV_SHA="9b8d88a6c50cd463eb6448e3477500d878c4c2979a309447d1a02d4ec088ce9d"
+OPENVIX_VERSION="1.0.6~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"
+OPENVIX_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"
+OPENVIX_PREV_VERSION="1.0.5~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix1_all.ipk"
+OPENVIX_PREV_SHA="505259254c19bda3285ad7dae48a612d751325d86a0b605436a37afe552436dc"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="b2c2f5d0f64427f60d76678564d8f963da59078d9dd85cdf12ff75560d7334da"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ab3eba9cf8a459852fd1cb338469eb7c5b5d07992cb5b778111fcd55d3e43e92"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="facd160e82657313f684279b631b6b7581f21d13f266302439f47bd5f5fbae42"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="fb69cafe33a513d9c715c9cecbfa1ccff6c1829e43e9359dce2c198da8b0010e"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="ac86a8c3383abc04022eb57f6401f41200c7f87a31b830b31c5b7d630cbdc9bd"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="6282756320ba227660d2ca4614183ffe8a46de52c5e7908a5968acac3ccef3fc"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.4~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="695d54a129bcdb126fe613f9a3262521d84fc7b1f55a2710ad152783d6fca2a3"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"
+OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"
+OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"
+OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"
+OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"
+OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"
+OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"
+OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"
+OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"
+OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"
+OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"
+OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"
+OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -229,13 +231,10 @@ ok "Architecture: $ARCH (CineView MLA is architecture-independent)"
 section "Compatibility"
 # /usr/bin/enigma2_pre_start.sh is the images' ONE pre-start hook (a single file that enigma2.sh runs before every start).
 # Since 1.0.5 CineView MLA does not use it: its boot guardian starts from Python's start-up hook, so an add-on that owns
-# this file stays installed and working, untouched.  Only the previous release (ROLLBACK=1 -> 1.0.4) still needs it.
+# this file stays installed and working, untouched (the current release 1.0.6 and the ROLLBACK=1 release 1.0.5 alike).
 H="$RT/usr/bin/enigma2_pre_start.sh"
 if [ -e "$H" ] && ! grep -q "CineView MLA guardian" "$H" 2>/dev/null; then
 	HOWNER=$(opkg search /usr/bin/enigma2_pre_start.sh 2>/dev/null | sed -n '1s/ - .*//p')
-	if [ "${ROLLBACK:-0}" = "1" ]; then
-		fail "The previous release ($VERSION) uses /usr/bin/enigma2_pre_start.sh, which belongs to ${HOWNER:-another add-on} on this receiver - it cannot be installed here. Nothing was changed."
-	fi
 	ok "Pre-start hook of ${HOWNER:-another add-on} found - kept as it is (CineView MLA does not use that file)"
 fi
 if [ "$DISTRO" = "openatv" ]; then

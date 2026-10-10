@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.5 · Smart Installer 1.3.5**
+**CineView MLA 1.0.6 · Smart Installer 1.3.6**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -20,18 +20,18 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
-| OpenATV | 8.0 | 3.14 | 1.0.5 | device-tested (1.0.5: rollback to 1.0.4 and upgrade with the Smart Installer, every design with OAWeather and with CineView's own weather, CineView Designs, OAWeather / MetrixHD untouched) |
-| OpenATV | 7.6 | 3.13 | 1.0.5~openatv.py313 | device-tested with 1.0.3 (Octagon SF8008: install, reinstall, posters, temperature); 1.0.5 verified statically¹ |
-| OpenATV | 8.1 and newer | 3.14 | 1.0.5~openatv.py314 | verified statically¹ |
-| OpenBH | 5.6 | 3.13 | 1.0.5~openbh1 | device-tested (1.0.5: rollback to 1.0.4 and upgrade with the Smart Installer, every design with OAWeather and with CineView's own weather, CineView Designs, Luka FHD / AGlare FHD / OAWeather untouched) |
-| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.5~openbh.py313 | verified statically¹ |
-| OpenBH | 6.0 and newer | 3.14 | 1.0.5~openbh.py314 | device-tested on 6.0 (1.0.5: without OAWeather - its feed does not offer it - upgrade from 1.0.3, fresh install, every design, CineView Designs and Weather city, other add-on on the pre-start hook, uninstall) |
-| OpenViX | 6.9 | 3.14 | 1.0.5~openvix1 | device-tested (1.0.5: rollback to 1.0.4 and upgrade with the Smart Installer, every design with OAWeather and with CineView's own weather, CineView Designs, Luka FHD / AGlare FHD / OAWeather untouched) |
-| OpenViX | 6.7 | 3.12 | 1.0.5~openvix.py312 | verified statically¹ |
-| OpenViX | 6.8 | 3.13 | 1.0.5~openvix.py313 | verified statically¹ |
-| OpenViX | 7.0 and newer | 3.14 | 1.0.5~openvix.py314 | verified statically¹ |
+| OpenATV | 8.0 | 3.14 | 1.0.6 | device-tested (1.0.6: reinstall, rollback to 1.0.5 and upgrade with the Smart Installer, every design, system pages, message boxes, status indicators while zapping) |
+| OpenATV | 7.6 | 3.13 | 1.0.6~openatv.py313 | device-tested with 1.0.3 (Octagon SF8008: install, reinstall, posters, temperature); 1.0.6 verified statically¹ |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.6~openatv.py314 | verified statically¹ |
+| OpenBH | 5.6 | 3.13 | 1.0.6~openbh1 | device-tested (1.0.6: install with the Smart Installer, message boxes, About / Memory / Devices, Green Panel / Fast Plugin, Plugin Browser, designs with picons) |
+| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.6~openbh.py313 | verified statically¹ |
+| OpenBH | 6.0 and newer | 3.14 | 1.0.6~openbh.py314 | device-tested on 6.0 with 1.0.5/1.0.6 RC; 1.0.6 final verified statically¹ |
+| OpenViX | 6.9 | 3.14 | 1.0.6~openvix1 | device-tested (1.0.6: install with the Smart Installer, message boxes, About / Memory / Devices, Plugin Browser, GUI Skin preview, designs with picons) |
+| OpenViX | 6.7 | 3.12 | 1.0.6~openvix.py312 | verified statically¹ |
+| OpenViX | 6.8 | 3.13 | 1.0.6~openvix.py313 | verified statically¹ |
+| OpenViX | 7.0 and newer | 3.14 | 1.0.6~openvix.py314 | verified statically¹ |
 
-1.0.5 was device-tested on a Vu+ Duo 4K SE (multiboot) with OpenBH 6.0, OpenBH 5.6, OpenViX 6.9 and OpenATV 8.0.1.
+1.0.6 was device-tested on a Vu+ Duo 4K SE (multiboot) with OpenATV 8.0.1, OpenBH 5.6 and OpenViX 6.9.
 The same CineView MLA files are in every package; only the Python byte code differs per image line.
 
 Every package carries the same CineView MLA skin, designs, themes and options. The packages for the versions
@@ -51,8 +51,7 @@ The installer refuses it with this reason and changes nothing.
 The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
 identify reliably, a Python version without a package (for example a future Python 3.15), missing required
 components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
-and rollback (`ROLLBACK=1` returns to the previous release, 1.0.4, on every supported line; not possible where another add-on owns
-`/usr/bin/enigma2_pre_start.sh`, because 1.0.4 still used that file).
+and rollback (`ROLLBACK=1` returns to the previous release, 1.0.5, on every supported line).
 
 ## Weather
 
@@ -77,6 +76,21 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **1.0.6** — one visual identity on every screen, nothing else changed in how CineView MLA works:
+  - **System pages:** About › Memory / Devices / Storage full screen (FHD 1920×1080) on every image; one title per
+    page (some pages drew it twice), one title size and one button-text size on all system pages; the OpenATV
+    information pages no longer draw their key labels twice.
+  - **Message boxes:** new CineView icons for question, information, warning, error and message (the message icon
+    was missing), gold accent line; texts and functions unchanged.
+  - **Status indicators:** HD, 16:9, 4K, 4:3, multichannel (5.1), teletext, HbbTV, sub-services, PDC, encrypted and
+    recording redrawn in one 3D badge style with transparent edges; same sizes, same dynamic conditions.
+  - **InfoBar / SecondInfoBar / EventView / channel lists:** the orbital position and the provider appear once per
+    screen in every design (they were repeated next to the transponder line, which already carries the orbital
+    position); the frequency block of the Details design is one font step larger.
+  - **Picons:** shown in proportion and centred in every design on every image (220×132 is the reference size;
+    other picon sizes are no longer stretched; your picon files are not changed).
+  - **Skin Settings preview** with the CineView MLA identity.
 
 - **1.0.5** — weather without depending on OAWeather (see *Weather*): on images without OAWeather (for example
   OpenBH 6.0, whose feed does not offer it) a design could not be applied ("converter OAWeather not installed /
