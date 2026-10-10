@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.6 · Smart Installer 1.3.6**
+**CineView MLA 1.0.6 · Smart Installer 1.3.7**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -76,6 +76,14 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.3.7** — the same version number is no longer taken as "installed": the installer compares
+  the files CineView MLA installed (the package's own file list) with a content fingerprint of the official package,
+  pinned in the installer like the SHA256. A test build with the same number, a missing or a changed file is
+  reported (how many files differ, with examples) and replaced by the official package (SHA256-verified; design,
+  theme, profiles, settings and poster cache kept). After every installation the installed files must match the
+  official package. Your settings, design selection, posters and logs are not part of the fingerprint.
+  `DRYRUN=1` shows the result without changing anything. The packages are unchanged.
 
 - **1.0.6** — one visual identity on every screen, nothing else changed in how CineView MLA works:
   - **System pages:** About › Memory / Devices / Storage full screen (FHD 1920×1080) on every image; one title per

@@ -7,7 +7,7 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.6"
+INSTALLER_VERSION="1.3.7"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
@@ -31,35 +31,41 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
 OPENATV_VERSION="1.0.6"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"
 OPENATV_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"
+OPENATV_DIGEST="deba8826d9e2dec6a3573157bd1c22c3a8aa36b6d35e98e8e97dc88691955419"
 OPENATV_PREV_VERSION="1.0.5"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5_all.ipk"
 OPENATV_PREV_SHA="9c10fb92161e5b15d6767219ba5560af374a84845fbfae731fa766cd773c8b46"
+OPENATV_PREV_DIGEST="c21db166546ef7aeff9a0248100b2eb994cf6a4f869f3b237be32909b6790a56"
 OPENATV_PY="3.14"
 OPENBH_VERSION="1.0.6~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"
 OPENBH_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"
+OPENBH_DIGEST="587d05679f77277597b98319ca39f87c00ff5effe07bfe73a52801bb8513afe1"
 OPENBH_PREV_VERSION="1.0.5~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh1_all.ipk"
 OPENBH_PREV_SHA="b2a964c071a91fc4c10b794f85a7d332716d4134c766c670ed4968cdf4603b02"
+OPENBH_PREV_DIGEST="85469680a5f37a18cf8019898f7c632a1f9832ef9597ab9a237e654525a79a86"
 OPENBH_PY="3.13"
 OPENVIX_VERSION="1.0.6~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"
 OPENVIX_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"
+OPENVIX_DIGEST="64e694c7f01735e9811bfb0b12fa88965ef2d41170eda68f9e43b377d618269d"
 OPENVIX_PREV_VERSION="1.0.5~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix1_all.ipk"
 OPENVIX_PREV_SHA="505259254c19bda3285ad7dae48a612d751325d86a0b605436a37afe552436dc"
+OPENVIX_PREV_DIGEST="fb69aec803c78778a27bfddce7629fba82cb5b26e6df45adb3deba1a20f7f31f"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"; OPENATV_R313_DIGEST="959fad1ff88f0fd44d99d929ee6355b61c612398729544e01d84136cfad794be"
+OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"; OPENATV_R313_PREV_DIGEST="0a712caaef02071e2673f3e7907a2e396e527bcbb68232fab050893311e57650"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"; OPENATV_R314_DIGEST="1995ece7a5acba838bc0b85bb397eb06f27f8fe657700b0198df4e57875cc299"
+OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"; OPENATV_R314_PREV_DIGEST="0b844a2626c7d9bb554a5fd0e3ffec035894a024e29d7d101c577704be609dfa"
+OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"; OPENBH_R313_DIGEST="3b25ff9bd6553f1c43a3af259f31416fb6ac20e32ea4975a244cf697451f9e2a"
+OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"; OPENBH_R313_PREV_DIGEST="363a9e4478c721275ff9838fd107455c98a3ab463db269189b5d076d1ce26165"
+OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"; OPENBH_R314_DIGEST="be90b5c99b759908ffb27bd6653e829c184bc1aaa9cabaee538ab2ec390f6a18"
+OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"; OPENBH_R314_PREV_DIGEST="e0a0fc0bded9c540d23289fd0fd2ea832e6cb195a83716b28a6a923b34850068"
+OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"; OPENVIX_R312_DIGEST="0022f9632ef9eb017b15e9cf3382f3fb238a2fc24b83d7ec7ba4e1becd75c2a7"
+OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"; OPENVIX_R312_PREV_DIGEST="43a5b150061c5354f2c63305e31221352ad02dac1b7de0776a4dea4ab97fd412"
+OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"; OPENVIX_R313_DIGEST="67f4fcdf3fc63a342c6c833f0872902de05542da5d61c1a5a3b014271dfcd756"
+OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"; OPENVIX_R313_PREV_DIGEST="46d2ab539704b01178db5174821e27b7cbbe9cd8d16db4dc15fcf3dc41ec8a75"
+OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"; OPENVIX_R314_DIGEST="b96b7529cf5f23f1e26724b11d542d62ad367a2a0c3fd5bdad18afc4bf6c49c7"
+OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"; OPENVIX_R314_PREV_DIGEST="0bb4e8d85b7e2d0e850699796b7f134f189f1291cdf18ac70c486246e1811c69"
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -79,6 +85,92 @@ mkdir -p "$TMPD"
 IPK="$TMPD/cineview-mla.ipk"
 LOG="$TMPD/opkg.log"
 SELF="$0"
+FPY="$TMPD/cvfp.py"
+cat > "$FPY" <<'CVFPEOF'
+import hashlib, io, os, subprocess, sys, tarfile
+# CineView MLA package content fingerprint (the same code runs inside the Smart Installer on the receiver).
+# Covers exactly the files and symbolic links the package installs (opkg's own file list of the package): regular
+# file -> "F path sha256", link -> "L path target", listed but absent -> "M path"; directories are skipped.
+# Runtime data (design generations, settings, poster cache, logs) are not package files and never change it.
+#   ipk <file.ipk>            fingerprint of an official package file (build time)
+#   installed <pkg>           fingerprint of what is installed for <pkg>
+#   diff <pkg> <file.ipk>     installed files compared with the official package: "changed missing extra" + examples
+
+
+def ipk_entries(path):
+    raw = open(path, "rb").read()
+    pos, data = 8, None
+    while pos + 60 <= len(raw):
+        name = raw[pos:pos + 16].decode("ascii", "replace").strip().rstrip("/")
+        size = int(raw[pos + 48:pos + 58].decode("ascii").strip())
+        if name.startswith("data.tar"):
+            data = raw[pos + 60:pos + 60 + size]
+        pos += 60 + size + (size % 2)
+    out = {}
+    with tarfile.open(fileobj=io.BytesIO(data)) as t:
+        for m in t.getmembers():
+            p = "/" + m.name.lstrip("./")
+            if m.issym():
+                out[p] = "L %s %s" % (p, m.linkname)
+            elif m.isreg():
+                out[p] = "F %s %s" % (p, hashlib.sha256(t.extractfile(m).read()).hexdigest())
+    return out
+
+
+def pkg_paths(pkg):
+    try:
+        txt = subprocess.run(["opkg", "files", pkg], capture_output=True, text=True).stdout
+    except OSError:
+        txt = ""
+    return [l.strip() for l in txt.splitlines() if l.startswith("/")]
+
+
+def installed_entries(paths):
+    out = {}
+    for p in paths:
+        if os.path.islink(p):
+            out[p] = "L %s %s" % (p, os.readlink(p))
+        elif os.path.isdir(p):
+            continue
+        elif os.path.isfile(p):
+            h = hashlib.sha256()
+            with open(p, "rb") as f:
+                for b in iter(lambda: f.read(65536), b""):
+                    h.update(b)
+            out[p] = "F %s %s" % (p, h.hexdigest())
+        else:
+            out[p] = "M %s" % p
+    return out
+
+
+def fingerprint(entries):
+    return hashlib.sha256("\n".join(entries[k] for k in sorted(entries)).encode()).hexdigest()
+
+
+def main(argv):
+    if argv[0] == "ipk":
+        print(fingerprint(ipk_entries(argv[1])))
+    elif argv[0] == "installed":
+        paths = pkg_paths(argv[1])
+        print(fingerprint(installed_entries(paths)) if paths else "none")
+    elif argv[0] == "diff":
+        off = ipk_entries(argv[2])
+        cur = installed_entries(pkg_paths(argv[1]))
+        changed = sorted(p for p in off if p in cur and cur[p] != off[p] and not cur[p].startswith("M "))
+        missing = sorted(p for p in off if p not in cur or cur[p].startswith("M "))
+        extra = sorted(p for p in cur if p not in off)
+        print("%d %d %d" % (len(changed), len(missing), len(extra)))
+        short = lambda p: p.replace("/usr/share/enigma2/CineView_FHD_MLA/", "skin/").replace("/usr/lib/enigma2/python/", "")
+        for tag, lst in (("different", changed), ("missing", missing), ("not in the official package", extra)):
+            for p in lst[:3]:
+                print("%s: %s" % (tag, short(p)))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+CVFPEOF
+# fingerprint of the files this package installed (opkg's own file list); "none" when not installed
+fp_installed() { python3 "$FPY" installed "$PKG" 2>/dev/null || echo error; }
 cleanup() {  # silent: temporary files and this script only - never the poster cache, profiles, settings or backups
 	rm -rf "$TMPD" 2>/dev/null
 	[ "${HAVELOCK:-0}" = "1" ] && rm -rf /tmp/.cvmla.lock 2>/dev/null
@@ -170,8 +262,8 @@ case "$DISTRO" in
 esac
 [ "$FOUND" = "$DISTRO" ] \
 	|| fail "enigma.info names $IMG, but the image's own files point to '${FOUND:-no known image}': the image cannot be identified reliably."
-eval "VERSION=\$$(echo $DISTRO | tr a-z A-Z)_VERSION; PKG_FILE=\$$(echo $DISTRO | tr a-z A-Z)_FILE; PKG_SHA=\$$(echo $DISTRO | tr a-z A-Z)_SHA"
-eval "PREV_VERSION=\$$(echo $DISTRO | tr a-z A-Z)_PREV_VERSION; PREV_FILE=\$$(echo $DISTRO | tr a-z A-Z)_PREV_FILE; PREV_SHA=\$$(echo $DISTRO | tr a-z A-Z)_PREV_SHA; PY_NEED=\$$(echo $DISTRO | tr a-z A-Z)_PY"
+eval "VERSION=\$$(echo $DISTRO | tr a-z A-Z)_VERSION; PKG_FILE=\$$(echo $DISTRO | tr a-z A-Z)_FILE; PKG_SHA=\$$(echo $DISTRO | tr a-z A-Z)_SHA; PKG_DIGEST=\$$(echo $DISTRO | tr a-z A-Z)_DIGEST"
+eval "PREV_VERSION=\$$(echo $DISTRO | tr a-z A-Z)_PREV_VERSION; PREV_FILE=\$$(echo $DISTRO | tr a-z A-Z)_PREV_FILE; PREV_SHA=\$$(echo $DISTRO | tr a-z A-Z)_PREV_SHA; PREV_DIGEST=\$$(echo $DISTRO | tr a-z A-Z)_PREV_DIGEST; PY_NEED=\$$(echo $DISTRO | tr a-z A-Z)_PY"
 ok "$IMG $IVER detected (image information and the image's own files agree)"
 
 section "Version"
@@ -196,19 +288,19 @@ if [ "$TESTED" = "1" ] && [ "$PYV" = "$PY_NEED" ]; then
 	ok "Python $PYV - approved package for $IMG $VTESTED"
 else
 	PYK=$(echo "$PYV" | tr -d .)
-	eval "RFILE=\${${U}_R${PYK}_FILE:-}; RSHA=\${${U}_R${PYK}_SHA:-}; RPFILE=\${${U}_R${PYK}_PREV_FILE:-}; RPSHA=\${${U}_R${PYK}_PREV_SHA:-}"
+	eval "RFILE=\${${U}_R${PYK}_FILE:-}; RSHA=\${${U}_R${PYK}_SHA:-}; RPFILE=\${${U}_R${PYK}_PREV_FILE:-}; RPSHA=\${${U}_R${PYK}_PREV_SHA:-}; RDIG=\${${U}_R${PYK}_DIGEST:-}; RPDIG=\${${U}_R${PYK}_PREV_DIGEST:-}"
 	if [ -z "$RFILE" ]; then
 		AV=""; for k in 312 313 314; do eval "[ -n \"\${${U}_R${k}_FILE:-}\" ]" && AV="$AV 3.${k#3}"; done
 		fail "This image has Python $PYV; CineView MLA has no package for Python $PYV on $IMG yet (available for:$AV). Nothing was changed."
 	fi
-	VERSION=$(printf '%s' "$RFILE" | sed "s/^${PKG}_\(.*\)_all\.ipk$/\1/"); PKG_FILE="$RFILE"; PKG_SHA="$RSHA"
-	PREV_FILE="$RPFILE"; PREV_SHA="$RPSHA"; PREV_VERSION=""
+	VERSION=$(printf '%s' "$RFILE" | sed "s/^${PKG}_\(.*\)_all\.ipk$/\1/"); PKG_FILE="$RFILE"; PKG_SHA="$RSHA"; PKG_DIGEST="$RDIG"
+	PREV_FILE="$RPFILE"; PREV_SHA="$RPSHA"; PREV_DIGEST="$RPDIG"; PREV_VERSION=""
 	[ -n "$RPFILE" ] && PREV_VERSION=$(printf '%s' "$RPFILE" | sed "s/^${PKG}_\(.*\)_all\.ipk$/\1/")
 	ok "Python $PYV - CineView MLA package for $IMG / Python $PYV"
 fi
 if [ "${ROLLBACK:-0}" = "1" ]; then  # the previous released package of this image, pinned by its SHA256 like the current one
 	[ -n "$PREV_FILE" ] || fail "There is no earlier CineView MLA release for $IMG $IVER / Python $PYV to return to. Nothing was changed."
-	VERSION="$PREV_VERSION"; PKG_FILE="$PREV_FILE"; PKG_SHA="$PREV_SHA"; FORCE=1
+	VERSION="$PREV_VERSION"; PKG_FILE="$PREV_FILE"; PKG_SHA="$PREV_SHA"; PKG_DIGEST="$PREV_DIGEST"; FORCE=1
 	info "Rollback requested: CineView MLA $VERSION (previous release for $IMG)"
 fi
 if [ -n "${PKG_DIR:-}" ]; then PKG_URL="${PKG_DIR%/}/$PKG_FILE"
@@ -216,7 +308,8 @@ elif [ -n "${CVMLA_DIST_BASE:-$DIST_BASE}" ]; then PKG_URL="${CVMLA_DIST_BASE:-$
 else PKG_URL=""; fi
 # the package for this image (CVMLA_PKG_URL / CVMLA_PKG_SHA / CVMLA_VERSION: test overrides)
 PKG_URL="${CVMLA_PKG_URL:-$PKG_URL}"; PKG_SHA="${CVMLA_PKG_SHA:-$PKG_SHA}"; VERSION="${CVMLA_VERSION:-$VERSION}"
-case "$PKG_SHA:$VERSION:$PKG_FILE" in *@*|:*|*::*|*:) fail "This installer is incomplete (package table). Please download the official installer again." ;; esac
+PKG_DIGEST="${CVMLA_PKG_DIGEST:-$PKG_DIGEST}"  # CVMLA_PKG_DIGEST: test override only
+case "$PKG_SHA:$VERSION:$PKG_FILE:$PKG_DIGEST" in *@*|:*|*::*|*:) fail "This installer is incomplete (package table). Please download the official installer again." ;; esac
 case "$PKG_URL" in
 	"") warn "Package source: none - CineView MLA is not published yet (copy the package to the receiver and use PKG_DIR=<folder>)" ;;
 	/*) ok "Package source: $PKG_URL (local file)" ;;
@@ -397,7 +490,16 @@ else
 	info "Current version: $CUR"
 	info "New version:     $VERSION"
 	if [ "$CUR" = "$VERSION" ] && [ "${FORCE:-0}" != "1" ]; then
-		MODE=same
+		IFP=$(fp_installed)
+		if [ "$IFP" = "$PKG_DIGEST" ]; then
+			MODE=same; ok "Installed files match the official CineView MLA $VERSION (content fingerprint)"
+		else
+			# same version number, other content: a test build, an incomplete or a damaged installation.  Replaced
+			# by the official package (SHA256-verified); design, theme, profiles, settings and poster cache are kept.
+			MODE=reinstall; FPDIFF=1
+			warn "The installed files are not the official CineView MLA $VERSION (same version number, different content)"
+			info "The official package is installed over it (SHA256-verified; your design, theme, profiles and settings are kept)"
+		fi
 	elif opkg compare-versions "$CUR" '<<' "$VERSION" 2>/dev/null; then
 		MODE=upgrade; ok "Upgrade: your design, theme, profiles, settings and poster cache are kept"
 	elif [ "${FORCE:-0}" = "1" ] && [ "$CUR" = "$VERSION" ]; then
@@ -467,6 +569,12 @@ if [ "$MODE" != "same" ]; then
 			esac ;;
 	esac
 	ok "Package verified (SHA256)"
+	if [ "${FPDIFF:-0}" = "1" ]; then  # show what differs from the official package before replacing it
+		python3 "$FPY" diff "$PKG" "$IPK" > "$TMPD/fpdiff" 2>/dev/null
+		read -r FC FM FX < "$TMPD/fpdiff" 2>/dev/null
+		info "Compared with the official package: ${FC:-?} file(s) different, ${FM:-?} missing, ${FX:-?} not in the official package"
+		tail -n +2 "$TMPD/fpdiff" 2>/dev/null | while read -r l; do info "  $l"; done
+	fi
 	[ "${CVMLA_FETCH_ONLY:-0}" = "1" ] && { printf '\nfetch-only test: package downloaded and verified; nothing was installed.\n'; exit 0; }  # test hook only
 
 	section "Installing"
@@ -536,6 +644,16 @@ fi
 section "Verification"
 V=$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Version: //p')
 [ "$V" = "$VERSION" ] && ok "Package version $V" || fail "Installed version is '${V:-none}', expected $VERSION."
+if [ -n "$PKG_DIGEST" ]; then
+	IFP=$(fp_installed)
+	if [ "$IFP" = "$PKG_DIGEST" ]; then
+		ok "Installed files identical to the official package (content fingerprint)"
+	else
+		printf '  %s[XX]%s The installed files do not match the official CineView MLA %s package.\n' "$R" "$N" "$VERSION"
+		printf '\n%s%sPlease run the installer again%s (it replaces the files with the official package).\n\n' "$B" "$R" "$N"
+		exit 1
+	fi
+fi
 [ -f "$SKIN_DIR/skin.xml" ] && [ -e "$SKIN_DIR/active/theme.xml" ] && ok "Skin files present" || fail "Skin files are incomplete."
 if python3 - "$PLG_DIR/plugin.pyc" "$PLG_DIR/plugin.py" <<'PYEOF'
 import importlib.util, marshal, os, sys
