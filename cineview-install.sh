@@ -3,20 +3,23 @@
 # One installer for OpenATV, OpenBH and OpenViX.  Usage on the receiver (telnet / ssh):
 #   wget -qO /tmp/cineview-install.sh "<distribution point>/cineview-install.sh" && sh /tmp/cineview-install.sh
 # options:  DRYRUN=1  checks only      HDD_CACHE=0  keep the poster cache off the hard disk
+#           (an opkg error caused by another add-on is reported separately; CineView's own state decides)
 #           RESTART=0 do not restart the GUI at the end (default: automatic restart after a verified installation)
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.8"
+INSTALLER_VERSION="1.3.10"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
 # differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
 # lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
-# Packages (1.0.6 = 1.0.5 + the CineView FHD definitions of the image screens that had none: OpenBH Green / Blue panels
+# Packages (1.0.7 = 1.0.6 + GREEN applies designs and themes directly with an automatic GUI restart - no question, no
+# countdown, revert only on a real failure - and graded SNR bars in the Classic and Details InfoBar / Second InfoBar;
+# 1.0.6 = 1.0.5 + the CineView FHD definitions of the image screens that had none: OpenBH Green / Blue panels
 # and their pages, About, OBH / ViX managers, OE-A network / OScam / CI screens, OpenATV Language, Device Manager, Flash
 # Manager, Software Update, File Commander, network and other system screens; 1.0.5 = 1.0.4 + boot guardian started by Python's
-# start-up hook and CineView's own weather components, kept for ROLLBACK=1), all built from the same CineView MLA data
+# start-up hook and CineView's own weather components; 1.0.6 is kept for ROLLBACK=1), all built from the same CineView MLA data
 # (Common Core + image adapter); only these exact files are
 # ever installed: each is pinned by its SHA256 here, in the installer itself (a download is never trusted by its
 # address).
@@ -29,43 +32,43 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # tree).  Empty = not published: then only PKG_DIR (local copies) can be used;
 # no address is ever guessed.
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
-OPENATV_VERSION="1.0.6"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"
-OPENATV_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"
-OPENATV_DIGEST="deba8826d9e2dec6a3573157bd1c22c3a8aa36b6d35e98e8e97dc88691955419"
-OPENATV_PREV_VERSION="1.0.5"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5_all.ipk"
-OPENATV_PREV_SHA="9c10fb92161e5b15d6767219ba5560af374a84845fbfae731fa766cd773c8b46"
-OPENATV_PREV_DIGEST="c21db166546ef7aeff9a0248100b2eb994cf6a4f869f3b237be32909b6790a56"
+OPENATV_VERSION="1.0.7"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7_all.ipk"
+OPENATV_SHA="7f039152bc193a12dac9160e7bada6fe9dc35c1456894d82359ddbab6e89ce99"
+OPENATV_DIGEST="2196093e63f8dc100105e198ebac886c11bb00e7186f0cba996746c8ad8e9dde"
+OPENATV_PREV_VERSION="1.0.6"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"
+OPENATV_PREV_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"
+OPENATV_PREV_DIGEST="deba8826d9e2dec6a3573157bd1c22c3a8aa36b6d35e98e8e97dc88691955419"
 OPENATV_PY="3.14"
-OPENBH_VERSION="1.0.6~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"
-OPENBH_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"
-OPENBH_DIGEST="587d05679f77277597b98319ca39f87c00ff5effe07bfe73a52801bb8513afe1"
-OPENBH_PREV_VERSION="1.0.5~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh1_all.ipk"
-OPENBH_PREV_SHA="b2a964c071a91fc4c10b794f85a7d332716d4134c766c670ed4968cdf4603b02"
-OPENBH_PREV_DIGEST="85469680a5f37a18cf8019898f7c632a1f9832ef9597ab9a237e654525a79a86"
+OPENBH_VERSION="1.0.7~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh1_all.ipk"
+OPENBH_SHA="10c1ef4754f1333dd0ca04283e77143fd523efa41811d9acc163d5d5b0c25020"
+OPENBH_DIGEST="c5ac6b1736ec1575aea866ae0d7f610ca98f6b7c0200a2b04795bb6c11d9a89b"
+OPENBH_PREV_VERSION="1.0.6~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"
+OPENBH_PREV_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"
+OPENBH_PREV_DIGEST="587d05679f77277597b98319ca39f87c00ff5effe07bfe73a52801bb8513afe1"
 OPENBH_PY="3.13"
-OPENVIX_VERSION="1.0.6~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"
-OPENVIX_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"
-OPENVIX_DIGEST="64e694c7f01735e9811bfb0b12fa88965ef2d41170eda68f9e43b377d618269d"
-OPENVIX_PREV_VERSION="1.0.5~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix1_all.ipk"
-OPENVIX_PREV_SHA="505259254c19bda3285ad7dae48a612d751325d86a0b605436a37afe552436dc"
-OPENVIX_PREV_DIGEST="fb69aec803c78778a27bfddce7629fba82cb5b26e6df45adb3deba1a20f7f31f"
+OPENVIX_VERSION="1.0.7~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix1_all.ipk"
+OPENVIX_SHA="09ea28c0ed9d5bbcbe37d0483573dbae4f00e7aab85512516d5c45e1a2154193"
+OPENVIX_DIGEST="2ec4dc51d6a6daa7c63073540efa81bff5a46e9f5fa3c5043b48b1e4227e8373"
+OPENVIX_PREV_VERSION="1.0.6~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"
+OPENVIX_PREV_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"
+OPENVIX_PREV_DIGEST="64e694c7f01735e9811bfb0b12fa88965ef2d41170eda68f9e43b377d618269d"
 OPENVIX_PY="3.14"
 # range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"; OPENATV_R313_DIGEST="959fad1ff88f0fd44d99d929ee6355b61c612398729544e01d84136cfad794be"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="5243ea1690e73cefc986a6f59416995aa575ec837d3e9f4bfef5dfb3c01aac81"; OPENATV_R313_PREV_DIGEST="0a712caaef02071e2673f3e7907a2e396e527bcbb68232fab050893311e57650"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"; OPENATV_R314_DIGEST="1995ece7a5acba838bc0b85bb397eb06f27f8fe657700b0198df4e57875cc299"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="ee93a0d55eea533eaff21501590fbb486a3eeffdb69f46c23d0bf882f86167bb"; OPENATV_R314_PREV_DIGEST="0b844a2626c7d9bb554a5fd0e3ffec035894a024e29d7d101c577704be609dfa"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"; OPENBH_R313_DIGEST="3b25ff9bd6553f1c43a3af259f31416fb6ac20e32ea4975a244cf697451f9e2a"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="2e24953cd08ccb67b865f1d07e7b9922d15ae48083816def7e0dd79b1f5305d5"; OPENBH_R313_PREV_DIGEST="363a9e4478c721275ff9838fd107455c98a3ab463db269189b5d076d1ce26165"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"; OPENBH_R314_DIGEST="be90b5c99b759908ffb27bd6653e829c184bc1aaa9cabaee538ab2ec390f6a18"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="12f1ad09ae411d8e1f6e4f933548b85bff6bea690ae2768a06a30a1b74ba5537"; OPENBH_R314_PREV_DIGEST="e0a0fc0bded9c540d23289fd0fd2ea832e6cb195a83716b28a6a923b34850068"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"; OPENVIX_R312_DIGEST="0022f9632ef9eb017b15e9cf3382f3fb238a2fc24b83d7ec7ba4e1becd75c2a7"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="026ca4f17715b7d9a5d9c62a61ecddd75d3160e19e7dc273a7c7f6e70dcc81fc"; OPENVIX_R312_PREV_DIGEST="43a5b150061c5354f2c63305e31221352ad02dac1b7de0776a4dea4ab97fd412"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"; OPENVIX_R313_DIGEST="67f4fcdf3fc63a342c6c833f0872902de05542da5d61c1a5a3b014271dfcd756"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="5d446f5e5f9cdc88a9c590f495dc7d5906f56f413d204dee02d89e5cfabe2295"; OPENVIX_R313_PREV_DIGEST="46d2ab539704b01178db5174821e27b7cbbe9cd8d16db4dc15fcf3dc41ec8a75"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"; OPENVIX_R314_DIGEST="b96b7529cf5f23f1e26724b11d542d62ad367a2a0c3fd5bdad18afc4bf6c49c7"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.5~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="656a34b635b2534e2a508776ce94484ecdce7b5b0a928ad36ba5a7c4f4100bb4"; OPENVIX_R314_PREV_DIGEST="0bb4e8d85b7e2d0e850699796b7f134f189f1291cdf18ac70c486246e1811c69"
+OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py313_all.ipk"; OPENATV_R313_SHA="01990042ed3d220d63ee88704a6e0fe2317e0fa5fc646da273ec9001944e484c"; OPENATV_R313_DIGEST="49bae8d911191fa72a0f4a6c2bb447b0369308fe172b1049a9a5c9a7420742d2"
+OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"; OPENATV_R313_PREV_DIGEST="959fad1ff88f0fd44d99d929ee6355b61c612398729544e01d84136cfad794be"
+OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py314_all.ipk"; OPENATV_R314_SHA="d920ed0d838231c9661a69c66d2898e38d68c9730fab981401c2a5a675300f32"; OPENATV_R314_DIGEST="0e2b693ca009939e580fb23f1add345319e68a2433f4b0724fed11f9d3065b7f"
+OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"; OPENATV_R314_PREV_DIGEST="1995ece7a5acba838bc0b85bb397eb06f27f8fe657700b0198df4e57875cc299"
+OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py313_all.ipk"; OPENBH_R313_SHA="d7583db4e626661da5a66e60ef242c8222746d40f90e4046e31f328344623254"; OPENBH_R313_DIGEST="a2570655235b9008a1b4d3d18602f55a980d4c53a9dae5a48daf703ad02573ea"
+OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"; OPENBH_R313_PREV_DIGEST="3b25ff9bd6553f1c43a3af259f31416fb6ac20e32ea4975a244cf697451f9e2a"
+OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py314_all.ipk"; OPENBH_R314_SHA="89be3b314e8d53ecf54db6af5bd714c80970883c0b9709e89ff8497ebbf4f729"; OPENBH_R314_DIGEST="5220d5815797675757c652d99da80ab2f9c95c39f0d31036a848c57fa764e527"
+OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"; OPENBH_R314_PREV_DIGEST="be90b5c99b759908ffb27bd6653e829c184bc1aaa9cabaee538ab2ec390f6a18"
+OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py312_all.ipk"; OPENVIX_R312_SHA="51a4d9c4f033c3ab967c32fdc55f899f6f473d80bc13e7cf072418c7ba83db52"; OPENVIX_R312_DIGEST="aeb15bb861028402479c9e5c3620f32f6e58047caff9c2113d0ccafc1fa8188e"
+OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"; OPENVIX_R312_PREV_DIGEST="0022f9632ef9eb017b15e9cf3382f3fb238a2fc24b83d7ec7ba4e1becd75c2a7"
+OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py313_all.ipk"; OPENVIX_R313_SHA="71694f89b03c0df7e6343db86823a410c79efed176f59b30ca76bdac21e06795"; OPENVIX_R313_DIGEST="0255b651fff3af58779cc71c35c82b0de8c98a5b3e48c2bb4efec11617fb7b56"
+OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"; OPENVIX_R313_PREV_DIGEST="67f4fcdf3fc63a342c6c833f0872902de05542da5d61c1a5a3b014271dfcd756"
+OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py314_all.ipk"; OPENVIX_R314_SHA="8235936e3959da694fca6a56b7a2bc3b3331ec1b9d656abdc27491ffd0c00dcc"; OPENVIX_R314_DIGEST="80d1c49b13a63fda57f3524649fa6eeac70be46a48eecea64c15a8ebbd192ffe"
+OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"; OPENVIX_R314_PREV_DIGEST="b96b7529cf5f23f1e26724b11d542d62ad367a2a0c3fd5bdad18afc4bf6c49c7"
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -171,6 +174,23 @@ if __name__ == "__main__":
 CVFPEOF
 # fingerprint of the files this package installed (opkg's own file list); "none" when not installed
 fp_installed() { python3 "$FPY" installed "$PKG" 2>/dev/null || echo error; }
+# CineView itself installed correctly, whatever opkg's exit status says: package manager state, version, files (fingerprint)
+# and no error from CineView's own package scripts in the log ($1)
+cv_installed_ok() {
+	opkg status "$PKG" 2>/dev/null | grep -q "^Status: .* installed$" || return 1
+	[ "$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Version: //p')" = "$VERSION" ] || return 1
+	[ -z "$PKG_DIGEST" ] || [ "$(fp_installed)" = "$PKG_DIGEST" ] || return 1
+	! grep -q "CineView MLA: .*Stopped\|installation stopped\|$PKG\.p[a-z]*inst returned\|package \"$PKG\" p[a-z]* script returned" "$1" 2>/dev/null
+}
+# other packages whose scripts failed in this opkg run (named by opkg itself)
+other_errors() {
+	sed -n 's/.*opkg_configure: \([^ ]*\)\.postinst returned.*/\1/p; s/.*package "\([^"]*\)" [a-z]* script returned.*/\1/p' "$1" 2>/dev/null \
+		| grep -v "^$PKG\$" | sort -u | tr '\n' ' ' | sed 's/ $//'
+}
+ext_warn() {
+	ok "CineView MLA $VERSION was installed correctly (package manager: installed; files identical to the official package)"
+	warn "The package manager also reported an error from another add-on: ${1:-not named in its output}. It is not part of CineView MLA and was left unchanged."
+}
 cleanup() {  # silent: temporary files and this script only - never the poster cache, profiles, settings or backups
 	rm -rf "$TMPD" 2>/dev/null
 	[ "${HAVELOCK:-0}" = "1" ] && rm -rf /tmp/.cvmla.lock 2>/dev/null
@@ -183,7 +203,15 @@ section() { printf '\n%s%s%s\n' "$B$C" "$1" "$N"; }
 ok()   { printf '  %s[OK]%s %s\n' "$G" "$N" "$1"; }
 info() { printf '  %s[..]%s %s\n' "$C" "$N" "$1"; }
 warn() { printf '  %s[!!]%s %s\n' "$Y" "$N" "$1"; }
-fail() { printf '  %s[XX]%s %s\n' "$R" "$N" "$1"; printf '\n%s%sCineView MLA was not installed.%s Nothing was changed on this receiver.\n\n' "$B" "$R" "$N"; exit 1; }
+fail() {
+	printf '  %s[XX]%s %s\n' "$R" "$N" "$1"
+	if [ "${PKG_RAN:-0}" = "1" ]; then  # the package manager has already run: something may have changed
+		printf '\n%s%sThe CineView MLA installation was not completed.%s Run the installer again (it repairs the installation).%s\n\n' "$B" "$R" "$N" "${BK:+ Your settings restore point: $BK}"
+	else
+		printf '\n%s%sCineView MLA was not installed.%s Nothing was changed on this receiver.\n\n' "$B" "$R" "$N"
+	fi
+	exit 1
+}
 kv()   { sed -n "s/^$1='\{0,1\}\([^']*\)'\{0,1\}$/\1/p" "$INFO" 2>/dev/null | head -1; }
 
 printf '\n%s%s  CineView MLA Smart Installer  %s  %sversion %s%s\n' "$B" "$W" "$N" "$C" "$INSTALLER_VERSION" "$N"
@@ -324,7 +352,7 @@ ok "Architecture: $ARCH (CineView MLA is architecture-independent)"
 section "Compatibility"
 # /usr/bin/enigma2_pre_start.sh is the images' ONE pre-start hook (a single file that enigma2.sh runs before every start).
 # Since 1.0.5 CineView MLA does not use it: its boot guardian starts from Python's start-up hook, so an add-on that owns
-# this file stays installed and working, untouched (the current release 1.0.6 and the ROLLBACK=1 release 1.0.5 alike).
+# this file stays installed and working, untouched (the current release 1.0.7 and the ROLLBACK=1 release 1.0.6 alike).
 H="$RT/usr/bin/enigma2_pre_start.sh"
 if [ -e "$H" ] && ! grep -q "CineView MLA guardian" "$H" 2>/dev/null; then
 	HOWNER=$(opkg search /usr/bin/enigma2_pre_start.sh 2>/dev/null | sed -n '1s/ - .*//p')
@@ -589,14 +617,18 @@ if [ "$MODE" != "same" ]; then
 	fi
 	for i in $(seq 1 30); do pidof opkg >/dev/null 2>&1 || break; sleep 2; done  # another package operation: wait for it
 	OPT=""; case "$MODE" in reinstall|repair) OPT="--force-reinstall" ;; downgrade) OPT="--force-downgrade" ;; esac
+	PKG_RAN=1
 	if ! opkg install $OPT "$IPK" >"$LOG" 2>&1; then
 		PST=$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Status: //p')
-		if grep -q "killed by signal 11\|Segmentation fault" "$LOG" && ! grep -q "CineView MLA: .*Stopped\|installation stopped" "$LOG"; then
+		if cv_installed_ok "$LOG"; then
+			# opkg's error came from another package configured in the same run: CineView itself is installed correctly
+			ext_warn "$(other_errors "$LOG")"
+		elif grep -q "killed by signal 11\|Segmentation fault" "$LOG" && ! grep -q "CineView MLA: .*Stopped\|installation stopped" "$LOG"; then
 			# The image's shell crashed while running a package script - not a refusal by CineView's own checks.
 			# CineView's preinst only checks (it changes nothing), so ONE reinstall of the same verified package
 			# is safe.  Never a loop.
 			warn "The image's shell crashed during the installation (signal 11) - one more attempt"
-			if ! opkg install --force-reinstall "$IPK" >"$LOG.2" 2>&1; then
+			if ! opkg install --force-reinstall "$IPK" >"$LOG.2" 2>&1 && ! cv_installed_ok "$LOG.2"; then
 				PST=$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Status: //p')
 				printf '  %s[XX]%s The package manager stopped the installation twice (package state: %s).\n' "$R" "$N" "${PST:-none}"
 				printf '\n%s%sCineView MLA was not installed.%s Run the installer again: it repairs the incomplete installation first.\n\n' "$B" "$R" "$N"
@@ -610,7 +642,7 @@ if [ "$MODE" != "same" ]; then
 				*half-installed*|*unpacked*|*half-configured*)
 					# never leave CineView half-installed: one repair with the same, already verified package
 					warn "The installation was interrupted - repairing it with the verified package"
-					if opkg install --force-reinstall "$IPK" >"$LOG.r" 2>&1 && opkg status "$PKG" 2>/dev/null | grep -q "^Status: .* installed$"; then
+					if { opkg install --force-reinstall "$IPK" >"$LOG.r" 2>&1 || cv_installed_ok "$LOG.r"; } && opkg status "$PKG" 2>/dev/null | grep -q "^Status: .* installed$"; then
 						cat "$LOG.r" >> "$LOG"; ok "Installation repaired"
 					else
 						PST=$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Status: //p')
@@ -618,7 +650,18 @@ if [ "$MODE" != "same" ]; then
 						printf '\n%s%sCineView MLA was not installed%s and its package entry is incomplete (%s). Run the installer again to repair it.\n\n' "$B" "$R" "$N" "${PST:-none}"
 						exit 1
 					fi ;;
-				*) fail "The package manager stopped the installation.${REASON:+ $REASON}" ;;
+				*)
+					OE=$(other_errors "$LOG"); WHY="$REASON"
+					case "$PST" in
+						*" installed")
+							IV=$(opkg status "$PKG" 2>/dev/null | sed -n 's/^Version: //p')
+							if [ "$IV" != "$VERSION" ]; then WHY="the installed version is ${IV:-none}, not $VERSION"
+							elif [ -n "$PKG_DIGEST" ] && [ "$(fp_installed)" != "$PKG_DIGEST" ]; then WHY="the installed files do not match the official package"
+							elif grep -q "$PKG\.p[a-z]*inst returned\|package \"$PKG\" p[a-z]* script returned" "$LOG"; then WHY="a CineView MLA package script reported an error"
+							fi ;;
+					esac
+					[ -n "$OE" ] && warn "The package manager also reported an error from another add-on: $OE. It is not part of CineView MLA and was left unchanged."
+					fail "CineView MLA $VERSION was not installed correctly${WHY:+: $WHY}" ;;
 			esac
 		fi
 	fi

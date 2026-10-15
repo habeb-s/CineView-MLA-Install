@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.6 · Smart Installer 1.3.8**
+**CineView MLA 1.0.7 · Smart Installer 1.3.10**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -20,18 +20,18 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
-| OpenATV | 8.0 | 3.14 | 1.0.6 | device-tested (1.0.6: reinstall, rollback to 1.0.5 and upgrade with the Smart Installer, every design, system pages, message boxes, status indicators while zapping) |
-| OpenATV | 7.6 | 3.13 | 1.0.6~openatv.py313 | device-tested with 1.0.3 (Octagon SF8008: install, reinstall, posters, temperature); 1.0.6 verified statically¹ |
-| OpenATV | 8.1 and newer | 3.14 | 1.0.6~openatv.py314 | verified statically¹ |
-| OpenBH | 5.6 | 3.13 | 1.0.6~openbh1 | device-tested (1.0.6: install with the Smart Installer, message boxes, About / Memory / Devices, Green Panel / Fast Plugin, Plugin Browser, designs with picons) |
-| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.6~openbh.py313 | verified statically¹ |
-| OpenBH | 6.0 and newer | 3.14 | 1.0.6~openbh.py314 | device-tested on 6.0 with 1.0.5/1.0.6 RC; 1.0.6 final verified statically¹ |
-| OpenViX | 6.9 | 3.14 | 1.0.6~openvix1 | device-tested (1.0.6: install with the Smart Installer, message boxes, About / Memory / Devices, Plugin Browser, GUI Skin preview, designs with picons) |
-| OpenViX | 6.7 | 3.12 | 1.0.6~openvix.py312 | verified statically¹ |
-| OpenViX | 6.8 | 3.13 | 1.0.6~openvix.py313 | verified statically¹ |
-| OpenViX | 7.0 and newer | 3.14 | 1.0.6~openvix.py314 | verified statically¹ |
+| OpenATV | 8.0 | 3.14 | 1.0.7 | device-tested (1.0.7: upgrade from 1.0.6, rollback to 1.0.6 and same-version run with the Smart Installer, GREEN apply with automatic GUI restart, recovery after power loss / crash in the first minute, graded SNR bars) |
+| OpenATV | 7.6 | 3.13 | 1.0.7~openatv.py313 | device-tested with 1.0.3 (Octagon SF8008: install, reinstall, posters, temperature); 1.0.7 verified statically¹ |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.7~openatv.py314 | verified statically¹ |
+| OpenBH | 5.6 | 3.13 | 1.0.7~openbh1 | device-tested (1.0.7 build candidate: upgrade, GREEN apply with automatic GUI restart, graded SNR bars; 1.0.6: full check) |
+| OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.7~openbh.py313 | verified statically¹ |
+| OpenBH | 6.0 and newer | 3.14 | 1.0.7~openbh.py314 | device-tested on 6.0 with 1.0.5/1.0.6 RC; 1.0.7 verified statically¹ |
+| OpenViX | 6.9 | 3.14 | 1.0.7~openvix1 | device-tested (1.0.7: upgrade, same-version run, rollback to 1.0.6 with the Smart Installer, recovery after power loss / crash in the first minute, graded SNR bars incl. the simple Second InfoBar) |
+| OpenViX | 6.7 | 3.12 | 1.0.7~openvix.py312 | verified statically¹ |
+| OpenViX | 6.8 | 3.13 | 1.0.7~openvix.py313 | verified statically¹ |
+| OpenViX | 7.0 and newer | 3.14 | 1.0.7~openvix.py314 | verified statically¹ |
 
-1.0.6 was device-tested on a Vu+ Duo 4K SE (multiboot) with OpenATV 8.0.1, OpenBH 5.6 and OpenViX 6.9.
+1.0.7 was device-tested on a Vu+ Duo 4K SE (multiboot) with OpenATV 8.0.1, OpenBH 5.6 and OpenViX 6.9.
 The same CineView MLA files are in every package; only the Python byte code differs per image line.
 
 Every package carries the same CineView MLA skin, designs, themes and options. The packages for the versions
@@ -51,7 +51,7 @@ The installer refuses it with this reason and changes nothing.
 The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
 identify reliably, a Python version without a package (for example a future Python 3.15), missing required
 components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
-and rollback (`ROLLBACK=1` returns to the previous release, 1.0.5, on every supported line).
+and rollback (`ROLLBACK=1` returns to the previous release, 1.0.6, on every supported line).
 
 ## Weather
 
@@ -76,6 +76,21 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.3.10** — CineView MLA 1.0.7 (`ROLLBACK=1` → 1.0.6). When the package manager reports an error,
+  the installer now checks CineView MLA's real state (package manager status, version, installed files identical
+  to the official package). If the error came from another add-on that the package manager configured in the same
+  run (for example an add-on left half-installed), CineView MLA is reported as installed correctly, with a separate
+  warning naming that add-on — which is left unchanged. A real CineView MLA failure is still reported and repaired
+  as before. After the package manager has run, a stop no longer says "Nothing was changed".
+
+- **1.0.7** — CineView Designs: GREEN saves and applies at once and restarts the GUI by itself when the design or theme
+  changed (no Yes/No, no "keep this design?" question, no countdown); settings that need no restart are just saved.
+  A new design is kept for good once the GUI has run on it. It goes back to the previous design only on a real
+  failure: an Enigma2 crash during its first session (crash logs as each image names them), the skin not loading,
+  or repeated starts that never reach a working GUI — never because of elapsed time, a power cut or a normal
+  restart. The SNR bars of the Classic and Details InfoBar / Second InfoBar (also the simple Second InfoBar of
+  OpenBH / OpenViX) are graded red → orange → yellow → green with a grey unfilled part; sizes and positions unchanged.
 
 - **Smart Installer 1.3.8** — fully automatic: after a successful installation or update, and only after every
   final check has passed (package SHA256, installed files identical to the official package), the installer
