@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.0.7 · Smart Installer 1.3.10**
+**CineView MLA 1.0.8 (OpenATV) · 1.0.7 (OpenBH, OpenViX) · Smart Installer 1.3.11**
 
 One installer for **OpenATV 7.6+, OpenBH 5.6+ and OpenViX 6.7+** on any Enigma2 receiver. It is not tied to a
 receiver model, brand, multiboot slot or a single image version: it identifies the image, its version and its Python
@@ -20,9 +20,9 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 
 | Image | Versions | Python | Package | Status |
 |---|---|---|---|---|
-| OpenATV | 8.0 | 3.14 | 1.0.7 | device-tested (1.0.7: upgrade from 1.0.6, rollback to 1.0.6 and same-version run with the Smart Installer, GREEN apply with automatic GUI restart, recovery after power loss / crash in the first minute, graded SNR bars) |
-| OpenATV | 7.6 | 3.13 | 1.0.7~openatv.py313 | device-tested with 1.0.3 (Octagon SF8008: install, reinstall, posters, temperature); 1.0.7 verified statically¹ |
-| OpenATV | 8.1 and newer | 3.14 | 1.0.7~openatv.py314 | verified statically¹ |
+| OpenATV | 8.0 | 3.14 | 1.0.8 | device-tested (1.0.8: full check on OpenATV 8.0.1, installed with Smart Installer 1.3.11 and verified on the receiver) |
+| OpenATV | 7.6 | 3.13 | 1.0.8~openatv.py313 | verified statically¹ (1.0.3 device-tested on Octagon SF8008) |
+| OpenATV | 8.1 and newer | 3.14 | 1.0.8~openatv.py314 | verified statically¹ |
 | OpenBH | 5.6 | 3.13 | 1.0.7~openbh1 | device-tested (1.0.7 build candidate: upgrade, GREEN apply with automatic GUI restart, graded SNR bars; 1.0.6: full check) |
 | OpenBH | 5.7 and newer 5.x | 3.13 | 1.0.7~openbh.py313 | verified statically¹ |
 | OpenBH | 6.0 and newer | 3.14 | 1.0.7~openbh.py314 | device-tested on 6.0 with 1.0.5/1.0.6 RC; 1.0.7 verified statically¹ |
@@ -32,6 +32,11 @@ Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous release �
 | OpenViX | 7.0 and newer | 3.14 | 1.0.7~openvix.py314 | verified statically¹ |
 
 1.0.7 was device-tested on a Vu+ Duo 4K SE (multiboot) with OpenATV 8.0.1, OpenBH 5.6 and OpenViX 6.9.
+1.0.8 was device-tested on the same receiver with OpenATV 8.0.1.
+
+**Release per image:** a release is offered to an image only after it was device-tested on that image. OpenATV
+receives 1.0.8; OpenBH and OpenViX keep receiving 1.0.7 until 1.0.8 is device-tested on them (the installer says so
+when it runs). A newer CineView MLA already installed is never downgraded automatically.
 The same CineView MLA files are in every package; only the Python byte code differs per image line.
 
 Every package carries the same CineView MLA skin, designs, themes and options. The packages for the versions
@@ -51,7 +56,7 @@ The installer refuses it with this reason and changes nothing.
 The installer stops, without changing anything, on: an image older than the minimum version, an image it cannot
 identify reliably, a Python version without a package (for example a future Python 3.15), missing required
 components, or a package that fails the SHA256 check. Your design, theme, profiles and settings are kept on update
-and rollback (`ROLLBACK=1` returns to the previous release, 1.0.6, on every supported line).
+and rollback (`ROLLBACK=1` returns to the previous approved release of the image: 1.0.7 on OpenATV, 1.0.6 on OpenBH and OpenViX).
 
 ## Weather
 
@@ -76,6 +81,17 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.3.11** — release chosen per image: OpenATV 1.0.8 (`ROLLBACK=1` → 1.0.7), OpenBH and OpenViX 1.0.7
+  (`ROLLBACK=1` → 1.0.6) until 1.0.8 is device-tested on them. The installer shows which release it selected and why.
+  A newer CineView MLA already installed than the release approved for the image is kept as it is (no automatic
+  downgrade). Image, version, Python, SHA256 and rollback checks are unchanged.
+
+- **1.0.8** (OpenATV) — the ECM line shows only on encrypted channels and is read only when the softcam changes it;
+  poster and IMDb lookups run on a small bounded queue; the poster cache stays within 300 MB on a disk (15 MB in RAM)
+  and removes expired entries; repeated colours are theme names (colours unchanged); the MovieSelection description
+  no longer shows a cut line (Classic and Cover); CineView Designs asks "Restart the GUI now?" before restarting
+  (Yes restarts, No keeps the settings saved for the next restart). Recovery after a real failure is unchanged.
 
 - **Smart Installer 1.3.10** — CineView MLA 1.0.7 (`ROLLBACK=1` → 1.0.6). When the package manager reports an error,
   the installer now checks CineView MLA's real state (package manager status, version, installed files identical

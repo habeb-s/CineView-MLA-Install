@@ -8,12 +8,15 @@
 #           ROLLBACK=1  return to the previous released version for this image (SHA256-verified, settings kept)
 #           PKG_DIR=<folder>  install from package files copied to the receiver (USB / local), same SHA256 check
 # Every check runs before anything is changed; any failure stops the installer and nothing is changed.
-INSTALLER_VERSION="1.3.10"
+INSTALLER_VERSION="1.3.11"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Supported (user decision 2026-10-09, final): OpenATV 7.6+, OpenBH 5.6+, OpenViX 6.7+, on any Enigma2 receiver - never tied
 # to a receiver model, brand, multiboot slot or one image version.  The packages are architecture-independent; what
 # differs between image versions is the Python minor version (sourceless .pyc).  OpenATV 7.5 is excluded for now: it
 # lacks two Enigma2 components the design needs (Components/Addons, MovieInfo FullDescription).
+# Releases per image (1.3.11): OpenATV 1.0.8 (ROLLBACK=1 -> 1.0.7); OpenBH and OpenViX 1.0.7 (ROLLBACK=1 -> 1.0.6) until
+# 1.0.8 is device-tested on them.  1.0.8 = 1.0.7 + ECM line only on encrypted channels, bounded poster / IMDb lookups,
+# poster cache limit, colours as theme names, MovieSelection description fix, restart question before the GUI restart.
 # Packages (1.0.7 = 1.0.6 + GREEN applies designs and themes directly with an automatic GUI restart - no question, no
 # countdown, revert only on a real failure - and graded SNR bars in the Classic and Details InfoBar / Second InfoBar;
 # 1.0.6 = 1.0.5 + the CineView FHD definitions of the image screens that had none: OpenBH Green / Blue panels
@@ -32,43 +35,62 @@ PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # tree).  Empty = not published: then only PKG_DIR (local copies) can be used;
 # no address is ever guessed.
 DIST_BASE="https://github.com/habeb-s/CineView-MLA-Install/releases/download/packages-1.0.1"
-OPENATV_VERSION="1.0.7"; OPENATV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7_all.ipk"
-OPENATV_SHA="7f039152bc193a12dac9160e7bada6fe9dc35c1456894d82359ddbab6e89ce99"
-OPENATV_DIGEST="2196093e63f8dc100105e198ebac886c11bb00e7186f0cba996746c8ad8e9dde"
-OPENATV_PREV_VERSION="1.0.6"; OPENATV_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"
-OPENATV_PREV_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"
-OPENATV_PREV_DIGEST="deba8826d9e2dec6a3573157bd1c22c3a8aa36b6d35e98e8e97dc88691955419"
+# Release eligibility (1.3.11) - which CineView MLA release each image receives.  Decided per image, never by one global
+# "latest" version: a release is approved for an image only after it was device-tested on that image.  To enable a
+# validated release later, change ONLY that image's <IMAGE>_APPROVED below (its packages are already in the tables;
+# no skin rebuild).  <IMAGE>_CANDIDATE: built and awaiting device validation - shown, never installed.
+OPENATV_APPROVED="108"; OPENATV_CANDIDATE=""
+OPENBH_APPROVED="107"; OPENBH_CANDIDATE="108"
+OPENVIX_APPROVED="107"; OPENVIX_CANDIDATE="108"
+RELEASES="106 107 108"  # oldest -> newest; ROLLBACK=1 = the release before the approved one, for the same image
 OPENATV_PY="3.14"
-OPENBH_VERSION="1.0.7~openbh1"; OPENBH_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh1_all.ipk"
-OPENBH_SHA="10c1ef4754f1333dd0ca04283e77143fd523efa41811d9acc163d5d5b0c25020"
-OPENBH_DIGEST="c5ac6b1736ec1575aea866ae0d7f610ca98f6b7c0200a2b04795bb6c11d9a89b"
-OPENBH_PREV_VERSION="1.0.6~openbh1"; OPENBH_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"
-OPENBH_PREV_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"
-OPENBH_PREV_DIGEST="587d05679f77277597b98319ca39f87c00ff5effe07bfe73a52801bb8513afe1"
 OPENBH_PY="3.13"
-OPENVIX_VERSION="1.0.7~openvix1"; OPENVIX_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix1_all.ipk"
-OPENVIX_SHA="09ea28c0ed9d5bbcbe37d0483573dbae4f00e7aab85512516d5c45e1a2154193"
-OPENVIX_DIGEST="2ec4dc51d6a6daa7c63073540efa81bff5a46e9f5fa3c5043b48b1e4227e8373"
-OPENVIX_PREV_VERSION="1.0.6~openvix1"; OPENVIX_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"
-OPENVIX_PREV_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"
-OPENVIX_PREV_DIGEST="64e694c7f01735e9811bfb0b12fa88965ef2d41170eda68f9e43b377d618269d"
 OPENVIX_PY="3.14"
-# range: minimum version, device-tested line, and one range package per Python minor version (<IMAGE>_R<py>_FILE/_SHA)
+# range: minimum version, device-tested line (approved package, Python above), one range package per Python minor version
 OPENATV_MIN="7.6"; OPENATV_TESTED="8.0"; OPENBH_MIN="5.6"; OPENBH_TESTED="5.6"; OPENVIX_MIN="6.7"; OPENVIX_TESTED="6.9"
-OPENATV_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py313_all.ipk"; OPENATV_R313_SHA="01990042ed3d220d63ee88704a6e0fe2317e0fa5fc646da273ec9001944e484c"; OPENATV_R313_DIGEST="49bae8d911191fa72a0f4a6c2bb447b0369308fe172b1049a9a5c9a7420742d2"
-OPENATV_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_R313_PREV_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"; OPENATV_R313_PREV_DIGEST="959fad1ff88f0fd44d99d929ee6355b61c612398729544e01d84136cfad794be"
-OPENATV_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py314_all.ipk"; OPENATV_R314_SHA="d920ed0d838231c9661a69c66d2898e38d68c9730fab981401c2a5a675300f32"; OPENATV_R314_DIGEST="0e2b693ca009939e580fb23f1add345319e68a2433f4b0724fed11f9d3065b7f"
-OPENATV_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_R314_PREV_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"; OPENATV_R314_PREV_DIGEST="1995ece7a5acba838bc0b85bb397eb06f27f8fe657700b0198df4e57875cc299"
-OPENBH_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py313_all.ipk"; OPENBH_R313_SHA="d7583db4e626661da5a66e60ef242c8222746d40f90e4046e31f328344623254"; OPENBH_R313_DIGEST="a2570655235b9008a1b4d3d18602f55a980d4c53a9dae5a48daf703ad02573ea"
-OPENBH_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_R313_PREV_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"; OPENBH_R313_PREV_DIGEST="3b25ff9bd6553f1c43a3af259f31416fb6ac20e32ea4975a244cf697451f9e2a"
-OPENBH_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py314_all.ipk"; OPENBH_R314_SHA="89be3b314e8d53ecf54db6af5bd714c80970883c0b9709e89ff8497ebbf4f729"; OPENBH_R314_DIGEST="5220d5815797675757c652d99da80ab2f9c95c39f0d31036a848c57fa764e527"
-OPENBH_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_R314_PREV_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"; OPENBH_R314_PREV_DIGEST="be90b5c99b759908ffb27bd6653e829c184bc1aaa9cabaee538ab2ec390f6a18"
-OPENVIX_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py312_all.ipk"; OPENVIX_R312_SHA="51a4d9c4f033c3ab967c32fdc55f899f6f473d80bc13e7cf072418c7ba83db52"; OPENVIX_R312_DIGEST="aeb15bb861028402479c9e5c3620f32f6e58047caff9c2113d0ccafc1fa8188e"
-OPENVIX_R312_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_R312_PREV_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"; OPENVIX_R312_PREV_DIGEST="0022f9632ef9eb017b15e9cf3382f3fb238a2fc24b83d7ec7ba4e1becd75c2a7"
-OPENVIX_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py313_all.ipk"; OPENVIX_R313_SHA="71694f89b03c0df7e6343db86823a410c79efed176f59b30ca76bdac21e06795"; OPENVIX_R313_DIGEST="0255b651fff3af58779cc71c35c82b0de8c98a5b3e48c2bb4efec11617fb7b56"
-OPENVIX_R313_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_R313_PREV_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"; OPENVIX_R313_PREV_DIGEST="67f4fcdf3fc63a342c6c833f0872902de05542da5d61c1a5a3b014271dfcd756"
-OPENVIX_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py314_all.ipk"; OPENVIX_R314_SHA="8235936e3959da694fca6a56b7a2bc3b3331ec1b9d656abdc27491ffd0c00dcc"; OPENVIX_R314_DIGEST="80d1c49b13a63fda57f3524649fa6eeac70be46a48eecea64c15a8ebbd192ffe"
-OPENVIX_R314_PREV_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_R314_PREV_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"; OPENVIX_R314_PREV_DIGEST="b96b7529cf5f23f1e26724b11d542d62ad367a2a0c3fd5bdad18afc4bf6c49c7"
+# release tables: <IMAGE>_<release>_* (approved line package) and <IMAGE>_<release>_R<py>_* (range packages)
+OPENATV_106_VERSION="1.0.6"; OPENATV_106_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6_all.ipk"; OPENATV_106_SHA="b52e366cad49a13515590d711ee6b40d576aa42f50f0e84c38895a0a7526abed"; OPENATV_106_DIGEST="deba8826d9e2dec6a3573157bd1c22c3a8aa36b6d35e98e8e97dc88691955419"
+OPENATV_106_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py313_all.ipk"; OPENATV_106_R313_SHA="1f5964f252474e88b08384e1d6032f7605e697ab83162db702a782cf061a4dc1"; OPENATV_106_R313_DIGEST="959fad1ff88f0fd44d99d929ee6355b61c612398729544e01d84136cfad794be"
+OPENATV_106_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openatv.py314_all.ipk"; OPENATV_106_R314_SHA="7701cd036b047d07acea0c6f144efd08c140bf41c0a535573d49ad1f8a4af325"; OPENATV_106_R314_DIGEST="1995ece7a5acba838bc0b85bb397eb06f27f8fe657700b0198df4e57875cc299"
+OPENATV_107_VERSION="1.0.7"; OPENATV_107_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7_all.ipk"; OPENATV_107_SHA="7f039152bc193a12dac9160e7bada6fe9dc35c1456894d82359ddbab6e89ce99"; OPENATV_107_DIGEST="2196093e63f8dc100105e198ebac886c11bb00e7186f0cba996746c8ad8e9dde"
+OPENATV_107_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py313_all.ipk"; OPENATV_107_R313_SHA="01990042ed3d220d63ee88704a6e0fe2317e0fa5fc646da273ec9001944e484c"; OPENATV_107_R313_DIGEST="49bae8d911191fa72a0f4a6c2bb447b0369308fe172b1049a9a5c9a7420742d2"
+OPENATV_107_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openatv.py314_all.ipk"; OPENATV_107_R314_SHA="d920ed0d838231c9661a69c66d2898e38d68c9730fab981401c2a5a675300f32"; OPENATV_107_R314_DIGEST="0e2b693ca009939e580fb23f1add345319e68a2433f4b0724fed11f9d3065b7f"
+OPENATV_108_VERSION="1.0.8"; OPENATV_108_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8_all.ipk"; OPENATV_108_SHA="f013208bbf74ffe1c211faf29153fb798006f44685c450f49a27b482d298b4d4"; OPENATV_108_DIGEST="309db7201c231728de308516620f69309378989e31dab46b2ff0c0521f821b8c"
+OPENATV_108_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py313_all.ipk"; OPENATV_108_R313_SHA="46de73a32fa9d5094040f910b415c184bba78d684e2dc6c718be22cce28c9a0d"; OPENATV_108_R313_DIGEST="8041cf8111c7976e61cf0900a9ca3df159235ff7f4458843d7c5880b3ebcd6e2"
+OPENATV_108_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py314_all.ipk"; OPENATV_108_R314_SHA="c122bdf04e502e6f0630f553105006f8c55145e88e35160b8d9ad4651b5198d9"; OPENATV_108_R314_DIGEST="3c342d6aad1695d26b868da08b4f5aeda5712358f80d1d004fa977f551113f32"
+OPENBH_106_VERSION="1.0.6~openbh1"; OPENBH_106_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh1_all.ipk"; OPENBH_106_SHA="096568bf787153583fdda5ddfdc2a0d4b6d9e46a70c1eb0c7eb0d2211796215e"; OPENBH_106_DIGEST="587d05679f77277597b98319ca39f87c00ff5effe07bfe73a52801bb8513afe1"
+OPENBH_106_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py313_all.ipk"; OPENBH_106_R313_SHA="8881fb69e5095126516773be183d3bcc4f965747e88c5f5062bcd6e2e4835ac1"; OPENBH_106_R313_DIGEST="3b25ff9bd6553f1c43a3af259f31416fb6ac20e32ea4975a244cf697451f9e2a"
+OPENBH_106_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openbh.py314_all.ipk"; OPENBH_106_R314_SHA="e4b562fae1050d3141aef2ba3a6973aa89957787cf82ef7be72339bb9e769b77"; OPENBH_106_R314_DIGEST="be90b5c99b759908ffb27bd6653e829c184bc1aaa9cabaee538ab2ec390f6a18"
+OPENBH_107_VERSION="1.0.7~openbh1"; OPENBH_107_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh1_all.ipk"; OPENBH_107_SHA="10c1ef4754f1333dd0ca04283e77143fd523efa41811d9acc163d5d5b0c25020"; OPENBH_107_DIGEST="c5ac6b1736ec1575aea866ae0d7f610ca98f6b7c0200a2b04795bb6c11d9a89b"
+OPENBH_107_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py313_all.ipk"; OPENBH_107_R313_SHA="d7583db4e626661da5a66e60ef242c8222746d40f90e4046e31f328344623254"; OPENBH_107_R313_DIGEST="a2570655235b9008a1b4d3d18602f55a980d4c53a9dae5a48daf703ad02573ea"
+OPENBH_107_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openbh.py314_all.ipk"; OPENBH_107_R314_SHA="89be3b314e8d53ecf54db6af5bd714c80970883c0b9709e89ff8497ebbf4f729"; OPENBH_107_R314_DIGEST="5220d5815797675757c652d99da80ab2f9c95c39f0d31036a848c57fa764e527"
+OPENBH_108_VERSION="1.0.8~openbh1"; OPENBH_108_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openbh1_all.ipk"; OPENBH_108_SHA="53f1b873c874112a596dbd90b8e47fe01a8d919f873257564088e5cf76d9b1f5"; OPENBH_108_DIGEST="70245941a7d141b139f838b1abb1f3e678f4e807b7dfcff20a9e28d51e191937"
+OPENBH_108_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openbh.py313_all.ipk"; OPENBH_108_R313_SHA="955b14dd602e20fe281384e49c2ee8c472c62e0f9205803f78a9cd7ee27d0f65"; OPENBH_108_R313_DIGEST="b3c9e54a71d4a9ac991c5d19732368c985154904e0a9e6dddaacb245a7c8a67a"
+OPENBH_108_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openbh.py314_all.ipk"; OPENBH_108_R314_SHA="9316966a43f4c05c47f5ca0d6136ac336c3ca4fe59a47987e985d42a607ad26d"; OPENBH_108_R314_DIGEST="66920e93de82366419a1cfb509ea76e6b782a283767e5db18d528e9049ba3243"
+OPENVIX_106_VERSION="1.0.6~openvix1"; OPENVIX_106_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix1_all.ipk"; OPENVIX_106_SHA="6d94ab8fe775818c53f8f617de961d51a33211477ea99406930580058a28338c"; OPENVIX_106_DIGEST="64e694c7f01735e9811bfb0b12fa88965ef2d41170eda68f9e43b377d618269d"
+OPENVIX_106_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py312_all.ipk"; OPENVIX_106_R312_SHA="cbaa57498298971eba94aebebdc96a0a4b52e1e4b2d03ae9439c493a597740a9"; OPENVIX_106_R312_DIGEST="0022f9632ef9eb017b15e9cf3382f3fb238a2fc24b83d7ec7ba4e1becd75c2a7"
+OPENVIX_106_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py313_all.ipk"; OPENVIX_106_R313_SHA="dda4362e394df965984b34c612f7ce987baa6640ea6d4f1062175bef4b1ceb69"; OPENVIX_106_R313_DIGEST="67f4fcdf3fc63a342c6c833f0872902de05542da5d61c1a5a3b014271dfcd756"
+OPENVIX_106_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.6~openvix.py314_all.ipk"; OPENVIX_106_R314_SHA="f787c33179e81a033259e30abd0c299f7e7af146690cb1ddc8b9ba812fa1076d"; OPENVIX_106_R314_DIGEST="b96b7529cf5f23f1e26724b11d542d62ad367a2a0c3fd5bdad18afc4bf6c49c7"
+OPENVIX_107_VERSION="1.0.7~openvix1"; OPENVIX_107_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix1_all.ipk"; OPENVIX_107_SHA="09ea28c0ed9d5bbcbe37d0483573dbae4f00e7aab85512516d5c45e1a2154193"; OPENVIX_107_DIGEST="2ec4dc51d6a6daa7c63073540efa81bff5a46e9f5fa3c5043b48b1e4227e8373"
+OPENVIX_107_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py312_all.ipk"; OPENVIX_107_R312_SHA="51a4d9c4f033c3ab967c32fdc55f899f6f473d80bc13e7cf072418c7ba83db52"; OPENVIX_107_R312_DIGEST="aeb15bb861028402479c9e5c3620f32f6e58047caff9c2113d0ccafc1fa8188e"
+OPENVIX_107_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py313_all.ipk"; OPENVIX_107_R313_SHA="71694f89b03c0df7e6343db86823a410c79efed176f59b30ca76bdac21e06795"; OPENVIX_107_R313_DIGEST="0255b651fff3af58779cc71c35c82b0de8c98a5b3e48c2bb4efec11617fb7b56"
+OPENVIX_107_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py314_all.ipk"; OPENVIX_107_R314_SHA="8235936e3959da694fca6a56b7a2bc3b3331ec1b9d656abdc27491ffd0c00dcc"; OPENVIX_107_R314_DIGEST="80d1c49b13a63fda57f3524649fa6eeac70be46a48eecea64c15a8ebbd192ffe"
+OPENVIX_108_VERSION="1.0.8~openvix1"; OPENVIX_108_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openvix1_all.ipk"; OPENVIX_108_SHA="e254264fa1c7c9fb304f28e3ef5f2ef60b45376831e0c97bc3fd8997cff81eae"; OPENVIX_108_DIGEST="6198b3ce9487e6f095e7b4ae8f6e1ac24ba79bc8f11bf677eef3ccddf57d534d"
+OPENVIX_108_R312_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openvix.py312_all.ipk"; OPENVIX_108_R312_SHA="ffd1aae0ee57f9a65cdc1b1e99f16f15bec29b09c9fe0c41b3970ba3e5e23f19"; OPENVIX_108_R312_DIGEST="273c8044bf29011a39b509c755003841e5dd8155820bb7c4630adb560dc9cd1c"
+OPENVIX_108_R313_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openvix.py313_all.ipk"; OPENVIX_108_R313_SHA="ae4974fa6439977cf893b9bf962055e29600b25dabcec346111cf0f16004f8c8"; OPENVIX_108_R313_DIGEST="0110f2bb314b3cee48e54c028e5d7128bbc78f12309a6cebc6e65406958be3a8"
+OPENVIX_108_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openvix.py314_all.ipk"; OPENVIX_108_R314_SHA="68ce5d2a505ffc106bf10b1c00c599a892d36c714a829e26f56635b174cf7f0d"; OPENVIX_108_R314_DIGEST="55126b7b47da99e87cf1992c9a5bf531bea5ab3977625ba22d47de0123053245"
+rel_name() { printf '%s' "$1" | sed 's/^\(.\)\(.\)\(.*\)$/\1.\2.\3/'; }
+cv_select() {  # $1 image: the approved release and the one before it (ROLLBACK=1), under the names the checks use
+	_I=$1; eval "_A=\${${_I}_APPROVED}"; _P=""
+	for _r in $RELEASES; do [ "$_r" = "$_A" ] && break; eval "[ -n \"\${${_I}_${_r}_FILE:-}\" ]" && _P=$_r; done
+	for _f in VERSION FILE SHA DIGEST; do
+		eval "${_I}_${_f}=\${${_I}_${_A}_${_f}:-}"; eval "${_I}_PREV_${_f}=\${${_I}_${_P}_${_f}:-}"
+	done
+	for _k in 312 313 314; do for _f in FILE SHA DIGEST; do
+		eval "${_I}_R${_k}_${_f}=\${${_I}_${_A}_R${_k}_${_f}:-}"; eval "${_I}_R${_k}_PREV_${_f}=\${${_I}_${_P}_R${_k}_${_f}:-}"
+	done; done
+}
+for _i in OPENATV OPENBH OPENVIX; do cv_select $_i; done
 RT="${CVMLA_ROOT:-}"  # CVMLA_ROOT: test hook only (a simulated receiver root for the identification checks)
 INFO="${CVMLA_INFO:-$RT/usr/lib/enigma.info}"  # CVMLA_INFO: test hook only (another enigma.info)
 NEED_ROOT_KB=40960
@@ -306,6 +328,9 @@ fi
 TESTED=0; [ "$VMAJ.$VMNR" = "$VTESTED" ] && TESTED=1
 if [ "$TESTED" = "1" ]; then ok "$IMG $IVER is supported (this version line is device-tested)"
 else ok "$IMG $IVER is supported ($IMG $VMIN and newer)"; fi
+eval "_AP=\${${U}_APPROVED}; _CA=\${${U}_CANDIDATE:-}"
+ok "Release for $IMG: CineView MLA $(rel_name $_AP) - the release approved for $IMG (device-tested on $IMG)"
+[ -n "$_CA" ] && info "CineView MLA $(rel_name $_CA) is awaiting device validation on $IMG - it is not offered to $IMG yet"
 
 section "Python"
 PYV=${CVMLA_PYV:-$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])' 2>/dev/null)}  # CVMLA_PYV: test hook only
@@ -516,7 +541,7 @@ elif [ -z "$CUR" ]; then
 	info "No earlier CineView MLA installation"
 else
 	info "Current version: $CUR"
-	info "New version:     $VERSION"
+	info "Approved version for $IMG: $VERSION"
 	if [ "$CUR" = "$VERSION" ] && [ "${FORCE:-0}" != "1" ]; then
 		IFP=$(fp_installed)
 		if [ "$IFP" = "$PKG_DIGEST" ]; then
@@ -535,7 +560,10 @@ else
 	elif [ "${FORCE:-0}" = "1" ]; then
 		MODE=downgrade; warn "Return to the earlier version $VERSION requested (your design, theme and profiles are kept)"
 	else
-		fail "A newer CineView MLA ($CUR) is already installed."
+		warn "CineView MLA $CUR is installed - newer than $VERSION, the release approved for $IMG"
+		info "It is not downgraded automatically: your installation stays as it is. Nothing was changed."
+		printf '\n%s%sCineView MLA %s stays installed.%s The approved release for %s is %s.\n\n' "$B" "$Y" "$CUR" "$N" "$IMG" "$VERSION"
+		exit 0
 	fi
 fi
 [ -d /usr/share/enigma2/CineView_FHD ] && info "CineView FHD (classic edition) found - it stays installed and independent"
