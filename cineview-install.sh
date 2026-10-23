@@ -1,9 +1,9 @@
 #!/bin/sh
 # CineView MLA Smart Installer - Design & Development by habeb-s (c) 2026
-# Installs CineView MLA 1.1.1 on Enigma2 images with Python 3.  One package per image family:
-#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.1+openatv_all.ipk
-#   OpenBH, OpenViX                                                                           ..._1.1.1+openbhvix_all.ipk
-#   OpenPLi                                                                                   ..._1.1.1+openpli_all.ipk
+# Installs CineView MLA 1.1.2 on Enigma2 images with Python 3.  One package per image family:
+#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.2+openatv_all.ipk
+#   OpenBH, OpenViX                                                                           ..._1.1.2+openbhvix_all.ipk
+#   OpenPLi                                                                                   ..._1.1.2+openpli_all.ipk
 # Each family package carries CineView's compiled modules for every Python it supports; the image's screen files are
 # chosen on the receiver.  What decides is what the image can do (its Python, the Enigma2 skin components and modules
 # CineView uses, the package architecture, the image's own feeds for the dependencies) - never the receiver model or
@@ -14,9 +14,10 @@
 #   DRYRUN=1      check-only: every check + the package downloaded to /tmp (RAM) and SHA256-verified, then deleted;
 #                 nothing is installed, refreshed (opkg update), restarted or changed on the receiver
 #   RESTART=0     do not restart the GUI at the end
-#   ROLLBACK=1    return to the previous public release of this image (OpenATV 1.0.8, OpenBH / OpenViX 1.0.7)
+#   ROLLBACK=1    return to the previous public release (CineView MLA 1.1.1 of the same image family)
 #   PKG_DIR=<folder>   install from package files copied to the receiver (USB / FTP), same SHA256 / fingerprint checks
-#   ACCEPT_UNTESTED=1  do not ask before installing on an image / Python CineView has not been device-tested on
+#   ACCEPT_UNTESTED=1  do not ask before installing on an EXPERIMENTAL image (an image outside the six supported
+#                 families, or one whose version cannot be read)
 #   OAWEATHER=1   also install the optional OAWeather plugin from the image's own feed (never automatic)
 #   HDD_CACHE=0   keep the poster cache off the hard disk
 # Every check runs before anything is changed.  Never: force options for dependencies, packages from other images or
@@ -24,17 +25,23 @@
 # automatic recovery (opkg --force-downgrade of the SHA256-verified previous release).
 # A diagnostic report of every run is left in /tmp/cineview-install-report.txt (removed at the next reboot).
 export PYTHONDONTWRITEBYTECODE=1  # the checks import modules: never leave byte-code caches on the flash
-INSTALLER_VERSION="1.7.0"
+INSTALLER_VERSION="1.7.1"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Distribution point: the packages are assets of GitHub releases of habeb-s/CineView-MLA-Install (not in any repository
 # tree): <BASE>/<release tag>/<asset>.  GitHub stores ~ of a file name as . in the asset name (+ is kept).
 BASE="${CVMLA_BASE:-https://github.com/habeb-s/CineView-MLA-Install/releases/download}"  # CVMLA_BASE: staging / test hook only
-TAG="packages-1.1.1"
-BUILD_NAME="1.1.1"
-# Device-tested (2026-10-22, Vu+ Duo 4K SE multiboot, CineView MLA 1.1.1 release candidate 7 = these packages' code):
-# image:version line:Python.  Every other image / version / Python that passes the checks below is EXPERIMENTAL.
+TAG="packages-1.1.2"
+BUILD_NAME="1.1.2"
+# Device-tested (2026-10-22/23, Vu+ Duo 4K SE multiboot, CineView MLA 1.1.1 = the files 1.1.2 carries unchanged;
+# the 1.1.2 package scripts and Depends are verified in simulation with the real opkg 0.6.3 / 0.8.0 / 0.10.0):
+# image:version line:Python.
 VERIFIED="openatv:8.0:3.14:openvix:6.9:3.14:openbh:6.0:3.14:openpli:9.2:3.9:egami:11.0:3.13:pure2:7.6:3.13"
 VERIFIED_TEXT="OpenATV 8.0, OpenViX 6.9, OpenBH 6.0 (Python 3.14); EGAMI 11.0, PurE2 7.6 (Python 3.13); OpenPLi 9.2 (Python 3.9)"
+# Supported range - the same table the packages' preinst enforces: image:oldest supported version.  An image of this
+# table at / above its minimum, with a Python its family package carries, that passes every capability check below
+# is SUPPORTED and installs without a question (device-tested or not).  Below the minimum: stop, nothing changed.
+# Images outside this table (other OE-Alliance images, OpenATV screens) or an unreadable version: EXPERIMENTAL (asked).
+SUPPORTED_MIN="openatv:7.6 egami:11.0 pure2:7.4 openbh:5.6 openvix:6.7 openpli:9.1"
 # Dependencies the packages declare (control: Depends) - re-read from the downloaded package and compared.
 DEPS="python3-requests python3-pillow"
 # Python modules CineView MLA imports at run time (besides the interpreter core and Enigma2 itself).  Checked by
@@ -42,11 +49,15 @@ DEPS="python3-requests python3-pillow"
 # missing module is reported by name and the installation stops (no package is guessed for it).
 PYMODS="json threading hashlib gettext zlib xml.etree.ElementTree unicodedata html difflib urllib.request ssl requests PIL.Image twisted"
 # CineView MLA 1.1.1 family packages: F_<family>_* (pinned by SHA256 and by the content fingerprint of the installed files)
-F_openatv_VERSION="1.1.1+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openatv_all.ipk"; F_openatv_SHA="ab540bd41da1970a4b3ca5a9a21c01434e4b497c87669b340b59f37237735902"; F_openatv_DIGEST="9d3b667d7db5acea35d9f825caf494182a14a6e107255d62cf6a8feb116c2ced"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
-F_openbhvix_VERSION="1.1.1+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openbhvix_all.ipk"; F_openbhvix_SHA="468f78343de15f4f731a5f5597bb6489a6813930b1bf099711894288f320f5f7"; F_openbhvix_DIGEST="7e3fa6263dd6de6234bf2c78d81f785d01d056d972c08a7de0484938d524fcad"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
-F_openpli_VERSION="1.1.1+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openpli_all.ipk"; F_openpli_SHA="1fe9e6f48a08e9208f4097563da9a55636a879d0fbe0a4db4b6531211341d69e"; F_openpli_DIGEST="eef0d50606f04889435aef4caa5137a5a594845ce62859d6e18fdf1ba53ebc23"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
+F_openatv_VERSION="1.1.2+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openatv_all.ipk"; F_openatv_SHA="bd43297737b7e742f6acd8719cd2906269178a26b6df284e5c0ca58c5813b624"; F_openatv_DIGEST="0226e2e7b142dd2cdef31ed0f8f1a0c87d1abfe9c1a08dee168f4b8dc5d6c9ab"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
+F_openbhvix_VERSION="1.1.2+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openbhvix_all.ipk"; F_openbhvix_SHA="50463f57b78620f313f136b855d06ea3901edf700ef5516d6056704be078b0ca"; F_openbhvix_DIGEST="cee90e8f8edb555744b93d19424afff656d485a6406c18afdc28297449878390"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
+F_openpli_VERSION="1.1.2+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openpli_all.ipk"; F_openpli_SHA="c7e1b2e003ee6d3266e227d0ffb62ce37c0d0fe5b661a680580673d0ca0df60c"; F_openpli_DIGEST="3693d0ae65e3c198d76a99c9c3af6858bf5e28543287cac2074482a4797b1fea"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
 # previous public releases (ROLLBACK=1 / recovery), published with Smart Installer 1.3.11 as assets of packages-1.0.1:
 # <IMAGE>_<release>_* = package of the device-tested line, <IMAGE>_<release>_R<py>_* = range package for that Python
+# CineView MLA 1.1.1 (packages-1.1.1): previous public release of every family package (ROLLBACK=1 / recovery)
+P111_openatv_FILE="packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openatv_all.ipk"; P111_openatv_SHA="ab540bd41da1970a4b3ca5a9a21c01434e4b497c87669b340b59f37237735902"; P111_openatv_DIGEST="9d3b667d7db5acea35d9f825caf494182a14a6e107255d62cf6a8feb116c2ced"
+P111_openbhvix_FILE="packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openbhvix_all.ipk"; P111_openbhvix_SHA="468f78343de15f4f731a5f5597bb6489a6813930b1bf099711894288f320f5f7"; P111_openbhvix_DIGEST="7e3fa6263dd6de6234bf2c78d81f785d01d056d972c08a7de0484938d524fcad"
+P111_openpli_FILE="packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openpli_all.ipk"; P111_openpli_SHA="1fe9e6f48a08e9208f4097563da9a55636a879d0fbe0a4db4b6531211341d69e"; P111_openpli_DIGEST="eef0d50606f04889435aef4caa5137a5a594845ce62859d6e18fdf1ba53ebc23"
 RB_TAG="packages-1.0.1"
 OPENATV_PY="3.14"
 OPENBH_PY="3.13"
@@ -65,6 +76,9 @@ OPENVIX_107_R314_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.0.7~openvix.py314
 KNOWN="1.1.1+openatv|packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openatv_all.ipk|ab540bd41da1970a4b3ca5a9a21c01434e4b497c87669b340b59f37237735902
 1.1.1+openbhvix|packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openbhvix_all.ipk|468f78343de15f4f731a5f5597bb6489a6813930b1bf099711894288f320f5f7
 1.1.1+openpli|packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+openpli_all.ipk|1fe9e6f48a08e9208f4097563da9a55636a879d0fbe0a4db4b6531211341d69e
+1.1.2+openatv|packages-1.1.2/enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openatv_all.ipk|bd43297737b7e742f6acd8719cd2906269178a26b6df284e5c0ca58c5813b624
+1.1.2+openbhvix|packages-1.1.2/enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openbhvix_all.ipk|50463f57b78620f313f136b855d06ea3901edf700ef5516d6056704be078b0ca
+1.1.2+openpli|packages-1.1.2/enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openpli_all.ipk|c7e1b2e003ee6d3266e227d0ffb62ce37c0d0fe5b661a680580673d0ca0df60c
 1.0.8|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8_all.ipk|f013208bbf74ffe1c211faf29153fb798006f44685c450f49a27b482d298b4d4
 1.0.8~openatv.py313|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py313_all.ipk|46de73a32fa9d5094040f910b415c184bba78d684e2dc6c718be22cce28c9a0d
 1.0.8~openatv.py314|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py314_all.ipk|c122bdf04e502e6f0630f553105006f8c55145e88e35160b8d9ad4651b5198d9
@@ -283,7 +297,7 @@ write_report() {  # diagnostic report of this run: /tmp, readable by root only, 
 		echo "installer $INSTALLER_VERSION | build $BUILD_NAME | release $TAG | exit code $1"
 		echo "options: DRYRUN=${DRYRUN:-0} ROLLBACK=${ROLLBACK:-0} RESTART=${RESTART:-1} ACCEPT_UNTESTED=${ACCEPT_UNTESTED:-0} OAWEATHER=${OAWEATHER:-0}"
 		echo "image: ${IMG:-?} ${IVER:-} | distro ${DISTRO:-?} | code base like:${LIKE:- -} | receiver: ${NAME:-?} | arch: ${ARCH:-?}"
-		echo "python: ${PYV:-?} | screen set: ${SET:-?} | package: ${VERSION:-?} | level: $([ "${UNTESTED:-0}" = "1" ] && echo EXPERIMENTAL || echo verified)"
+		echo "python: ${PYV:-?} | screen set: ${SET:-?} | package: ${VERSION:-?} | level: ${LEVEL:-?}"
 		echo "CineView before: ${CUR:-none} | after: $(opkg status "$PKG" 2>/dev/null | sed -n 's/^Version: //p') | mode: ${MODE:-?}"
 		echo "capability stop: ${CAPFAIL:-none} | missing components: ${MISSING:-none} | other designs missing:${MORE:- none} | optional modules missing:${MODS:- none}"
 		echo "active skin: $(sed -n 's/^config.skin.primary_skin=//p' "$RT/etc/enigma2/settings" 2>/dev/null)"
@@ -471,36 +485,42 @@ esac
 [ -d "$RT/usr/lib/python$PYV/site-packages" ] \
 	|| fail "/usr/lib/python$PYV/site-packages is missing: CineView's boot guardian (its start-up safety) could not be installed. To adapt: the guardian's start-up hook for this image's Python layout. Nothing was changed."
 ok "Python $PYV - included in the $FAM family package (Python $FPY_LIST)"
-# previous public release of this image (ROLLBACK=1 / recovery when the package installed before is not pinned): the
-# package of the device-tested line, the range package of this Python on every other version (as Smart Installer 1.3.11)
-PREV_VERSION=""; PREV_FILE=""; PREV_SHA=""; PREV_DIGEST=""
-case "$DISTRO" in openatv) _RI=OPENATV; _RR=108 ;; openbh) _RI=OPENBH; _RR=107 ;; openvix) _RI=OPENVIX; _RR=107 ;; *) _RI="" ;; esac
-if [ -n "$_RI" ]; then
-	eval "_T=\${${_RI}_TESTED}"; eval "_TP=\${${_RI}_PY}"
-	_L=$(printf '%s' "$IVER" | cut -d. -f1,2)
-	if [ "$_L" = "$_T" ] && [ "$PYV" = "$_TP" ]; then
-		eval "PREV_VERSION=\${${_RI}_${_RR}_VERSION:-}; _F=\${${_RI}_${_RR}_FILE:-}; PREV_SHA=\${${_RI}_${_RR}_SHA:-}; PREV_DIGEST=\${${_RI}_${_RR}_DIGEST:-}"
-	else
-		eval "_F=\${${_RI}_${_RR}_R${PK}_FILE:-}; PREV_SHA=\${${_RI}_${_RR}_R${PK}_SHA:-}; PREV_DIGEST=\${${_RI}_${_RR}_R${PK}_DIGEST:-}"
-		[ -n "$_F" ] && PREV_VERSION=$(printf '%s' "$_F" | sed 's/^enigma2-plugin-skins-cineview-fhd-mla_\(.*\)_all\.ipk$/\1/')
-	fi
-	[ -n "$_F" ] && PREV_FILE="$RB_TAG/$_F"
-fi
+# previous public release (ROLLBACK=1 / recovery when the package installed before is not pinned): CineView MLA 1.1.1
+# of the same family package (same files as 1.1.2, the earlier package scripts)
+eval "PREV_FILE=\${P111_${FAM}_FILE:-}; PREV_SHA=\${P111_${FAM}_SHA:-}; PREV_DIGEST=\${P111_${FAM}_DIGEST:-}"
+PREV_VERSION="1.1.1+$FAM"
 
 section "Compatibility level"
-VMAJ=${IVER%%.*}; VREST=${IVER#*.}; VMNR=${VREST%%.*}
-UNTESTED=0
+VMAJ=${IVER%%.*}; VREST=${IVER#*.}; VMNR=${VREST%%.*}; VMNR=${VMNR%%[!0-9]*}
+UNTESTED=0; LEVEL=""; SMIN=""
+for _m in $SUPPORTED_MIN; do [ "${_m%%:*}" = "$DISTRO" ] && SMIN=${_m#*:}; done
+case "$VMAJ:$VMNR" in *[!0-9:]*|:*|*:) VOK=0 ;; *) VOK=1 ;; esac
+if [ -n "$SMIN" ] && [ "$VOK" = "1" ]; then
+	if [ "$VMAJ" -lt "${SMIN%%.*}" ] || { [ "$VMAJ" -eq "${SMIN%%.*}" ] && [ "$VMNR" -lt "${SMIN#*.}" ]; }; then
+		CAPFAIL="below the minimum version ($SMIN)"
+		fail "$IMG $IVER is older than $IMG $SMIN, the oldest version CineView MLA supports. Update the image to $IMG $SMIN or newer. Nothing was changed."
+	fi
+fi
 case ":$VERIFIED:" in
 	*":$DISTRO:$VMAJ.$VMNR:$PYV:"*)
+		LEVEL=verified
 		ok "VERIFIED: CineView MLA (this build's skin and code) ran on $IMG $VMAJ.$VMNR / Python $PYV" ;;
-	*) UNTESTED=1
+	*) if [ -n "$SMIN" ] && [ "$VOK" = "1" ]; then
+		LEVEL=supported
+		ok "SUPPORTED: $IMG $IVER ($IMG $SMIN and newer are supported) with Python $PYV ($FAM family package)"
+		info "Not device-tested on this exact version (device-tested: $VERIFIED_TEXT)."
+		info "The checks below confirm what CineView needs from this image before anything is changed."
+	else
+		LEVEL=experimental; UNTESTED=1
+		[ -n "$SMIN" ] && warn "The version of $IMG ('${IVER:-not stated}') cannot be read - its minimum ($IMG $SMIN) cannot be checked."
 		warn "EXPERIMENTAL: CineView MLA has not been seen running on $IMG ${IVER} / Python $PYV."
 		warn "Device-tested: $VERIFIED_TEXT. The checks below test what CineView needs from this image;"
 		warn "they cannot prove every screen of this image's Enigma2 accepts CineView's screens. Risks: a screen may look"
-		warn "wrong or fail to open; if the GUI cannot start with CineView, its boot guardian returns to the previous skin." ;;
+		warn "wrong or fail to open; if the GUI cannot start with CineView, its boot guardian returns to the previous skin."
+	fi ;;
 esac
 if [ "${ROLLBACK:-0}" = "1" ]; then  # the previous public release of this image / Python, pinned by its SHA256
-	[ -n "$PREV_FILE" ] || fail "There is no earlier public CineView MLA release for $IMG / Python $PYV to return to (1.1.1 is its first release). Nothing was changed."
+	[ -n "$PREV_FILE" ] || fail "There is no earlier public CineView MLA release for $IMG / Python $PYV to return to. Nothing was changed."
 	VERSION="$PREV_VERSION"; PKG_FILE="$PREV_FILE"; PKG_SHA="$PREV_SHA"; PKG_DIGEST="$PREV_DIGEST"; FORCE=1
 	info "Rollback requested: the previous public CineView MLA $VERSION ($IMG, Python $PYV)"
 else
@@ -935,10 +955,11 @@ PYEOF
 			*"|"*)  # the image-family check of the package: one of these must be installed
 				_ok=0; for a in $(printf '%s' "$d" | tr '|' ' '); do opkg status "$a" 2>/dev/null | grep -q "^Status:.* installed$" && _ok=1; done
 				[ "$_ok" = "1" ] || fail "This package is for another image family (it needs one of: $(printf '%s' "$d" | sed 's/|/, /g')). Nothing was changed." ;;
+			python3-core) ;;  # the Python range: checked above (Python section)
 			*) case " $DEPS " in *" $d "*) ;; *) fail "The package declares a dependency this installer did not check ($d)." ;; esac ;;
 		esac
 	done
-	ok "Declared dependencies: ${PDEPS:-none} (all checked)"
+	ok "Declared dependencies: $( [ -n "$PDEPS" ] || echo none; printf '%s\n' $PDEPS | awk '!s[$0]++' | tr '\n' ' ' | sed 's/ $//') (all checked)"
 	# conflicts: the package manager's own dry run of exactly this installation (no change)
 	if [ "$MODE" = "same" ]; then
 		info "Package manager dry run not needed: this exact version is already installed"
@@ -1007,10 +1028,11 @@ PYEOF
 			*"|"*)  # the image-family check of the package: one of these must be installed
 				_ok=0; for a in $(printf '%s' "$d" | tr '|' ' '); do opkg status "$a" 2>/dev/null | grep -q "^Status:.* installed$" && _ok=1; done
 				[ "$_ok" = "1" ] || fail "This package is for another image family (it needs one of: $(printf '%s' "$d" | sed 's/|/, /g')). Nothing was changed." ;;
+			python3-core) ;;  # the Python range: checked above (Python section)
 			*) case " $DEPS " in *" $d "*) ;; *) fail "The package declares a dependency this installer did not check ($d)." ;; esac ;;
 		esac
 	done
-	ok "Declared dependencies: ${PDEPS:-none} (all checked)"
+	ok "Declared dependencies: $( [ -n "$PDEPS" ] || echo none; printf '%s\n' $PDEPS | awk '!s[$0]++' | tr '\n' ' ' | sed 's/ $//') (all checked)"
 	# conflicts: the package manager's own dry run of exactly this installation (no change)
 	if [ "$MODE" = "same" ]; then
 		info "Package manager dry run not needed: this exact version is already installed"
