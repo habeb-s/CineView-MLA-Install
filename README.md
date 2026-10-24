@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.1.2 · Smart Installer 1.7.1**
+**CineView MLA 1.1.3 · Smart Installer 1.7.2**
 
 One installer for **OpenATV, EGAMI, PurE2, OpenBH, OpenViX and OpenPLi** on any Enigma2 receiver. It is not tied to
 a receiver model, brand, multiboot slot or a single image version: it identifies the image and its Python by itself,
@@ -17,15 +17,15 @@ wget -qO /tmp/cineview-install.sh https://raw.githubusercontent.com/habeb-s/Cine
 Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous public release · `RESTART=0` no automatic GUI
 restart · `PKG_DIR=<folder>` install from package files copied to the receiver
 
-## Packages (release `packages-1.1.2`)
+## Packages (release `packages-1.1.3`)
 
 One package per image family; each carries CineView's compiled modules for every Python it supports.
 
 | Images | Package | Python |
 |---|---|---|
-| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openatv_all.ipk` | 3.10 – 3.14 |
-| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openbhvix_all.ipk` | 3.10 – 3.14 |
-| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.2+openpli_all.ipk` | 3.9 – 3.14 |
+| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.3+openatv_all.ipk` | 3.10 – 3.14 |
+| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.3+openbhvix_all.ipk` | 3.10 – 3.14 |
+| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.3+openpli_all.ipk` | 3.9 – 3.14 |
 
 The packages can also be installed by hand (`opkg update`, then `opkg install /tmp/<package>.ipk`). They enforce the
 same rules as the installer: opkg itself refuses another image family, an image older than the minimum and a Python
@@ -46,14 +46,15 @@ of this before it changes anything.
 | OpenViX | 6.9 | 3.14 | 6.7 |
 | OpenPLi | 9.2 | 3.9 | 9.1 |
 
-Device-tested = CineView MLA 1.1.1 seen running on that image (1.1.2 carries the same files). Every version from the
+Device-tested = CineView MLA 1.1.1 seen running on that image (1.1.3 carries the same files apart from one System 2
+screen, device-tested on OpenBH 5.6). Every version from the
 minimum on, with a Python its family package carries, is supported: the installer
 checks what CineView needs from the image's Enigma2 before anything is changed and installs without a question; a
 version that was not device-tested is shown as SUPPORTED (not device-tested). Older versions are refused before any
 change: EGAMI 10.6 and OpenPLi 9.0 lack the Enigma2 ColorButtonsSequence addon the factory design's screens use.
 Images outside these six families (other OE-Alliance images, on the OpenATV screens) are EXPERIMENTAL: the installer
 asks first (`ACCEPT_UNTESTED=1` skips the question).
-`ROLLBACK=1` returns to CineView MLA 1.1.1 (release `packages-1.1.1`) of the same family, design kept.
+`ROLLBACK=1` returns to CineView MLA 1.1.2 (release `packages-1.1.2`) of the same family, design kept.
 
 The installer stops, without changing anything, on: an image whose Enigma2 lacks components CineView's screens need,
 a Python version without compiled modules, a package that fails the SHA256 check, or a download address that cannot
@@ -82,6 +83,13 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.7.2 · CineView MLA 1.1.3** — fixes a GUI crash on OpenBH 5.6 / 6.0 with System 2: simple message
+  boxes (for example "No event info found, recording indefinitely." on an instant recording, conflicting-timer
+  messages, "Stop recording?") fell back to the image's own MessageBoxSimple screen, which crashed on OpenBH
+  (`KeyError: 'ErrorPixmap'`). System 2 now has its own MessageBoxSimple, the same design as its other message boxes,
+  on every image. Nothing else changed: designs, themes, settings, package rules and installer checks are those of
+  1.1.2. `ROLLBACK=1` → 1.1.2.
 
 - **Smart Installer 1.7.1 · CineView MLA 1.1.2** — corrective compatibility release; the designs, screens, code and
   previews are those of 1.1.1, unchanged. One set of compatibility rules for the installer and the packages:
