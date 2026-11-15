@@ -1,9 +1,9 @@
 #!/bin/sh
 # CineView MLA Smart Installer - Design & Development by habeb-s (c) 2026
-# Installs CineView MLA 1.1.5 on Enigma2 images with Python 3.  One package per image family:
-#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.5+openatv_all.ipk
-#   OpenBH, OpenViX                                                                           ..._1.1.5+openbhvix_all.ipk
-#   OpenPLi                                                                                   ..._1.1.5+openpli_all.ipk
+# Installs CineView MLA 1.1.6 on Enigma2 images with Python 3.  One package per image family:
+#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.6+openatv_all.ipk
+#   OpenBH, OpenViX                                                                           ..._1.1.6+openbhvix_all.ipk
+#   OpenPLi                                                                                   ..._1.1.6+openpli_all.ipk
 # Each family package carries CineView's compiled modules for every Python it supports; the image's screen files are
 # chosen on the receiver.  What decides is what the image can do (its Python, the Enigma2 skin components and modules
 # CineView uses, the package architecture, the image's own feeds for the dependencies) - never the receiver model or
@@ -14,7 +14,7 @@
 #   DRYRUN=1      check-only: every check + the package downloaded to /tmp (RAM) and SHA256-verified, then deleted;
 #                 nothing is installed, refreshed (opkg update), restarted or changed on the receiver
 #   RESTART=0     do not restart the GUI at the end
-#   ROLLBACK=1    return to the previous public release (CineView MLA 1.1.4 of the same image family)
+#   ROLLBACK=1    return to the previous public release (CineView MLA 1.1.5 of the same image family)
 #   PKG_DIR=<folder>   install from package files copied to the receiver (USB / FTP), same SHA256 / fingerprint checks
 #   ACCEPT_UNTESTED=1  do not ask before installing on an EXPERIMENTAL image (an image outside the six supported
 #                 families, or one whose version cannot be read)
@@ -25,16 +25,17 @@
 # automatic recovery (opkg --force-downgrade of the SHA256-verified previous release).
 # A diagnostic report of every run is left in /tmp/cineview-install-report.txt (removed at the next reboot).
 export PYTHONDONTWRITEBYTECODE=1  # the checks import modules: never leave byte-code caches on the flash
-INSTALLER_VERSION="1.7.4"
+INSTALLER_VERSION="1.7.5"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Distribution point: the packages are assets of GitHub releases of habeb-s/CineView-MLA-Install (not in any repository
 # tree): <BASE>/<release tag>/<asset>.  GitHub stores ~ of a file name as . in the asset name (+ is kept).
 BASE="${CVMLA_BASE:-https://github.com/habeb-s/CineView-MLA-Install/releases/download}"  # CVMLA_BASE: staging / test hook only
-TAG="packages-1.1.5"
-BUILD_NAME="1.1.5"
-# Device-tested (Vu+ Duo 4K SE multiboot; CineView MLA 1.1.5 = the 1.1.4 files with opaque description panels in the
-# System 1 EventView designs Classic / Classic (line by line), device-tested on the images below in Nov 2026; the
-# package scripts and Depends are those of 1.1.2 - 1.1.4):
+TAG="packages-1.1.6"
+BUILD_NAME="1.1.6"
+# Device-tested (Vu+ Duo 4K SE multiboot; CineView MLA 1.1.6 = the 1.1.5 files with solid, blended text on the images
+# whose Enigma2 drew transparent text (PurE2, EGAMI, OpenPLi, OpenBH 5.x) and the composer / renderer changes for it,
+# device-tested on the images below in Nov 2026 - its test build, same files except the version strings; OpenATV,
+# OpenViX and OpenBH 6.0 get byte-identical screen files to 1.1.5's text handling; package scripts and Depends as 1.1.5):
 # image:version line:Python.
 VERIFIED="openatv:8.0:3.14:openvix:6.9:3.14:openbh:6.0:3.14:openbh:5.6:3.13:openpli:9.2:3.9:egami:11.0:3.13:pure2:7.6:3.13"
 VERIFIED_TEXT="OpenATV 8.0, OpenViX 6.9, OpenBH 6.0 (Python 3.14); OpenBH 5.6, EGAMI 11.0, PurE2 7.6 (Python 3.13); OpenPLi 9.2 (Python 3.9)"
@@ -49,16 +50,16 @@ DEPS="python3-requests python3-pillow"
 # importing them with this receiver's Python.  requests / PIL come from the declared dependencies above; any other
 # missing module is reported by name and the installation stops (no package is guessed for it).
 PYMODS="json threading hashlib gettext zlib xml.etree.ElementTree unicodedata html difflib urllib.request ssl requests PIL.Image twisted"
-# CineView MLA 1.1.5 family packages: F_<family>_* (pinned by SHA256 and by the content fingerprint of the installed files)
-F_openatv_VERSION="1.1.5+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openatv_all.ipk"; F_openatv_SHA="dcd1fdf1c3450c601f8dc72f72fa8c12a72d65c81996383ddf68cbd8b9916ba8"; F_openatv_DIGEST="ce5468645274b62934c407f1a2f6b3e3840e01ead1ed8f07b031af4648066b44"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
-F_openbhvix_VERSION="1.1.5+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openbhvix_all.ipk"; F_openbhvix_SHA="147a6567d5f6004f8d97537ff82d038358dc0f925313c209dd060cbcc662838d"; F_openbhvix_DIGEST="079179dc582d8807ad1de93119f51084d1253838552bb251de07f42031396440"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
-F_openpli_VERSION="1.1.5+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openpli_all.ipk"; F_openpli_SHA="e87d667d1e464df4c36527f42e6e5f2552f6ccc198881155a91032e3cb57bb07"; F_openpli_DIGEST="0e4de18b3ad556bdc98d20d51c368ce00e54ecc70c1070caa337dec90a8bad8d"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
+# CineView MLA 1.1.6 family packages: F_<family>_* (pinned by SHA256 and by the content fingerprint of the installed files)
+F_openatv_VERSION="1.1.6+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openatv_all.ipk"; F_openatv_SHA="4efeb30997a88fa0ca537e9afad8731027103ce754b838d444acd3673815d6b2"; F_openatv_DIGEST="fe7f4605110d603d7c5ad651233b747b732d1e5d5d3cbc91323b4717404d5f6b"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
+F_openbhvix_VERSION="1.1.6+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openbhvix_all.ipk"; F_openbhvix_SHA="baeb2236dd29b224a9f55043f54f2fffd5efe0671f5ef1f8d9e194b97647c286"; F_openbhvix_DIGEST="3cc116979892c603204dfab04396892dded5bfd2928d767828ac3d9889ce0b0d"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
+F_openpli_VERSION="1.1.6+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openpli_all.ipk"; F_openpli_SHA="d9bc96da4c33248b63b28ff52cd796438cfbc99e3105dc92d2cfae0644739654"; F_openpli_DIGEST="0b5e85e1a1c8d62f43989118af0f07b7e9c79be91aa0136f17aeef638093e9e1"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
 # previous public releases (ROLLBACK=1 / recovery), published with Smart Installer 1.3.11 as assets of packages-1.0.1:
 # <IMAGE>_<release>_* = package of the device-tested line, <IMAGE>_<release>_R<py>_* = range package for that Python
-# CineView MLA 1.1.4 (packages-1.1.4): previous public release of every family package (ROLLBACK=1 / recovery)
-P114_openatv_FILE="packages-1.1.4/enigma2-plugin-skins-cineview-fhd-mla_1.1.4+openatv_all.ipk"; P114_openatv_SHA="8eaf6c836c895756f0732ff381895cdc4028a30bba57e56bad2a1b9e4c2f86a7"; P114_openatv_DIGEST="6449dc2d82e332b23ba99611ad36b9bf3983edd325aa8f194c87a2b1bf31b955"
-P114_openbhvix_FILE="packages-1.1.4/enigma2-plugin-skins-cineview-fhd-mla_1.1.4+openbhvix_all.ipk"; P114_openbhvix_SHA="ad44f15c391b7016a371bd4dcfb5449167db1b413adbafd209d755d5ad60ef47"; P114_openbhvix_DIGEST="40f9a2438dec70d52fcd5b82dd0d40c436ec512b729149f48b3ee6015968c6cc"
-P114_openpli_FILE="packages-1.1.4/enigma2-plugin-skins-cineview-fhd-mla_1.1.4+openpli_all.ipk"; P114_openpli_SHA="546e1d42680dbb3ab2ab16d98a20ae10555b31cc8c1e740f92902a35ac35eeec"; P114_openpli_DIGEST="78b59339ce4591cad3a5ac0cc885521b2b3622edd7b44adc1d7442a9c5d59fb8"
+# CineView MLA 1.1.5 (packages-1.1.5): previous public release of every family package (ROLLBACK=1 / recovery)
+P115_openatv_FILE="packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openatv_all.ipk"; P115_openatv_SHA="dcd1fdf1c3450c601f8dc72f72fa8c12a72d65c81996383ddf68cbd8b9916ba8"; P115_openatv_DIGEST="ce5468645274b62934c407f1a2f6b3e3840e01ead1ed8f07b031af4648066b44"
+P115_openbhvix_FILE="packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openbhvix_all.ipk"; P115_openbhvix_SHA="147a6567d5f6004f8d97537ff82d038358dc0f925313c209dd060cbcc662838d"; P115_openbhvix_DIGEST="079179dc582d8807ad1de93119f51084d1253838552bb251de07f42031396440"
+P115_openpli_FILE="packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openpli_all.ipk"; P115_openpli_SHA="e87d667d1e464df4c36527f42e6e5f2552f6ccc198881155a91032e3cb57bb07"; P115_openpli_DIGEST="0e4de18b3ad556bdc98d20d51c368ce00e54ecc70c1070caa337dec90a8bad8d"
 RB_TAG="packages-1.0.1"
 OPENATV_PY="3.14"
 OPENBH_PY="3.13"
@@ -89,6 +90,9 @@ KNOWN="1.1.1+openatv|packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+
 1.1.5+openatv|packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openatv_all.ipk|dcd1fdf1c3450c601f8dc72f72fa8c12a72d65c81996383ddf68cbd8b9916ba8
 1.1.5+openbhvix|packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openbhvix_all.ipk|147a6567d5f6004f8d97537ff82d038358dc0f925313c209dd060cbcc662838d
 1.1.5+openpli|packages-1.1.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.5+openpli_all.ipk|e87d667d1e464df4c36527f42e6e5f2552f6ccc198881155a91032e3cb57bb07
+1.1.6+openatv|packages-1.1.6/enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openatv_all.ipk|4efeb30997a88fa0ca537e9afad8731027103ce754b838d444acd3673815d6b2
+1.1.6+openbhvix|packages-1.1.6/enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openbhvix_all.ipk|baeb2236dd29b224a9f55043f54f2fffd5efe0671f5ef1f8d9e194b97647c286
+1.1.6+openpli|packages-1.1.6/enigma2-plugin-skins-cineview-fhd-mla_1.1.6+openpli_all.ipk|d9bc96da4c33248b63b28ff52cd796438cfbc99e3105dc92d2cfae0644739654
 1.0.8|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8_all.ipk|f013208bbf74ffe1c211faf29153fb798006f44685c450f49a27b482d298b4d4
 1.0.8~openatv.py313|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py313_all.ipk|46de73a32fa9d5094040f910b415c184bba78d684e2dc6c718be22cce28c9a0d
 1.0.8~openatv.py314|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py314_all.ipk|c122bdf04e502e6f0630f553105006f8c55145e88e35160b8d9ad4651b5198d9
@@ -365,7 +369,7 @@ echo $$ > "$LOCK/pid"; HAVELOCK=1
 for d in /tmp/.cvmla.*; do [ -d "$d" ] && [ "$d" != "$LOCK" ] && [ "$d" != "$TMPD" ] && rm -rf "$d" 2>/dev/null; done
 
 # Recovery after a failed installation or a failed start: back to EXACTLY the CineView MLA package installed before
-# when it is one of the pinned packages (1.1.1 - 1.1.5 family packages, previous public releases - SHA256-verified; its own
+# when it is one of the pinned packages (1.1.1 - 1.1.6 family packages, previous public releases - SHA256-verified; its own
 # package scripts keep the design), otherwise to the previous public release of this image - or, when no
 # CineView MLA was installed before, removal of CineView MLA again.  Only the CineView MLA package is touched.
 recover() {
@@ -495,10 +499,10 @@ esac
 [ -d "$RT/usr/lib/python$PYV/site-packages" ] \
 	|| fail "/usr/lib/python$PYV/site-packages is missing: CineView's boot guardian (its start-up safety) could not be installed. To adapt: the guardian's start-up hook for this image's Python layout. Nothing was changed."
 ok "Python $PYV - included in the $FAM family package (Python $FPY_LIST)"
-# previous public release (ROLLBACK=1 / recovery when the package installed before is not pinned): CineView MLA 1.1.4
-# of the same family package (the 1.1.5 files with the earlier, translucent System 1 EventView Classic panels)
-eval "PREV_FILE=\${P114_${FAM}_FILE:-}; PREV_SHA=\${P114_${FAM}_SHA:-}; PREV_DIGEST=\${P114_${FAM}_DIGEST:-}"
-PREV_VERSION="1.1.4+$FAM"
+# previous public release (ROLLBACK=1 / recovery when the package installed before is not pinned): CineView MLA 1.1.5
+# of the same family package (the 1.1.6 files without the blended text of the affected images)
+eval "PREV_FILE=\${P115_${FAM}_FILE:-}; PREV_SHA=\${P115_${FAM}_SHA:-}; PREV_DIGEST=\${P115_${FAM}_DIGEST:-}"
+PREV_VERSION="1.1.5+$FAM"
 
 section "Compatibility level"
 VMAJ=${IVER%%.*}; VREST=${IVER#*.}; VMNR=${VREST%%.*}; VMNR=${VMNR%%[!0-9]*}
@@ -1167,6 +1171,44 @@ esac
 # Automatic GUI restart (Enigma2 only, never a reboot of the receiver): reached only after the package was installed
 # AND every check of the "Verification" section passed (each failure exits before this point).  Not while recording.
 gui_pid() { pidof enigma2 2>/dev/null | awk '{print $1}'; }
+# 1.7.5: GUI stop / start through the init system.  Enigma2 is started again only when the old process has fully
+# exited and 6 s have passed: started at once, Enigma2 can come up before the tuner driver has released the frontends
+# and then runs without any tuner until the next restart (seen on OpenPLi 9.2 with FBC tuners, Nov 2026).
+gui_restart_init() {
+	init 4 2>/dev/null
+	for i in $(seq 1 45); do pidof enigma2 >/dev/null 2>&1 || break; sleep 1; done
+	sleep 6
+	init 3 2>/dev/null
+}
+fe_handles() {  # frontend devices the running Enigma2 holds open (0 = no tuner in use)
+	_p=$(gui_pid); [ -n "$_p" ] || { echo 0; return; }
+	ls -l "/proc/$_p/fd" 2>/dev/null | grep -c "/dev/dvb/adapter[0-9]*/frontend"
+}
+dmx_handles() {
+	_p=$(gui_pid); [ -n "$_p" ] || { echo 0; return; }
+	ls -l "/proc/$_p/fd" 2>/dev/null | grep -c "/dev/dvb/adapter[0-9]*/demux"
+}
+signal_values() {  # SNR / AGC / BER of the current service as the web interface reports them ("" = none)
+	wget -qO - "http://127.0.0.1/web/signal" 2>/dev/null | tr -d '\n' | sed -n 's/.*<e2snr>[^0-9<]*\([0-9][0-9]*\)[^<]*<.*<e2ber>[^0-9<]*\([0-9][0-9]*\)[^<]*<.*<e2acg>[^0-9<]*\([0-9][0-9]*\)[^<]*<.*/SNR \1 % - AGC \3 % - BER \2/p'
+}
+signal_page() {  # the web interface answers the signal page at all (no web interface: only the frontend is checked)
+	wget -qO - "http://127.0.0.1/web/signal" 2>/dev/null | grep -q "<e2frontendstatus"
+}
+# Tuner check after a restart, only when a tuner was in use before it ($1 = frontend handles before): up to 60 s for
+# the frontend + demux to be held again and the signal values to appear.  A warning only - never a second restart.
+tuner_check() {
+	[ "${1:-0}" -gt 0 ] 2>/dev/null || { info "No tuner was in use before the restart - tuner check skipped"; return 0; }
+	for i in $(seq 1 12); do
+		SV=$(signal_values)
+		if [ "$(fe_handles)" -gt 0 ] && [ "$(dmx_handles)" -gt 0 ]; then
+			if [ -n "$SV" ]; then ok "Tuner in use again ($SV)"; return 0; fi
+			signal_page || { ok "Tuner in use again (frontend and demux held; no web interface for the signal values)"; return 0; }
+		fi
+		sleep 5
+	done
+	warn "The GUI restarted, but Enigma2 has not taken the tuner back (no frontend / signal values). CineView MLA is installed; please restart the GUI once more: Menu > Standby / Restart > Restart GUI"
+	return 1
+}
 recording() { wget -qO - "http://127.0.0.1/api/statusinfo" 2>/dev/null | grep -q '"isRecording": "true"'; }
 timer_soon() {  # a timer that starts within 10 minutes (or is running)
 	wget -qO - "http://127.0.0.1/api/timerlist" 2>/dev/null | python3 -c '
@@ -1188,7 +1230,7 @@ elif recording || timer_soon; then
 	warn "A recording is running or a timer starts within 10 minutes - the GUI is not restarted now. Restart it later (Menu > Standby / Restart > Restart GUI)."
 else
 	printf '\n  %s%sThe GUI restarts automatically now to load CineView MLA %s ...%s\n' "$B" "$C" "$VERSION" "$N"
-	OLD=$(gui_pid); NEW=""
+	OLD=$(gui_pid); NEW=""; FE0=$(fe_handles)
 	CRASH0=$(ls -t /home/root/logs/*crash*.log 2>/dev/null | head -n 1)
 	sleep 2
 	# 1) the image's own clean restart through its web interface (OpenWebif / its API: settings are saved first)
@@ -1199,9 +1241,7 @@ else
 	# 2) not restarted (web interface missing, protected or busy): the init system's own GUI stop / start - the
 	#    method every OE-Alliance image (OpenATV, OpenBH, OpenViX) supports; Enigma2 saves its settings on stop
 	if [ -z "$NEW" ] || [ "$NEW" = "$OLD" ]; then
-		init 4 2>/dev/null
-		for i in $(seq 1 30); do pidof enigma2 >/dev/null 2>&1 || break; sleep 1; done
-		init 3 2>/dev/null
+		gui_restart_init
 		for i in $(seq 1 40); do sleep 1; NEW=$(gui_pid); [ -n "$NEW" ] && [ "$NEW" != "$OLD" ] && break; done
 	fi
 	if [ -n "$NEW" ] && [ "$NEW" != "$OLD" ]; then
@@ -1216,14 +1256,16 @@ else
 		[ "$CRASH1" != "$CRASH0" ] && ACTOK=0
 		if [ "$ACTOK" = "1" ]; then
 			ok "CineView MLA $VERSION is running (GUI stable, no new crash log)"
+			tuner_check "$FE0"
 		elif [ "$ACTIVE" = "1" ]; then
 			warn "The GUI did not start cleanly with CineView MLA $VERSION${CRASH1:+ (crash log: $CRASH1)}"
 			recover "the GUI did not start cleanly"
 			if [ "${RECOVERED:-0}" = "1" ]; then
 				P4=$(gui_pid)
-				wget -qO /dev/null "http://127.0.0.1/api/powerstate?newstate=3" 2>/dev/null || { init 4; sleep 5; init 3; }
+				wget -qO /dev/null "http://127.0.0.1/api/powerstate?newstate=3" 2>/dev/null || gui_restart_init
 				P5=""; for i in $(seq 1 60); do sleep 1; P5=$(gui_pid); [ -n "$P5" ] && [ "$P5" != "$P4" ] && break; done
-				if [ -n "$P5" ] && [ "$P5" != "$P4" ]; then ok "GUI restarted with CineView MLA $PREV_VERSION"
+				[ -n "$P5" ] && [ "$P5" != "$P4" ] || { gui_restart_init; for i in $(seq 1 40); do sleep 1; P5=$(gui_pid); [ -n "$P5" ] && [ "$P5" != "$P4" ] && break; done; }
+				if [ -n "$P5" ] && [ "$P5" != "$P4" ]; then ok "GUI restarted with CineView MLA $PREV_VERSION"; sleep 25; tuner_check "$FE0"
 				else warn "Please restart the GUI: Menu > Standby / Restart > Restart GUI"; fi
 			fi
 			printf '\n'; exit 1
