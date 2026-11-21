@@ -1,4 +1,4 @@
-b1f1359d778bde7a298d5a57a8866ab9f0c8254fff4be75a8f568d99d51bfc84  cineview-install.sh
+cc634aedd7bd2090dce7c53e8760d09173e9aab4bc4bce2bcb94b250056123f2  cineview-install.sh
 034ccbbc1eebe88842beaf12b850f73734dc4221e8f2aa9445b7c8618a5d1315  cineview-uninstall.sh
 80808b77c716c912366ce10f948aa5e3270e7730b61c0e9ed9b4d717ad60fab3  enigma2-plugin-skins-cineview-fhd-mla_1.0.1_all.ipk
 b5670e21891b3183872e6aa259efc2eafb76c7172235f50c3c696b4cb54c76f2  enigma2-plugin-skins-cineview-fhd-mla_1.0.1~openatv.py313_all.ipk
@@ -97,3 +97,6 @@ d8c6b9f3a10bc856fef07e2ebbaa1f808284494c96a62b00c9d4c4e3cec8afb0  enigma2-plugin
 2d303ea0eb1aaf055aa1479507ef2505360b095296e7d426b70232068f85c0cc  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openatv_all.ipk
 734b40afc2888a3dba021c45e11bbd5002fde908c395e6f0dcea603a6a01eb2c  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openbhvix_all.ipk
 aae6d45adda4cdca20586d0354446fa2dfe60d8a5bb1c22b23f3611ec847aa1d  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openpli_all.ipk
+3ad2700f2475cba962fec4e1717f30608ac23b57d04896fc60820f478361a62a  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openatv_all.ipk
+5201eecd16cc74b8e913506638bc60cf5350ee0ccc19a7a8097dcff1fb5a9847  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openbhvix_all.ipk
+a4726ed2135fd440acc38a41515a7b255af814e7fddf3a18d7e922ea3c93fcab  enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openpli_all.ipk

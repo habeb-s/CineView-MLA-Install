@@ -1,9 +1,9 @@
 #!/bin/sh
 # CineView MLA Smart Installer - Design & Development by habeb-s (c) 2026
-# Installs CineView MLA 1.1.7.1 on Enigma2 images with Python 3.  One package per image family:
-#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.7.1+openatv_all.ipk
-#   OpenBH, OpenViX                                                                           ..._1.1.7.1+openbhvix_all.ipk
-#   OpenPLi                                                                                   ..._1.1.7.1+openpli_all.ipk
+# Installs CineView MLA 1.1.7.2.5 on Enigma2 images with Python 3.  One package per image family:
+#   OpenATV, EGAMI, PurE2 (and other OE-Alliance images the OpenATV family package accepts)  ..._1.1.7.2.5+openatv_all.ipk
+#   OpenBH, OpenViX                                                                           ..._1.1.7.2.5+openbhvix_all.ipk
+#   OpenPLi                                                                                   ..._1.1.7.2.5+openpli_all.ipk
 # Each family package carries CineView's compiled modules for every Python it supports; the image's screen files are
 # chosen on the receiver.  What decides is what the image can do (its Python, the Enigma2 skin components and modules
 # CineView uses, the package architecture, the image's own feeds for the dependencies) - never the receiver model or
@@ -14,7 +14,7 @@
 #   DRYRUN=1      check-only: every check + the package downloaded to /tmp (RAM) and SHA256-verified, then deleted;
 #                 nothing is installed, refreshed (opkg update), restarted or changed on the receiver
 #   RESTART=0     do not restart the GUI at the end
-#   ROLLBACK=1    return to the previous public release (CineView MLA 1.1.7 of the same image family)
+#   ROLLBACK=1    return to the previous public release (CineView MLA 1.1.7.1 of the same image family)
 #   PKG_DIR=<folder>   install from package files copied to the receiver (USB / FTP), same SHA256 / fingerprint checks
 #   ACCEPT_UNTESTED=1  do not ask before installing on an EXPERIMENTAL image (an image outside the six supported
 #                 families, or one whose version cannot be read)
@@ -25,17 +25,17 @@
 # automatic recovery (opkg --force-downgrade of the SHA256-verified previous release).
 # A diagnostic report of every run is left in /tmp/cineview-install-report.txt (removed at the next reboot).
 export PYTHONDONTWRITEBYTECODE=1  # the checks import modules: never leave byte-code caches on the flash
-INSTALLER_VERSION="1.7.7"
+INSTALLER_VERSION="1.7.8"
 PKG="enigma2-plugin-skins-cineview-fhd-mla"
 # Distribution point: the packages are assets of GitHub releases of habeb-s/CineView-MLA-Install (not in any repository
 # tree): <BASE>/<release tag>/<asset>.  GitHub stores ~ of a file name as . in the asset name (+ is kept).
 BASE="${CVMLA_BASE:-https://github.com/habeb-s/CineView-MLA-Install/releases/download}"  # CVMLA_BASE: staging / test hook only
-TAG="packages-1.1.7.1"
-BUILD_NAME="1.1.7.1"
-# Device-tested (Vu+ Duo 4K SE multiboot; CineView MLA 1.1.7.1 = the 1.1.7 files except two modules: readable
-# channel-list folder rows (bouquets, satellites, providers) and the network label of the default-route interface
-# (LAN IP / Wi-Fi IP / IP).  1.1.7 was device-tested on the images below in Nov 2026; the 1.1.7.1 changes were
-# device-tested on OpenATV 8.0.1; package scripts and Depends as 1.1.7):
+TAG="packages-1.1.7.2.5"
+BUILD_NAME="1.1.7.2.5"
+# Device-tested (Vu+ Duo 4K SE multiboot; CineView MLA 1.1.7.2.5 = the 1.1.7.1 files except the System 2 converter
+# modules (each value computed once per update, hidden screens refreshed when opened), the v2 channel-list renderer,
+# the plugin, the composer and the new volume / Signal Finder images; device-tested on the images below in Nov 2026 -
+# its test build, same files except the version information and code comments; package scripts and Depends as 1.1.7.1):
 # image:version line:Python.
 VERIFIED="openatv:8.0:3.14:openvix:6.9:3.14:openbh:6.0:3.14:openbh:5.6:3.13:openpli:9.2:3.9:egami:11.0:3.13:pure2:7.6:3.13"
 VERIFIED_TEXT="OpenATV 8.0, OpenViX 6.9, OpenBH 6.0 (Python 3.14); OpenBH 5.6, EGAMI 11.0, PurE2 7.6 (Python 3.13); OpenPLi 9.2 (Python 3.9)"
@@ -50,16 +50,16 @@ DEPS="python3-requests python3-pillow"
 # importing them with this receiver's Python.  requests / PIL come from the declared dependencies above; any other
 # missing module is reported by name and the installation stops (no package is guessed for it).
 PYMODS="json threading hashlib gettext zlib xml.etree.ElementTree unicodedata html difflib urllib.request ssl requests PIL.Image twisted"
-# CineView MLA 1.1.7.1 family packages: F_<family>_* (pinned by SHA256 and by the content fingerprint of the installed files)
-F_openatv_VERSION="1.1.7.1+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openatv_all.ipk"; F_openatv_SHA="2d303ea0eb1aaf055aa1479507ef2505360b095296e7d426b70232068f85c0cc"; F_openatv_DIGEST="209a9d77f01e764c8d2934866e5b2711f3af3f33c413c4665c737c69110d3dc7"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
-F_openbhvix_VERSION="1.1.7.1+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openbhvix_all.ipk"; F_openbhvix_SHA="734b40afc2888a3dba021c45e11bbd5002fde908c395e6f0dcea603a6a01eb2c"; F_openbhvix_DIGEST="e3cae40ec78f19da8dd02fac36e756a613108e4384804d42939492e1be034f65"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
-F_openpli_VERSION="1.1.7.1+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openpli_all.ipk"; F_openpli_SHA="aae6d45adda4cdca20586d0354446fa2dfe60d8a5bb1c22b23f3611ec847aa1d"; F_openpli_DIGEST="ff09744c4521eaf801386a71334066106722508293b39341d13a07261e9c2ce0"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
+# CineView MLA 1.1.7.2.5 family packages: F_<family>_* (pinned by SHA256 and by the content fingerprint of the installed files)
+F_openatv_VERSION="1.1.7.2.5+openatv"; F_openatv_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openatv_all.ipk"; F_openatv_SHA="3ad2700f2475cba962fec4e1717f30608ac23b57d04896fc60820f478361a62a"; F_openatv_DIGEST="8c566a31d6dafa41f5d9d8ab685e1c494de44e03d60ccdae40ab256d76cd683c"; F_openatv_PY="3.10 3.11 3.12 3.13 3.14"  # OpenATV, EGAMI, PurE2
+F_openbhvix_VERSION="1.1.7.2.5+openbhvix"; F_openbhvix_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openbhvix_all.ipk"; F_openbhvix_SHA="5201eecd16cc74b8e913506638bc60cf5350ee0ccc19a7a8097dcff1fb5a9847"; F_openbhvix_DIGEST="d81a7a0c2f864306197aaaa5d07d469faf5fef72387a999f1fd97c5d86d4df40"; F_openbhvix_PY="3.10 3.11 3.12 3.13 3.14"  # OpenBH, OpenViX
+F_openpli_VERSION="1.1.7.2.5+openpli"; F_openpli_FILE="enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openpli_all.ipk"; F_openpli_SHA="a4726ed2135fd440acc38a41515a7b255af814e7fddf3a18d7e922ea3c93fcab"; F_openpli_DIGEST="da98ba0b972292f8c09de43113bd1868647673d67a225e42fbd6e67b3de053d7"; F_openpli_PY="3.9 3.10 3.11 3.12 3.13 3.14"  # OpenPLi
 # previous public releases (ROLLBACK=1 / recovery), published with Smart Installer 1.3.11 as assets of packages-1.0.1:
 # <IMAGE>_<release>_* = package of the device-tested line, <IMAGE>_<release>_R<py>_* = range package for that Python
-# CineView MLA 1.1.7 (packages-1.1.7): previous public release of every family package (ROLLBACK=1 / recovery)
-P117_openatv_FILE="packages-1.1.7/enigma2-plugin-skins-cineview-fhd-mla_1.1.7+openatv_all.ipk"; P117_openatv_SHA="7ec804d5193703547f949ab9a418af80d882e86c04a403d55603750b67aae086"; P117_openatv_DIGEST="ff3a08fd51f855b2e63c0dcbf226fa0e44e88ed7679c8e8d49938997551b2039"
-P117_openbhvix_FILE="packages-1.1.7/enigma2-plugin-skins-cineview-fhd-mla_1.1.7+openbhvix_all.ipk"; P117_openbhvix_SHA="f06b74dc37615b1aeb92f738df0990bed47a3e6adbe7ce246a0dce894d52e76a"; P117_openbhvix_DIGEST="fef171d25976d01a0ed402645f366961fa9d1b679ec51689d8875f94babb2c57"
-P117_openpli_FILE="packages-1.1.7/enigma2-plugin-skins-cineview-fhd-mla_1.1.7+openpli_all.ipk"; P117_openpli_SHA="d8c6b9f3a10bc856fef07e2ebbaa1f808284494c96a62b00c9d4c4e3cec8afb0"; P117_openpli_DIGEST="5fcb8455ce5af8a48244a0fc189b7cfeb9cf734954f0da7c3b71c08e6b101104"
+# CineView MLA 1.1.7.1 (packages-1.1.7.1): previous public release of every family package (ROLLBACK=1 / recovery)
+P1171_openatv_FILE="packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openatv_all.ipk"; P1171_openatv_SHA="2d303ea0eb1aaf055aa1479507ef2505360b095296e7d426b70232068f85c0cc"; P1171_openatv_DIGEST="209a9d77f01e764c8d2934866e5b2711f3af3f33c413c4665c737c69110d3dc7"
+P1171_openbhvix_FILE="packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openbhvix_all.ipk"; P1171_openbhvix_SHA="734b40afc2888a3dba021c45e11bbd5002fde908c395e6f0dcea603a6a01eb2c"; P1171_openbhvix_DIGEST="e3cae40ec78f19da8dd02fac36e756a613108e4384804d42939492e1be034f65"
+P1171_openpli_FILE="packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openpli_all.ipk"; P1171_openpli_SHA="aae6d45adda4cdca20586d0354446fa2dfe60d8a5bb1c22b23f3611ec847aa1d"; P1171_openpli_DIGEST="ff09744c4521eaf801386a71334066106722508293b39341d13a07261e9c2ce0"
 RB_TAG="packages-1.0.1"
 OPENATV_PY="3.14"
 OPENBH_PY="3.13"
@@ -99,6 +99,9 @@ KNOWN="1.1.1+openatv|packages-1.1.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.1+
 1.1.7.1+openatv|packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openatv_all.ipk|2d303ea0eb1aaf055aa1479507ef2505360b095296e7d426b70232068f85c0cc
 1.1.7.1+openbhvix|packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openbhvix_all.ipk|734b40afc2888a3dba021c45e11bbd5002fde908c395e6f0dcea603a6a01eb2c
 1.1.7.1+openpli|packages-1.1.7.1/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.1+openpli_all.ipk|aae6d45adda4cdca20586d0354446fa2dfe60d8a5bb1c22b23f3611ec847aa1d
+1.1.7.2.5+openatv|packages-1.1.7.2.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openatv_all.ipk|3ad2700f2475cba962fec4e1717f30608ac23b57d04896fc60820f478361a62a
+1.1.7.2.5+openbhvix|packages-1.1.7.2.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openbhvix_all.ipk|5201eecd16cc74b8e913506638bc60cf5350ee0ccc19a7a8097dcff1fb5a9847
+1.1.7.2.5+openpli|packages-1.1.7.2.5/enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.5+openpli_all.ipk|a4726ed2135fd440acc38a41515a7b255af814e7fddf3a18d7e922ea3c93fcab
 1.0.8|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8_all.ipk|f013208bbf74ffe1c211faf29153fb798006f44685c450f49a27b482d298b4d4
 1.0.8~openatv.py313|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py313_all.ipk|46de73a32fa9d5094040f910b415c184bba78d684e2dc6c718be22cce28c9a0d
 1.0.8~openatv.py314|packages-1.0.1/enigma2-plugin-skins-cineview-fhd-mla_1.0.8~openatv.py314_all.ipk|c122bdf04e502e6f0630f553105006f8c55145e88e35160b8d9ad4651b5198d9
@@ -375,7 +378,7 @@ echo $$ > "$LOCK/pid"; HAVELOCK=1
 for d in /tmp/.cvmla.*; do [ -d "$d" ] && [ "$d" != "$LOCK" ] && [ "$d" != "$TMPD" ] && rm -rf "$d" 2>/dev/null; done
 
 # Recovery after a failed installation or a failed start: back to EXACTLY the CineView MLA package installed before
-# when it is one of the pinned packages (1.1.1 - 1.1.7.1 family packages, previous public releases - SHA256-verified; its own
+# when it is one of the pinned packages (1.1.1 - 1.1.7.2.5 family packages, previous public releases - SHA256-verified; its own
 # package scripts keep the design), otherwise to the previous public release of this image - or, when no
 # CineView MLA was installed before, removal of CineView MLA again.  Only the CineView MLA package is touched.
 recover() {
@@ -505,10 +508,10 @@ esac
 [ -d "$RT/usr/lib/python$PYV/site-packages" ] \
 	|| fail "/usr/lib/python$PYV/site-packages is missing: CineView's boot guardian (its start-up safety) could not be installed. To adapt: the guardian's start-up hook for this image's Python layout. Nothing was changed."
 ok "Python $PYV - included in the $FAM family package (Python $FPY_LIST)"
-# previous public release (ROLLBACK=1 / recovery when the package installed before is not pinned): CineView MLA 1.1.7
-# of the same family package (the 1.1.7.1 files without the folder-row and network-label fixes)
-eval "PREV_FILE=\${P117_${FAM}_FILE:-}; PREV_SHA=\${P117_${FAM}_SHA:-}; PREV_DIGEST=\${P117_${FAM}_DIGEST:-}"
-PREV_VERSION="1.1.7+$FAM"
+# previous public release (ROLLBACK=1 / recovery when the package installed before is not pinned): CineView MLA 1.1.7.1
+# of the same family package (the 1.1.7.2.5 files without the performance, channel-list, Signal Finder and volume changes)
+eval "PREV_FILE=\${P1171_${FAM}_FILE:-}; PREV_SHA=\${P1171_${FAM}_SHA:-}; PREV_DIGEST=\${P1171_${FAM}_DIGEST:-}"
+PREV_VERSION="1.1.7.1+$FAM"
 
 section "Compatibility level"
 VMAJ=${IVER%%.*}; VREST=${IVER#*.}; VMNR=${VREST%%.*}; VMNR=${VMNR%%[!0-9]*}
