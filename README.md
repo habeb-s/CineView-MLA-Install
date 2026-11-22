@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.1.7.2.6 · Smart Installer 1.7.9**
+**CineView MLA 1.1.7.2.8 · Smart Installer 1.7.10**
 
 One installer for **OpenATV, EGAMI, PurE2, OpenBH, OpenViX and OpenPLi** on any Enigma2 receiver. It is not tied to
 a receiver model, brand, multiboot slot or a single image version: it identifies the image and its Python by itself,
@@ -17,15 +17,15 @@ wget -qO /tmp/cineview-install.sh https://raw.githubusercontent.com/habeb-s/Cine
 Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous public release · `RESTART=0` no automatic GUI
 restart · `PKG_DIR=<folder>` install from package files copied to the receiver
 
-## Packages (release `packages-1.1.7.2.6`)
+## Packages (release `packages-1.1.7.2.8`)
 
 One package per image family; each carries CineView's compiled modules for every Python it supports.
 
 | Images | Package | Python |
 |---|---|---|
-| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.6+openatv_all.ipk` | 3.10 – 3.14 |
-| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.6+openbhvix_all.ipk` | 3.10 – 3.14 |
-| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.6+openpli_all.ipk` | 3.9 – 3.14 |
+| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.8+openatv_all.ipk` | 3.10 – 3.14 |
+| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.8+openbhvix_all.ipk` | 3.10 – 3.14 |
+| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.8+openpli_all.ipk` | 3.9 – 3.14 |
 
 The packages can also be installed by hand (`opkg update`, then `opkg install /tmp/<package>.ipk`). They enforce the
 same rules as the installer: opkg itself refuses another image family, an image older than the minimum and a Python
@@ -37,7 +37,7 @@ of this before it changes anything.
 
 ## Compatibility
 
-| Image | Device-tested with 1.1.7.2.5 (Vu+ Duo 4K SE, Nov 2026) | Python | Supported from |
+| Image | Device-tested with 1.1.7.2.8 (Vu+ Duo 4K SE, Nov 2026) | Python | Supported from |
 |---|---|---|---|
 | OpenATV | 8.0.1 | 3.14 | 7.6 |
 | EGAMI | 11.0 | 3.13 | 11.0 |
@@ -46,10 +46,9 @@ of this before it changes anything.
 | OpenViX | 6.9 | 3.14 | 6.7 |
 | OpenPLi | 9.2 | 3.9 | 9.1 |
 
-Device-tested = the CineView MLA 1.1.7.2.5 test build (same files except the version information and code comments)
-installed on that image and its screens seen running there (1.1.7.2.6 = the 1.1.7.2.5 files except the channel-list
-renderer below, device-tested on OpenATV 8.0.1; the same compiled renderer is in every family package);
-OpenBH 5.6 (Python 3.13) was device-tested with 1.1.7.2.5 as well (the installer shows
+Device-tested = the CineView MLA 1.1.7.2.8 test build (same files except the version information and code comments)
+installed on that image and its screens seen running there;
+OpenBH 5.6 (Python 3.13) was device-tested with 1.1.7.2.8 as well (the installer shows
 it as SUPPORTED). Every version from the
 minimum on, with a Python its family package carries, is supported: the installer
 checks what CineView needs from the image's Enigma2 before anything is changed and installs without a question; a
@@ -57,7 +56,7 @@ version that was not device-tested is shown as SUPPORTED (not device-tested). Ol
 change: EGAMI 10.6 and OpenPLi 9.0 lack the Enigma2 ColorButtonsSequence addon the factory design's screens use.
 Images outside these six families (other OE-Alliance images, on the OpenATV screens) are EXPERIMENTAL: the installer
 asks first (`ACCEPT_UNTESTED=1` skips the question).
-`ROLLBACK=1` returns to CineView MLA 1.1.7.2.5 (release `packages-1.1.7.2.5`) of the same family, design kept.
+`ROLLBACK=1` returns to CineView MLA 1.1.7.2.6 (release `packages-1.1.7.2.6`) of the same family, design kept.
 
 The installer stops, without changing anything, on: an image whose Enigma2 lacks components CineView's screens need,
 a Python version without compiled modules, a package that fails the SHA256 check, or a download address that cannot
@@ -86,6 +85,21 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.7.10 · CineView MLA 1.1.7.2.8** — two visual fixes, everything else as 1.1.7.2.6:
+  - **Opaque text on every image:** on images whose Enigma2 lets the picture show through the letters of transparent
+    text (seen on OpenPLi 9.x, EGAMI 11, PurE2 7.6 and OpenBH 5.x), CineView now draws every text element fully
+    opaque. The correction no longer depends on a fixed list of images, so any image with the same behaviour is
+    covered; on images that already drew opaque text nothing visible changes. A design created by an older version
+    is rebuilt with it when the package is installed.
+  - **Selected row in the Channel List** of the v2 designs (Aero Deck v2, Cyan Line v2, Arabic Cinema v2, Sport Pro
+    v2): the accent frame of the selected row fades out smoothly after the channel-name column (mirrored in Arabic
+    Cinema); fill, stripe, text and unselected rows are unchanged.
+  - **Overlay notices drawn on the picture** (NumberZap, clock, video mode, buffer, PiP, RDS, DVD player, Timeshift
+    Live): letters fully opaque on the theme panel colour, no background plate, layout unchanged.
+  - All 1.1.7.2.6 features unchanged: readable selected row, lower CPU load during channel changes, the Signal Finder
+    gradient, five volume designs and five positions.
+  - **Smart Installer:** release data only (target `packages-1.1.7.2.8`, `ROLLBACK=1` → 1.1.7.2.6); everything else as 1.7.9.
 
 - **Smart Installer 1.7.9 · CineView MLA 1.1.7.2.6** — one readability fix, everything else as 1.1.7.2.5:
   - **Readable selected row in the Channel List** of the v2 designs (Aero Deck v2, Cyan Line v2, Arabic Cinema v2,
