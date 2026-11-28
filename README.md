@@ -2,7 +2,7 @@
 
 Design & Development by habeb-s © 2026
 
-**CineView MLA 1.1.7.2.11 · Smart Installer 1.7.11**
+**CineView MLA 1.1.8 · Smart Installer 1.7.12**
 
 One installer for **OpenATV, EGAMI, PurE2, OpenBH, OpenViX and OpenPLi** on any Enigma2 receiver. It is not tied to
 a receiver model, brand, multiboot slot or a single image version: it identifies the image and its Python by itself,
@@ -17,15 +17,15 @@ wget -qO /tmp/cineview-install.sh https://raw.githubusercontent.com/habeb-s/Cine
 Options (before `sh`): `DRYRUN=1` checks only · `ROLLBACK=1` previous public release · `RESTART=0` no automatic GUI
 restart · `PKG_DIR=<folder>` install from package files copied to the receiver
 
-## Packages (release `packages-1.1.7.2.11`)
+## Packages (release `packages-1.1.8`)
 
 One package per image family; each carries CineView's compiled modules for every Python it supports.
 
 | Images | Package | Python |
 |---|---|---|
-| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.11+openatv_all.ipk` | 3.10 – 3.14 |
-| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.11+openbhvix_all.ipk` | 3.10 – 3.14 |
-| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.7.2.11+openpli_all.ipk` | 3.9 – 3.14 |
+| OpenATV, EGAMI, PurE2 | `enigma2-plugin-skins-cineview-fhd-mla_1.1.8+openatv_all.ipk` | 3.10 – 3.14 |
+| OpenBH, OpenViX | `enigma2-plugin-skins-cineview-fhd-mla_1.1.8+openbhvix_all.ipk` | 3.10 – 3.14 |
+| OpenPLi | `enigma2-plugin-skins-cineview-fhd-mla_1.1.8+openpli_all.ipk` | 3.9 – 3.14 |
 
 The packages can also be installed by hand (`opkg update`, then `opkg install /tmp/<package>.ipk`). They enforce the
 same rules as the installer: opkg itself refuses another image family, an image older than the minimum and a Python
@@ -47,7 +47,15 @@ of this before it changes anything.
 | OpenPLi | 9.2 | 3.9 | 9.1 |
 
 Device-tested = the CineView MLA 1.1.7.2.11 test build (same files except the version information and code comments)
-installed on that image and its screens seen running there;
+installed on that image and its screens seen running there; CineView MLA 1.1.8 keeps every image-specific file of
+1.1.7.2.11. Its files were installed and checked live on every image above (Yellow and Blue/Cyan, System 1 and 2,
+InfoBars, Channel Lists with the folder icon, the Yes/No dialog, TMDB without a key; EventView and EPG where the test
+channel had programme data, not on OpenViX / OpenBH 6.0), each image then restored; the dialog's centred answer text in English and with an Arabic interface on OpenViX 6.9, OpenBH 6.0 / 5.6 and
+OpenPLi 9.2, and on OpenPLi 9.2 the SkinSelector Restart GUI question (Yes) and the OpenWebif GUI restart after a
+dialog. On OpenATV 8.0 the TMDB provider was tested with a real user key (EventView and EPG: a real TMDB rating and
+badge, no overlap or clipping; the Arabic-first lookup falls back to English correctly); Arabic button labels on
+OpenATV were not live-tested (no Arabic language pack on that image). The rotor icons (Dish and Dishpip) are validated
+offline only, because no dish movement was performed. SkinSelector Restart GUI question (Yes) and the OpenWebif GUI restart after a dialog;
 OpenBH 5.6 (Python 3.13) was device-tested with 1.1.7.2.11 as well (the installer shows
 it as SUPPORTED). Every version from the
 minimum on, with a Python its family package carries, is supported: the installer
@@ -56,7 +64,7 @@ version that was not device-tested is shown as SUPPORTED (not device-tested). Ol
 change: EGAMI 10.6 and OpenPLi 9.0 lack the Enigma2 ColorButtonsSequence addon the factory design's screens use.
 Images outside these six families (other OE-Alliance images, on the OpenATV screens) are EXPERIMENTAL: the installer
 asks first (`ACCEPT_UNTESTED=1` skips the question).
-`ROLLBACK=1` returns to CineView MLA 1.1.7.2.8 (release `packages-1.1.7.2.8`) of the same family, design kept.
+`ROLLBACK=1` returns to CineView MLA 1.1.7.2.11 (release `packages-1.1.7.2.11`) of the same family, design kept.
 
 The installer stops, without changing anything, on: an image whose Enigma2 lacks components CineView's screens need,
 a Python version without compiled modules, a package that fails the SHA256 check, or a download address that cannot
@@ -85,6 +93,37 @@ that use OAWeather (for example Luka FHD, AGlare FHD) are not touched.
 - Weather switched off in OAWeather's settings → OAWeather's location is not used.
 
 ## Changes
+
+- **Smart Installer 1.7.12 · CineView MLA 1.1.8** — everything else as 1.1.7.2.11:
+  - **Primary Accent Color** (CineView Designs, row after Color theme): **Yellow – Current Default** (unchanged) or
+    **Blue/Cyan – Approved Blue Design Accent** (`#22B4CC` selection / progress, `#4FD6E8` accent text, `#7FAFC2` soft
+    accent text). It colours every primary accent of System 1 and System 2 - all designs, InfoBars, Second InfoBars,
+    EventView, Channel Lists, Technical Page, Signal Finder, shared screens, the Arabic RTL layouts, the keyboard's
+    selected key and the volume frames - and keeps design, theme, backgrounds, fonts and layout. Colour keys, signal,
+    warning, rating, encryption, lock, timer, weather, picon and poster colours are unchanged; Aero Deck v2, Sport Pro v2
+    and Cyan Line v2 keep their own palettes. The choice is saved with the design and kept across restarts and design
+    changes; Restore Factory Design returns to Yellow.
+  - **Channel List folder icon:** a new 38×38 folder icon (bouquet / satellite / provider rows of the image Channel
+    List; the images also show it for folders in the recordings list).
+  - **Preview pictures:** no personal receiver data in any preview (neutral demo text instead); the Blue/Cyan pictures
+    are offline previews.
+  - **Rotor (Dish) icon:** a new motor / satellite-to-satellite icon in the popup shown while the dish turns (and a
+    fitted version for the PiP popup); it follows the Primary Accent Color. Position, size and rotor texts unchanged.
+  - **Yes/No and message dialogs** (for example the Restart GUI question): CineView card with title, type icon beside
+    the text, the selected answer as an inset rounded bar in the accent colour; Arabic messages right-to-left. The
+    answer text is centred vertically in the bar on every image (OpenViX, OpenBH and OpenPLi with a per-image text
+    offset), and on OpenPLi 9.x (Python 3.9) the dialog opens without a Python error, so the OpenWebif GUI restart keeps
+    working after a dialog.
+  - **TMDB ratings provider (optional):** Ratings provider → TMDB with your own TMDB API key (CineView Designs → TMDB API
+    key; no key is included). IMDb fills the rating for works TMDB cannot rate and while no key is entered. Only the
+    title, year and language are sent to TMDB (HTTPS); ratings are cached on the HDD for a week. Titles are looked up
+    in the interface language first (Arabic for an Arabic interface), then in English; entries with fewer than 3 votes
+    are never taken as a match. This product uses the TMDB API but is not endorsed or certified by TMDB.
+    The key is kept only in `/etc/enigma2/cineview/tmdb_api_key` (owner root, permissions 600). Installation creates
+    the folder and an empty file when they are missing; updates and reinstallations never change an existing key. An
+    empty file means TMDB is off. To enter the key by hand instead of CineView Designs (one line, your own key):
+    `echo 'YOUR_TMDB_API_KEY' > /etc/enigma2/cineview/tmdb_api_key && chmod 600 /etc/enigma2/cineview/tmdb_api_key`
+  - **Smart Installer:** release data only (target `packages-1.1.8`, `ROLLBACK=1` → 1.1.7.2.11); everything else as 1.7.11.
 
 - **Smart Installer 1.7.11 · CineView MLA 1.1.7.2.11** — easier-to-read text, everything else as 1.1.7.2.8:
   - **Larger small text:** programme descriptions, titles, NOW / NEXT, metadata, technical values, CAM / ECM and
